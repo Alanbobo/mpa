@@ -1,0 +1,614 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.commandcenter.dao.smp.SmpOrgInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.commandcenter.model.smp.SmpOrgInfo" >
+    <id column="guid" property="guid" jdbcType="VARCHAR" />
+    <result column="org_identifier" property="orgIdentifier" jdbcType="VARCHAR" />
+    <result column="org_gov_code" property="orgGovCode" jdbcType="VARCHAR" />
+    <result column="district_code" property="districtCode" jdbcType="VARCHAR" />
+    <result column="org_name" property="orgName" jdbcType="VARCHAR" />
+    <result column="org_type" property="orgType" jdbcType="VARCHAR" />
+    <result column="busess_type" property="busessType" jdbcType="VARCHAR" />
+    <result column="seq" property="seq" jdbcType="BIGINT" />
+    <result column="parent_org_guid" property="parentOrgGuid" jdbcType="VARCHAR" />
+    <result column="latitude" property="latitude" jdbcType="DOUBLE" />
+    <result column="longitude" property="longitude" jdbcType="DOUBLE" />
+    <result column="contact" property="contact" jdbcType="VARCHAR" />
+    <result column="contactno" property="contactno" jdbcType="VARCHAR" />
+    <result column="fax" property="fax" jdbcType="VARCHAR" />
+    <result column="isvalid" property="isvalid" jdbcType="VARCHAR" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="region_type" property="regionType" jdbcType="VARCHAR" />
+    <result column="import_all_name" property="importAllName" jdbcType="VARCHAR" />
+    <result column="is110" property="is110" jdbcType="SMALLINT" />
+    <result column="system_no" property="systemNo" jdbcType="VARCHAR" />
+    <result column="org_segment_content" property="orgSegmentContent" jdbcType="VARCHAR" />
+    <result column="up_org_guid" property="upOrgGuid" jdbcType="VARCHAR" />
+    <result column="org_short_name" property="orgShortName" jdbcType="VARCHAR" />
+    <result column="up_org_guid_name" property="upOrgGuidName" jdbcType="VARCHAR" />
+    <result column="enable_flag" property="enableFlag" jdbcType="SMALLINT" />
+    <result column="delete_time" property="deleteTime" jdbcType="TIMESTAMP" />
+    <result column="source" property="source" jdbcType="VARCHAR" />
+    <result column="puc_id" property="pucId" jdbcType="VARCHAR" />
+    <result column="system_id" property="systemId" jdbcType="VARCHAR" />
+    <result column="org_code" property="orgCode" jdbcType="VARCHAR" />
+    <result column="org_icon_guid" property="orgIconGuid" jdbcType="VARCHAR" />
+    <result column="version_seq" property="versionSeq" jdbcType="VARCHAR" />
+    <result column="puc_sys_type" property="pucSysType" jdbcType="VARCHAR" />
+    <result column="init_point" property="initPoint" jdbcType="VARCHAR" />
+    <result column="version" property="version" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.commandcenter.model.smp.SmpOrgInfo" extends="BaseResultMap" >
+    <result column="org_icon" property="orgIcon" jdbcType="BINARY" />
+  </resultMap>
+  <resultMap id="LogOrg" type="java.util.Map">
+    <result column="org_identifier" property="orgIdentifier" jdbcType="VARCHAR" />
+    <result column="parent_identifier" property="parentIdentifier" jdbcType="VARCHAR" />
+    <result column="org_name" property="orgName" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ContactsOrg" type="com.commandcenter.model.contacts.OrgInfoForApp">
+    <result column="guid" property="orgGuid" jdbcType="VARCHAR" />
+    <result column="org_name" property="orgName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    guid, org_identifier, org_gov_code, district_code, org_name, org_type, busess_type, 
+    seq, parent_org_guid, latitude, longitude, contact, contactno, fax, isvalid, create_user, 
+    create_time, update_user, update_time, remark, region_type, import_all_name, is110, 
+    system_no, org_segment_content, up_org_guid, org_short_name, up_org_guid_name, enable_flag, 
+    delete_time, source, puc_id, system_id, org_code, org_icon_guid, version_seq, puc_sys_type, 
+    init_point,version
+  </sql>
+  <sql id="Blob_Column_List" >
+    org_icon
+  </sql>
+  <delete id="deleteAllSmpOrgInfo" >
+    delete from  smp_t_org_info  where 1=1; commit;
+  </delete>
+
+  <select id="selectLogOrgInfo" resultMap="LogOrg">
+    select s.org_identifier,p.org_identifier as parent_identifier,s.org_name
+    from smp_t_org_info s left join smp_t_org_info p on s.parent_org_guid=p.guid
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from smp_t_org_info
+    where guid = #{guid,jdbcType=VARCHAR}
+  </select>
+  <select id="selectSmpOrgInfoByUserGuid" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select
+    b.*
+    from smp_t_staff_user a,smp_t_org_info b, smp_t_staff_info c
+    where a.staff_guid = c.guid and c.org_guid = b.guid
+    and a.user_guid=#{userGuid,jdbcType=VARCHAR}
+  </select>
+  <select id="selectMaxOrgInfo" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT * from smp_t_org_info where org_identifier =
+(select min(org_identifier) from smp_t_org_info o3 LEFT JOIN smp_t_data_authority da on da.org_guid = o3.guid left join smp_t_role_info r on da.role_guid=r.guid left join smp_t_role_user ru on r.guid=ru.role_guid left join smp_t_user_info u on u.guid=ru.user_guid where u.user_code=#{userCode,jdbcType=VARCHAR} )
+
+  </select>
+  <select id="selectSmpOrgInfoByParentGuid" parameterType="java.util.Map" resultMap="ContactsOrg">
+    select o3.guid,o3.org_name from smp_t_org_info o3 LEFT JOIN smp_t_data_authority da on da.org_guid = o3.guid left join smp_t_role_info r on da.role_guid=r.guid left join smp_t_role_user ru on r.guid=ru.role_guid left join smp_t_user_info u on u.guid=ru.user_guid where u.user_code=#{userCode,jdbcType=VARCHAR} and o3.parent_org_guid=#{parentGuid,jdbcType=VARCHAR} and o3.guid != o3.parent_org_guid
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from smp_t_org_info
+    where guid = #{guid,jdbcType=VARCHAR}
+  </delete>
+
+  <delete id="deleteByPrimaryKeyLogic" parameterType="com.commandcenter.model.smp.SmpOrgInfo">
+    update smp_t_org_info set enable_flag=0,version=#{version,jdbcType=INTEGER}
+    where guid = #{guid,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.commandcenter.model.smp.SmpOrgInfo" >
+    insert into smp_t_org_info (guid, org_identifier, org_gov_code, 
+      district_code, org_name, org_type, 
+      busess_type, seq, parent_org_guid, 
+      latitude, longitude, contact, 
+      contactno, fax, isvalid, 
+      create_user, create_time, update_user, 
+      update_time, remark, region_type, 
+      import_all_name, is110, system_no, 
+      org_segment_content, up_org_guid, org_short_name, 
+      up_org_guid_name, enable_flag, delete_time, 
+      source, puc_id, system_id, 
+      org_code, org_icon_guid, version_seq, 
+      puc_sys_type, init_point, org_icon, version
+      )
+    values (#{guid,jdbcType=VARCHAR}, #{orgIdentifier,jdbcType=VARCHAR}, #{orgGovCode,jdbcType=VARCHAR}, 
+      #{districtCode,jdbcType=VARCHAR}, #{orgName,jdbcType=VARCHAR}, #{orgType,jdbcType=VARCHAR}, 
+      #{busessType,jdbcType=VARCHAR}, #{seq,jdbcType=BIGINT}, #{parentOrgGuid,jdbcType=VARCHAR}, 
+      #{latitude,jdbcType=DOUBLE}, #{longitude,jdbcType=DOUBLE}, #{contact,jdbcType=VARCHAR}, 
+      #{contactno,jdbcType=VARCHAR}, #{fax,jdbcType=VARCHAR}, #{isvalid,jdbcType=VARCHAR}, 
+      #{createUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, #{regionType,jdbcType=VARCHAR}, 
+      #{importAllName,jdbcType=VARCHAR}, #{is110,jdbcType=SMALLINT}, #{systemNo,jdbcType=VARCHAR}, 
+      #{orgSegmentContent,jdbcType=VARCHAR}, #{upOrgGuid,jdbcType=VARCHAR}, #{orgShortName,jdbcType=VARCHAR}, 
+      #{upOrgGuidName,jdbcType=VARCHAR}, #{enableFlag,jdbcType=SMALLINT}, #{deleteTime,jdbcType=TIMESTAMP}, 
+      #{source,jdbcType=VARCHAR}, #{pucId,jdbcType=VARCHAR}, #{systemId,jdbcType=VARCHAR}, 
+      #{orgCode,jdbcType=VARCHAR}, #{orgIconGuid,jdbcType=VARCHAR}, #{versionSeq,jdbcType=VARCHAR}, 
+      #{pucSysType,jdbcType=VARCHAR}, #{initPoint,jdbcType=VARCHAR}, #{orgIcon,jdbcType=BINARY},#{version,jdbcType=INTEGER}
+      )
+  </insert>
+  <select id="selectOrgMaxVersion" resultType="java.lang.Integer">
+    select COALESCE(MAX(version),0) AS version from smp_t_org_info
+  </select>
+  <select id="selectOrgCount" resultType="java.lang.Integer">
+    select COUNT(*) from smp_t_org_info
+  </select>
+
+  <resultMap id="ContactsOrgInfo" type="com.commandcenter.model.contacts.OrgInfoForApp">
+    <result column="guid" property="orgGuid" jdbcType="VARCHAR"/>
+    <result column="org_name" property="orgName" jdbcType="VARCHAR"/>
+    <result column="parent_org_guid" property="parentOrgGuid" jdbcType="VARCHAR"/>
+    <result column="org_identifier" property="orgIdentifier" jdbcType="VARCHAR"/>
+    <result column="version" property="version" jdbcType="INTEGER"/>
+    <result column="enable_flag" property="enableFlag" jdbcType="VARCHAR"/>
+  </resultMap>
+  <!--会返回所有数据，包括已经删除的数据-->
+  <select id="selectOrgInfoByMap" parameterType="java.util.Map" resultMap="ContactsOrgInfo">
+    select guid,org_name,parent_org_guid,org_identifier,version,enable_flag
+    from smp_t_org_info
+    <where>
+      <if test="version != null and version!='' ">
+        and version &gt; #{version}
+      </if>
+    </where>
+  </select>
+  <!--and enable_flag='1'-->
+
+  <insert id="insertSelective" parameterType="com.commandcenter.model.smp.SmpOrgInfo" >
+    insert into smp_t_org_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="guid != null" >
+        guid,
+      </if>
+      <if test="orgIdentifier != null" >
+        org_identifier,
+      </if>
+      <if test="orgGovCode != null" >
+        org_gov_code,
+      </if>
+      <if test="districtCode != null" >
+        district_code,
+      </if>
+      <if test="orgName != null" >
+        org_name,
+      </if>
+      <if test="orgType != null" >
+        org_type,
+      </if>
+      <if test="busessType != null" >
+        busess_type,
+      </if>
+      <if test="seq != null" >
+        seq,
+      </if>
+      <if test="parentOrgGuid != null" >
+        parent_org_guid,
+      </if>
+      <if test="latitude != null" >
+        latitude,
+      </if>
+      <if test="longitude != null" >
+        longitude,
+      </if>
+      <if test="contact != null" >
+        contact,
+      </if>
+      <if test="contactno != null" >
+        contactno,
+      </if>
+      <if test="fax != null" >
+        fax,
+      </if>
+      <if test="isvalid != null" >
+        isvalid,
+      </if>
+      <if test="createUser != null" >
+        create_user,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateUser != null" >
+        update_user,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="regionType != null" >
+        region_type,
+      </if>
+      <if test="importAllName != null" >
+        import_all_name,
+      </if>
+      <if test="is110 != null" >
+        is110,
+      </if>
+      <if test="systemNo != null" >
+        system_no,
+      </if>
+      <if test="orgSegmentContent != null" >
+        org_segment_content,
+      </if>
+      <if test="upOrgGuid != null" >
+        up_org_guid,
+      </if>
+      <if test="orgShortName != null" >
+        org_short_name,
+      </if>
+      <if test="upOrgGuidName != null" >
+        up_org_guid_name,
+      </if>
+      <if test="enableFlag != null" >
+        enable_flag,
+      </if>
+      <if test="deleteTime != null" >
+        delete_time,
+      </if>
+      <if test="source != null" >
+        source,
+      </if>
+      <if test="pucId != null" >
+        puc_id,
+      </if>
+      <if test="systemId != null" >
+        system_id,
+      </if>
+      <if test="orgCode != null" >
+        org_code,
+      </if>
+      <if test="orgIconGuid != null" >
+        org_icon_guid,
+      </if>
+      <if test="versionSeq != null" >
+        version_seq,
+      </if>
+      <if test="pucSysType != null" >
+        puc_sys_type,
+      </if>
+      <if test="initPoint != null" >
+        init_point,
+      </if>
+      <if test="orgIcon != null" >
+        org_icon,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="guid != null" >
+        #{guid,jdbcType=VARCHAR},
+      </if>
+      <if test="orgIdentifier != null" >
+        #{orgIdentifier,jdbcType=VARCHAR},
+      </if>
+      <if test="orgGovCode != null" >
+        #{orgGovCode,jdbcType=VARCHAR},
+      </if>
+      <if test="districtCode != null" >
+        #{districtCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orgName != null" >
+        #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="orgType != null" >
+        #{orgType,jdbcType=VARCHAR},
+      </if>
+      <if test="busessType != null" >
+        #{busessType,jdbcType=VARCHAR},
+      </if>
+      <if test="seq != null" >
+        #{seq,jdbcType=BIGINT},
+      </if>
+      <if test="parentOrgGuid != null" >
+        #{parentOrgGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="latitude != null" >
+        #{latitude,jdbcType=DOUBLE},
+      </if>
+      <if test="longitude != null" >
+        #{longitude,jdbcType=DOUBLE},
+      </if>
+      <if test="contact != null" >
+        #{contact,jdbcType=VARCHAR},
+      </if>
+      <if test="contactno != null" >
+        #{contactno,jdbcType=VARCHAR},
+      </if>
+      <if test="fax != null" >
+        #{fax,jdbcType=VARCHAR},
+      </if>
+      <if test="isvalid != null" >
+        #{isvalid,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="regionType != null" >
+        #{regionType,jdbcType=VARCHAR},
+      </if>
+      <if test="importAllName != null" >
+        #{importAllName,jdbcType=VARCHAR},
+      </if>
+      <if test="is110 != null" >
+        #{is110,jdbcType=SMALLINT},
+      </if>
+      <if test="systemNo != null" >
+        #{systemNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orgSegmentContent != null" >
+        #{orgSegmentContent,jdbcType=VARCHAR},
+      </if>
+      <if test="upOrgGuid != null" >
+        #{upOrgGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="orgShortName != null" >
+        #{orgShortName,jdbcType=VARCHAR},
+      </if>
+      <if test="upOrgGuidName != null" >
+        #{upOrgGuidName,jdbcType=VARCHAR},
+      </if>
+      <if test="enableFlag != null" >
+        #{enableFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="deleteTime != null" >
+        #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="source != null" >
+        #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="pucId != null" >
+        #{pucId,jdbcType=VARCHAR},
+      </if>
+      <if test="systemId != null" >
+        #{systemId,jdbcType=VARCHAR},
+      </if>
+      <if test="orgCode != null" >
+        #{orgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orgIconGuid != null" >
+        #{orgIconGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="versionSeq != null" >
+        #{versionSeq,jdbcType=VARCHAR},
+      </if>
+      <if test="pucSysType != null" >
+        #{pucSysType,jdbcType=VARCHAR},
+      </if>
+      <if test="initPoint != null" >
+        #{initPoint,jdbcType=VARCHAR},
+      </if>
+      <if test="orgIcon != null" >
+        #{orgIcon,jdbcType=BINARY},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.commandcenter.model.smp.SmpOrgInfo" >
+    update smp_t_org_info
+    <set >
+      <if test="orgIdentifier != null" >
+        org_identifier = #{orgIdentifier,jdbcType=VARCHAR},
+      </if>
+      <if test="orgGovCode != null" >
+        org_gov_code = #{orgGovCode,jdbcType=VARCHAR},
+      </if>
+      <if test="districtCode != null" >
+        district_code = #{districtCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orgName != null" >
+        org_name = #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="orgType != null" >
+        org_type = #{orgType,jdbcType=VARCHAR},
+      </if>
+      <if test="busessType != null" >
+        busess_type = #{busessType,jdbcType=VARCHAR},
+      </if>
+      <if test="seq != null" >
+        seq = #{seq,jdbcType=BIGINT},
+      </if>
+      <if test="parentOrgGuid != null" >
+        parent_org_guid = #{parentOrgGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="latitude != null" >
+        latitude = #{latitude,jdbcType=DOUBLE},
+      </if>
+      <if test="longitude != null" >
+        longitude = #{longitude,jdbcType=DOUBLE},
+      </if>
+      <if test="contact != null" >
+        contact = #{contact,jdbcType=VARCHAR},
+      </if>
+      <if test="contactno != null" >
+        contactno = #{contactno,jdbcType=VARCHAR},
+      </if>
+      <if test="fax != null" >
+        fax = #{fax,jdbcType=VARCHAR},
+      </if>
+      <if test="isvalid != null" >
+        isvalid = #{isvalid,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="regionType != null" >
+        region_type = #{regionType,jdbcType=VARCHAR},
+      </if>
+      <if test="importAllName != null" >
+        import_all_name = #{importAllName,jdbcType=VARCHAR},
+      </if>
+      <if test="is110 != null" >
+        is110 = #{is110,jdbcType=SMALLINT},
+      </if>
+      <if test="systemNo != null" >
+        system_no = #{systemNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orgSegmentContent != null" >
+        org_segment_content = #{orgSegmentContent,jdbcType=VARCHAR},
+      </if>
+      <if test="upOrgGuid != null" >
+        up_org_guid = #{upOrgGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="orgShortName != null" >
+        org_short_name = #{orgShortName,jdbcType=VARCHAR},
+      </if>
+      <if test="upOrgGuidName != null" >
+        up_org_guid_name = #{upOrgGuidName,jdbcType=VARCHAR},
+      </if>
+      <if test="enableFlag != null" >
+        enable_flag = #{enableFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="deleteTime != null" >
+        delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="source != null" >
+        source = #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="pucId != null" >
+        puc_id = #{pucId,jdbcType=VARCHAR},
+      </if>
+      <if test="systemId != null" >
+        system_id = #{systemId,jdbcType=VARCHAR},
+      </if>
+      <if test="orgCode != null" >
+        org_code = #{orgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orgIconGuid != null" >
+        org_icon_guid = #{orgIconGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="versionSeq != null" >
+        version_seq = #{versionSeq,jdbcType=VARCHAR},
+      </if>
+      <if test="pucSysType != null" >
+        puc_sys_type = #{pucSysType,jdbcType=VARCHAR},
+      </if>
+      <if test="initPoint != null" >
+        init_point = #{initPoint,jdbcType=VARCHAR},
+      </if>
+      <if test="orgIcon != null" >
+        org_icon = #{orgIcon,jdbcType=BINARY},
+      </if>
+      <if test="version != null" >
+        version = #{version,jdbcType=BINARY},
+      </if>
+    </set>
+    where guid = #{guid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.commandcenter.model.smp.SmpOrgInfo" >
+    update smp_t_org_info
+    set org_identifier = #{orgIdentifier,jdbcType=VARCHAR},
+      org_gov_code = #{orgGovCode,jdbcType=VARCHAR},
+      district_code = #{districtCode,jdbcType=VARCHAR},
+      org_name = #{orgName,jdbcType=VARCHAR},
+      org_type = #{orgType,jdbcType=VARCHAR},
+      busess_type = #{busessType,jdbcType=VARCHAR},
+      seq = #{seq,jdbcType=BIGINT},
+      parent_org_guid = #{parentOrgGuid,jdbcType=VARCHAR},
+      latitude = #{latitude,jdbcType=DOUBLE},
+      longitude = #{longitude,jdbcType=DOUBLE},
+      contact = #{contact,jdbcType=VARCHAR},
+      contactno = #{contactno,jdbcType=VARCHAR},
+      fax = #{fax,jdbcType=VARCHAR},
+      isvalid = #{isvalid,jdbcType=VARCHAR},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR},
+      region_type = #{regionType,jdbcType=VARCHAR},
+      import_all_name = #{importAllName,jdbcType=VARCHAR},
+      is110 = #{is110,jdbcType=SMALLINT},
+      system_no = #{systemNo,jdbcType=VARCHAR},
+      org_segment_content = #{orgSegmentContent,jdbcType=VARCHAR},
+      up_org_guid = #{upOrgGuid,jdbcType=VARCHAR},
+      org_short_name = #{orgShortName,jdbcType=VARCHAR},
+      up_org_guid_name = #{upOrgGuidName,jdbcType=VARCHAR},
+      enable_flag = #{enableFlag,jdbcType=SMALLINT},
+      delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      source = #{source,jdbcType=VARCHAR},
+      puc_id = #{pucId,jdbcType=VARCHAR},
+      system_id = #{systemId,jdbcType=VARCHAR},
+      org_code = #{orgCode,jdbcType=VARCHAR},
+      org_icon_guid = #{orgIconGuid,jdbcType=VARCHAR},
+      version_seq = #{versionSeq,jdbcType=VARCHAR},
+      puc_sys_type = #{pucSysType,jdbcType=VARCHAR},
+      init_point = #{initPoint,jdbcType=VARCHAR},
+      org_icon = #{orgIcon,jdbcType=BINARY}
+    where guid = #{guid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.commandcenter.model.smp.SmpOrgInfo" >
+    update smp_t_org_info
+    set org_identifier = #{orgIdentifier,jdbcType=VARCHAR},
+      org_gov_code = #{orgGovCode,jdbcType=VARCHAR},
+      district_code = #{districtCode,jdbcType=VARCHAR},
+      org_name = #{orgName,jdbcType=VARCHAR},
+      org_type = #{orgType,jdbcType=VARCHAR},
+      busess_type = #{busessType,jdbcType=VARCHAR},
+      seq = #{seq,jdbcType=BIGINT},
+      parent_org_guid = #{parentOrgGuid,jdbcType=VARCHAR},
+      latitude = #{latitude,jdbcType=DOUBLE},
+      longitude = #{longitude,jdbcType=DOUBLE},
+      contact = #{contact,jdbcType=VARCHAR},
+      contactno = #{contactno,jdbcType=VARCHAR},
+      fax = #{fax,jdbcType=VARCHAR},
+      isvalid = #{isvalid,jdbcType=VARCHAR},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR},
+      region_type = #{regionType,jdbcType=VARCHAR},
+      import_all_name = #{importAllName,jdbcType=VARCHAR},
+      is110 = #{is110,jdbcType=SMALLINT},
+      system_no = #{systemNo,jdbcType=VARCHAR},
+      org_segment_content = #{orgSegmentContent,jdbcType=VARCHAR},
+      up_org_guid = #{upOrgGuid,jdbcType=VARCHAR},
+      org_short_name = #{orgShortName,jdbcType=VARCHAR},
+      up_org_guid_name = #{upOrgGuidName,jdbcType=VARCHAR},
+      enable_flag = #{enableFlag,jdbcType=SMALLINT},
+      delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      source = #{source,jdbcType=VARCHAR},
+      puc_id = #{pucId,jdbcType=VARCHAR},
+      system_id = #{systemId,jdbcType=VARCHAR},
+      org_code = #{orgCode,jdbcType=VARCHAR},
+      org_icon_guid = #{orgIconGuid,jdbcType=VARCHAR},
+      version_seq = #{versionSeq,jdbcType=VARCHAR},
+      puc_sys_type = #{pucSysType,jdbcType=VARCHAR},
+      init_point = #{initPoint,jdbcType=VARCHAR}
+    where guid = #{guid,jdbcType=VARCHAR}
+  </update>
+</mapper>

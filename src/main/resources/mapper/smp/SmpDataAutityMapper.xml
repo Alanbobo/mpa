@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.commandcenter.dao.smp.SmpDataAutityMapper" >
+    <resultMap id="BaseResultMap" type="com.commandcenter.model.smp.SmpDataAuthority" >
+        <id column="guid" property="guid" jdbcType="VARCHAR" />
+        <result column="role_guid" property="roleGuid" jdbcType="VARCHAR" />
+        <result column="org_guid" property="orgGuid" jdbcType="VARCHAR" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        guid, role_guid, org_guid
+    </sql>
+    <insert id="insert" parameterType="com.commandcenter.model.smp.SmpDataAuthority">
+        insert into smp_t_data_authority(guid,role_guid,org_guid) VALUES (#{guid},#{roleGuid},#{orgGuid})
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.commandcenter.model.smp.SmpSystemInfo" >
+        update smp_t_data_authority
+        <set >
+            <if test="roleGuid != null" >
+                role_guid = #{roleGuid,jdbcType=VARCHAR},
+            </if>
+            <if test="orgGuid != null" >
+                org_guid = #{orgGuid,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where guid = #{guid,jdbcType=VARCHAR}
+    </update>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+        delete from smp_t_data_authority
+        where guid = #{guid,jdbcType=VARCHAR}
+    </delete>
+    <delete id="deleteAuthorityByroleGuid" parameterType="java.lang.String">
+        delete from smp_t_data_authority where role_guid=#{roleGuid,jdbcType=VARCHAR}
+    </delete>
+    <select id="selectRoleCount" resultType="java.lang.Integer">
+        select COUNT(*) FROM smp_t_data_authority
+    </select>
+    <delete id="deleteAllDataAuthority">
+        DELETE  FROM smp_t_data_authority where 1=1; commit;
+    </delete>
+</mapper>

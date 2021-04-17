@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.commandcenter.dao.smp.PucSystemInfoMapper">
+    <!-- PucSystemInfo的resultMap,column是给数据库列起的别名,它对应property类的属性-->
+    <resultMap id="result_PucSystemInfo_Map" type="com.commandcenter.model.smp.PucSystemInfo">
+        <id column="guid" property="guid" />
+        <result column="puc_id" property="pucId" />
+        <result column="system_id" property="systemId" />
+        <result column="system_alias" property="systemAlias" />
+        <result column="system_type" property="systemType" />
+        <result column="version_seq" property="versionSeq" />
+        <result column="enable_flag" property="enableFlag" />
+        <result column="createuser" property="createuser" />
+        <result column="createtime" property="createtime" />
+        <result column="updateuser" property="updateuser" />
+        <result column="updatetime" property="updatetime" />
+        <result column="remark" property="remark" />
+        <result column="version" property="version" />
+        <result column="org_identifier" property="orgIdentifier" />
+        <result column="sync_type" property="syncType" />
+    </resultMap>
+
+    <!-- 数据库中表名为:puc_system_info的列名,as前是数据库的列明,as后是列的别名用于映射成实体类中的属性,需要注意的是别名必须与resultMap中的column别名一致 -->
+    <sql id="puc_system_info_Column">
+        puc_system_info.guid as guid
+        ,puc_system_info.puc_id as puc_id
+        ,puc_system_info.system_id as system_id
+        ,puc_system_info.system_alias as system_alias
+        ,puc_system_info.system_type as system_type
+        ,puc_system_info.version_seq as version_seq
+        ,puc_system_info.enable_flag as enable_flag
+        ,puc_system_info.createuser as createuser
+        ,puc_system_info.createtime as createtime
+        ,puc_system_info.updateuser as updateuser
+        ,puc_system_info.updatetime as updatetime
+        ,puc_system_info.remark as remark
+        ,puc_system_info.version as version
+        ,puc_system_info.org_identifier as org_identifier
+        ,puc_system_info.sync_type as sync_type
+    </sql>
+
+    <!--获得类名为:PucSystemInfo对应的数据库表的数据总行数 -->
+    <select id="getPucSystemInfoRowCount" resultType="java.lang.Long">
+        select count(guid) from puc_system_info
+    </select>
+    <!-- 获得类名为:PucSystemInfo对应数据库中表的数据集合 -->
+    <select id="selectPucSystemInfo" resultMap="result_PucSystemInfo_Map">
+        select 
+        <include refid="puc_system_info_Column" /> 
+        from puc_system_info
+    </select> 
+
+    <!-- 获得一个PucSystemInfo对象,以参数PucSystemInfo对象中不为空的属性作为条件进行查询-->
+    <select id="selectPucSystemInfoByObj" parameterType="com.commandcenter.model.smp.PucSystemInfo" resultMap="result_PucSystemInfo_Map">
+        select 
+            <include refid="puc_system_info_Column" /> 
+        from puc_system_info
+        <where>
+            <if test="syncType != null "> and puc_system_info.sync_type = #{syncType}</if>
+            <if test="orgIdentifier != null "> and puc_system_info.org_identifier = #{orgIdentifier}</if>
+            <if test="version != null "> and puc_system_info.version = #{version}</if>
+            <if test="remark != null "> and puc_system_info.remark = #{remark}</if>
+            <if test="updatetime != null "> and puc_system_info.updatetime = #{updatetime}</if>
+            <if test="updateuser != null "> and puc_system_info.updateuser = #{updateuser}</if>
+            <if test="createtime != null "> and puc_system_info.createtime = #{createtime}</if>
+            <if test="createuser != null "> and puc_system_info.createuser = #{createuser}</if>
+            <if test="enableFlag != null "> and puc_system_info.enable_flag = #{enableFlag}</if>
+            <if test="versionSeq != null "> and puc_system_info.version_seq = #{versionSeq}</if>
+            <if test="systemType != null "> and puc_system_info.system_type = #{systemType}</if>
+            <if test="systemAlias != null "> and puc_system_info.system_alias = #{systemAlias}</if>
+            <if test="systemId != null "> and puc_system_info.system_id = #{systemId}</if>
+            <if test="pucId != null "> and puc_system_info.puc_id = #{pucId}</if>
+            <if test="guid != null "> and puc_system_info.guid = #{guid}</if>
+        </where>
+    </select> 
+
+    <!-- 通过PucSystemInfo的id获得对应数据库中表的数据对象-->
+    <select id="selectPucSystemInfoById" parameterType="java.lang.String" resultMap="result_PucSystemInfo_Map">
+        select 
+            <include refid="puc_system_info_Column" /> 
+        from puc_system_info
+        where puc_system_info.guid = #{id}
+    </select> 
+
+    <!-- 将PucSystemInfo插入到对应数据库的表中,包括属性值为null的数据-->
+
+    <insert id="insertPucSystemInfo" parameterType="com.commandcenter.model.smp.PucSystemInfo">
+        insert into puc_system_info(guid,puc_id,system_id,system_alias,system_type,version_seq,enable_flag,createuser,createtime,updateuser,updatetime,remark,version,org_identifier,sync_type) 
+        values(#{guid},#{pucId},#{systemId},#{systemAlias},#{systemType},#{versionSeq},#{enableFlag},#{createuser},#{createtime},#{updateuser},#{updatetime},#{remark},#{version},#{orgIdentifier},#{syncType})
+    </insert>
+
+    <!-- 将PucSystemInfo中属性值不为null的数据,插入到对应数据库的表中-->
+    <insert id="insertNonEmptyPucSystemInfo" parameterType="com.commandcenter.model.smp.PucSystemInfo">
+        insert into puc_system_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="guid != null">guid,</if>
+            <if test="pucId != null">puc_id,</if>
+            <if test="systemId != null">system_id,</if>
+            <if test="systemAlias != null">system_alias,</if>
+            <if test="systemType != null">system_type,</if>
+            <if test="versionSeq != null">version_seq,</if>
+            <if test="enableFlag != null">enable_flag,</if>
+            <if test="createuser != null">createuser,</if>
+            <if test="createtime != null">createtime,</if>
+            <if test="updateuser != null">updateuser,</if>
+            <if test="updatetime != null">updatetime,</if>
+            <if test="remark != null">remark,</if>
+            <if test="version != null">version,</if>
+            <if test="orgIdentifier != null">org_identifier,</if>
+            <if test="syncType != null">sync_type,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="guid != null"> #{guid},</if>
+            <if test="pucId != null"> #{pucId},</if>
+            <if test="systemId != null"> #{systemId},</if>
+            <if test="systemAlias != null"> #{systemAlias},</if>
+            <if test="systemType != null"> #{systemType},</if>
+            <if test="versionSeq != null"> #{versionSeq},</if>
+            <if test="enableFlag != null"> #{enableFlag},</if>
+            <if test="createuser != null"> #{createuser},</if>
+            <if test="createtime != null"> #{createtime},</if>
+            <if test="updateuser != null"> #{updateuser},</if>
+            <if test="updatetime != null"> #{updatetime},</if>
+            <if test="remark != null"> #{remark},</if>
+            <if test="version != null"> #{version},</if>
+            <if test="orgIdentifier != null"> #{orgIdentifier},</if>
+            <if test="syncType != null"> #{syncType},</if>
+        </trim>
+    </insert>
+
+    <!-- 通过PucSystemInfo的id将数据库表中对应的数据删除-->
+    <delete id="deletePucSystemInfoById" parameterType="java.lang.String">
+        delete from puc_system_info
+        where guid = #{id}
+    </delete>
+
+    <!-- 通过PucSystemInfo的id将PucSystemInfo的数据更新到数据库中对应的表,包括值null的数据-->
+    <update id="updatePucSystemInfoById" parameterType="com.commandcenter.model.smp.PucSystemInfo">
+        update puc_system_info set
+            puc_id=#{pucId}
+            ,system_id=#{systemId}
+            ,system_alias=#{systemAlias}
+            ,system_type=#{systemType}
+            ,version_seq=#{versionSeq}
+            ,enable_flag=#{enableFlag}
+            ,createuser=#{createuser}
+            ,createtime=#{createtime}
+            ,updateuser=#{updateuser}
+            ,updatetime=#{updatetime}
+            ,remark=#{remark}
+            ,version=#{version}
+            ,org_identifier=#{orgIdentifier}
+            ,sync_type=#{syncType}
+        where guid=#{guid}
+    </update>
+
+    <!-- 通过PucSystemInfo的id将PucSystemInfo中属性值不为null的数据更新到数据库对应的表中-->
+    <update id="updateNonEmptyPucSystemInfoById" parameterType="com.commandcenter.model.smp.PucSystemInfo">
+        update puc_system_info
+        <set>
+            <if test="pucId != null">
+                puc_id=#{pucId},
+            </if>
+            <if test="systemId != null">
+                system_id=#{systemId},
+            </if>
+            <if test="systemAlias != null">
+                system_alias=#{systemAlias},
+            </if>
+            <if test="systemType != null">
+                system_type=#{systemType},
+            </if>
+            <if test="versionSeq != null">
+                version_seq=#{versionSeq},
+            </if>
+            <if test="enableFlag != null">
+                enable_flag=#{enableFlag},
+            </if>
+            <if test="createuser != null">
+                createuser=#{createuser},
+            </if>
+            <if test="createtime != null">
+                createtime=#{createtime},
+            </if>
+            <if test="updateuser != null">
+                updateuser=#{updateuser},
+            </if>
+            <if test="updatetime != null">
+                updatetime=#{updatetime},
+            </if>
+            <if test="remark != null">
+                remark=#{remark},
+            </if>
+            <if test="version != null">
+                version=#{version},
+            </if>
+            <if test="orgIdentifier != null">
+                org_identifier=#{orgIdentifier},
+            </if>
+            <if test="syncType != null">
+                sync_type=#{syncType},
+            </if>
+        </set>
+        where guid=#{guid}
+    </update>
+
+
+    <delete id="deleteAllPucSystemInfo" parameterType="java.lang.String" >
+        delete from  puc_system_info where 1=1; commit;
+    </delete>
+
+    <delete id="deletePucSystemInfoByIdLogic" parameterType="com.commandcenter.model.smp.PucSystemInfo">
+        UPDATE puc_system_info SET enable_flag=0,version=#{version,jdbcType=INTEGER}
+        where guid = #{guid,jdbcType=VARCHAR}
+    </delete>
+
+
+    <!--会返回所有数据，包括已经删除的数据-->
+    <select id="selectPucSystemInfoByMap" resultMap="result_PucSystemInfo_Map" parameterType="java.util.Map">
+        select
+        <include refid="puc_system_info_Column" />
+        from puc_system_info
+        <where>
+            <if test="version != null and version!='' ">
+                and version &gt;= #{version}
+            </if>
+        </where>
+    </select>
+
+
+</mapper>

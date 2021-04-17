@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+
+<html>
+<head lang="en"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=750,user-scalable=no,target-densitydpi=device-dpi">
+    <meta name="format-detection" content="telephone=no">
+
+    <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+    <title>list</title>
+    <style type="text/css">
+        #userBody tr td{
+            line-height: 51px;
+        }
+        .table thead td{
+            font-size: 20px;
+        }
+        .searchTool{
+            padding-bottom: 10px;
+            padding-top: 10px;
+            width: 20%;
+            position: absolute;
+            right: 67px;
+        }
+        .tableContain{
+            position: relative;
+            top: 50px;
+        }
+        a:hover{
+            color: #000000
+        }
+    </style>
+</head>
+<body>
+<div class="searchTool">
+    <!--<form class="bs-example bs-example-form" role="form" name="searchForm">
+        <div class="input-group">
+            <input type="text" class="form-control" name="searchText">
+            <span class="input-group-addon" ><a href = "javascript:void(0);"onclick="search()">搜索</a></span>
+            &lt;!&ndash;<input type="button" onclick="search()">搜索</input>&ndash;&gt;
+        </div>
+    </form>-->
+    <form class="form-inline" role="form" name="searchForm">
+        <div class="form-group">
+            <label class="sr-only" for="name">名称</label>
+            <input type="text" class="form-control" id="name" name="searchText"
+                   placeholder="请输入名称">
+        </div>
+        <button onclick="search()" type="submit" class="btn btn-default">提交</button>
+    </form>
+</div>
+<div class="tableContain">
+    <table class="table table-striped table-bordered table-hover table-condensed">
+        <thead >
+        <td >用户名</td>
+        <td >警员姓名</td>
+        <td >归属部门</td>
+        <td >操作</td>
+        </thead>
+        <tbody id="userBody">
+        <!--<tr>-->
+            <!--<td></td>-->
+            <!--<td></td>-->
+            <!--<td></td>-->
+            <!--<td><button type="button" onclick="kick()" class="btn btn-danger" value="点击踢出"/></td>-->
+        <!--</tr>-->
+        </tbody>
+    </table>
+</div>
+
+<script language="javascript">
+    $(function(){
+        //页面加载时，AJAX获取服务端在线用户数据，然后显示出来
+        $.ajax({
+            type : "GET",
+            async : true,
+            dataType : "json",
+            cache:false,
+            url : "./webController/kick/queryUser",
+            success : function(data, textStatus, jqXHR){
+                console.log(data.entity);
+                var str ="";
+                for (var i = 0; i < data.entity.length; i++) {
+                    if(data.entity[i].userCode!=null&&data.entity[i].userCode!=""){
+                        str+="<tr>"+
+                            "<td class='center' width='8%'name='userCode'>"+data.entity[i].userCode+"</td>"+
+                            "<td class='center' width='8%'>"+data.entity[i].staffName+"</td>"+
+                            "<td class='center' width='7%' name='orgName'>"+data.entity[i].orgName+"</td>"+
+                            "<td class='center' width='7%'><input type='button' style='width: 80px;height: 35px;' class=\"btn btn-danger\" onclick=kick("+"'"+data.entity[i].userCode+"'"+","+"'"+data.entity[i].guid+"'"+") value='点击踢出'/> </td>"+
+                            "</tr>";
+                    }
+
+                }
+                $("#userBody").html(str);
+            }
+        })
+    })
+
+    function kick(userCode,guid) {
+        var statu = confirm("是否确定要踢出此用户?");
+        if(!statu){
+            return false;
+        }
+        $.ajax({
+            type:'GET',
+            url:"./webController/kick/on",
+            data:{"userCode":userCode,"guid":guid},
+            dataType: "json",
+            contentType : 'application/json;charset=utf-8',
+            success:function(data){
+                var restring = data.restring;
+                    if(restring == "failure"){
+                    alert("操作失败!");
+                    return false;
+                }else {
+                    alert("操作成功!");
+                    window.location.href="staff.html";
+                }
+
+            },
+            error:function(){
+                alert( '操作失败!' );
+            }
+
+        });
+
+    }
+    function search() {
+        var searchInfo = searchForm.searchText.value;
+        $.ajax({
+            type:'GET',
+            url:"./webController/kick/queryUser",
+            async : true,
+            cache:false,
+            data:{"searchInfo":searchInfo},
+            dataType: "json",
+            contentType : 'application/json;charset=utf-8',
+            success : function(data, textStatus, jqXHR){
+                var str ="";
+                for (var i = 0; i < data.length; i++) {
+                    str+="<tr>"+
+                        "<td class='center' width='8%'name='userCode'>"+data[i].userCode+"</td>"+
+                        "<td class='center' width='8%'>"+data[i].staffName+"</td>"+
+                        "<td class='center' width='7%' name='orgName'>"+data[i].orgName+"</td>"+
+                        "<td class='center' width='7%'><input type='button' style='width: 80px;height: 35px;' class=\"btn btn-danger\" onclick=kick("+"'"+data[i].userCode+"'"+") value='点击踢出'/> </td>"+
+                        "</tr>";
+                }
+                $("#userBody").html(str);
+            }
+
+        });
+    }
+
+</script>
+</body>
+</html>

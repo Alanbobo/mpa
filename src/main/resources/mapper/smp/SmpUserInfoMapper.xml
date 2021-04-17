@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.commandcenter.dao.smp.SmpUserInfoMapper">
+    <resultMap id="BaseResultMap" type="com.commandcenter.model.smp.SmpUserInfo">
+        <id column="guid" property="guid" jdbcType="VARCHAR"/>
+        <result column="user_code" property="userCode" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="create_user" property="createUser" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_user" property="updateUser" jdbcType="VARCHAR"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="login_time" property="loginTime" jdbcType="TIMESTAMP"/>
+        <result column="last_login_time" property="lastLoginTime" jdbcType="TIMESTAMP"/>
+        <result column="count" property="count" jdbcType="BIGINT"/>
+        <result column="isvalid" property="isvalid" jdbcType="VARCHAR"/>
+        <result column="customer_type" property="customerType" jdbcType="VARCHAR"/>
+        <result column="chk_user_head" property="chkUserHead" jdbcType="VARCHAR"/>
+        <result column="org_guid" property="orgGuid" jdbcType="VARCHAR"/>
+        <result column="sign" property="sign" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="VARCHAR"/>
+        <result column="enable_flag" property="enableFlag" jdbcType="SMALLINT"/>
+        <result column="version" property="version" jdbcType="INTEGER"/>
+    </resultMap>
+    <resultMap id="modelMap" type="com.commandcenter.model.smp.vo.UserModel">
+        <result column="guid" property="guid" jdbcType="VARCHAR"/>
+        <result column="user_code" property="userCode" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="create_user" property="createUser" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_user" property="updateUser" jdbcType="VARCHAR"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="login_time" property="loginTime" jdbcType="TIMESTAMP"/>
+        <result column="last_login_time" property="lastLoginTime" jdbcType="TIMESTAMP"/>
+        <result column="count" property="count" jdbcType="DECIMAL"/>
+        <result column="isvalid" property="isvalid" jdbcType="VARCHAR"/>
+        <result column="customer_type" property="customerType" jdbcType="VARCHAR"/>
+        <result column="chk_user_head" property="chkUserHead" jdbcType="VARCHAR"/>
+        <result column="org_guid" property="orgGuid" jdbcType="VARCHAR"/>
+        <result column="sign" property="sign" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="VARCHAR"/>
+        <association property="staff" column="user_code"
+                     select="com.commandcenter.dao.smp.SmpStaffInfoMapper.selectStaffByUserCode"/>
+    </resultMap>
+    <resultMap id="containMap" type="java.util.HashMap">
+        <result column="user_code" property="userCode" jdbcType="VARCHAR"/>
+        <result column="staff_name" property="staffName" jdbcType="VARCHAR"/>
+        <result column="org_name" property="orgName" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    guid, user_code, password, name, create_user, create_time, update_user, update_time, 
+    remark, login_time, last_login_time, count, isvalid, customer_type, chk_user_head, 
+    org_guid, sign, status, enable_flag, version
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from smp_t_user_info
+        where guid = #{guid,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from smp_t_user_info
+    where guid = #{guid,jdbcType=VARCHAR}
+  </delete>
+    <delete id="deleteAllUserInfor" parameterType="java.lang.String">
+    delete from smp_t_user_info
+    where 1=1;commit;
+  </delete>
+    <insert id="insert" parameterType="com.commandcenter.model.smp.SmpUserInfo">
+    insert into smp_t_user_info (guid, user_code, password, 
+      name, create_user, create_time, 
+      update_user, update_time, remark, 
+      login_time, last_login_time, count, 
+      isvalid, customer_type, chk_user_head, 
+      org_guid, sign, status, 
+      enable_flag,version)
+    values (#{guid,jdbcType=VARCHAR}, #{userCode,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{createUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateUser,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, 
+      #{loginTime,jdbcType=TIMESTAMP}, #{lastLoginTime,jdbcType=TIMESTAMP}, #{count,jdbcType=BIGINT}, 
+      #{isvalid,jdbcType=VARCHAR}, #{customerType,jdbcType=VARCHAR}, #{chkUserHead,jdbcType=VARCHAR}, 
+      #{orgGuid,jdbcType=VARCHAR}, #{sign,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{enableFlag,jdbcType=SMALLINT},#{version,jdbcType=INTEGER})
+  </insert>
+    <insert id="insertSelective" parameterType="com.commandcenter.model.smp.SmpUserInfo">
+        insert into smp_t_user_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="guid != null">
+                guid,
+            </if>
+            <if test="userCode != null">
+                user_code,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="createUser != null">
+                create_user,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateUser != null">
+                update_user,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="loginTime != null">
+                login_time,
+            </if>
+            <if test="lastLoginTime != null">
+                last_login_time,
+            </if>
+            <if test="count != null">
+                count,
+            </if>
+            <if test="isvalid != null">
+                isvalid,
+            </if>
+            <if test="customerType != null">
+                customer_type,
+            </if>
+            <if test="chkUserHead != null">
+                chk_user_head,
+            </if>
+            <if test="orgGuid != null">
+                org_guid,
+            </if>
+            <if test="sign != null">
+                sign,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="enableFlag != null">
+                enable_flag,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="guid != null">
+                #{guid,jdbcType=VARCHAR},
+            </if>
+            <if test="userCode != null">
+                #{userCode,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="createUser != null">
+                #{createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUser != null">
+                #{updateUser,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="loginTime != null">
+                #{loginTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastLoginTime != null">
+                #{lastLoginTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="count != null">
+                #{count,jdbcType=BIGINT},
+            </if>
+            <if test="isvalid != null">
+                #{isvalid,jdbcType=VARCHAR},
+            </if>
+            <if test="customerType != null">
+                #{customerType,jdbcType=VARCHAR},
+            </if>
+            <if test="chkUserHead != null">
+                #{chkUserHead,jdbcType=VARCHAR},
+            </if>
+            <if test="orgGuid != null">
+                #{orgGuid,jdbcType=VARCHAR},
+            </if>
+            <if test="sign != null">
+                #{sign,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="enableFlag != null">
+                #{enableFlag,jdbcType=SMALLINT},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.commandcenter.model.smp.SmpUserInfo">
+        update smp_t_user_info
+        <set>
+            <if test="userCode != null">
+                user_code = #{userCode,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="createUser != null">
+                create_user = #{createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUser != null">
+                update_user = #{updateUser,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="loginTime != null">
+                login_time = #{loginTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastLoginTime != null">
+                last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="count != null">
+                count = #{count,jdbcType=BIGINT},
+            </if>
+            <if test="isvalid != null">
+                isvalid = #{isvalid,jdbcType=VARCHAR},
+            </if>
+            <if test="customerType != null">
+                customer_type = #{customerType,jdbcType=VARCHAR},
+            </if>
+            <if test="chkUserHead != null">
+                chk_user_head = #{chkUserHead,jdbcType=VARCHAR},
+            </if>
+            <if test="orgGuid != null">
+                org_guid = #{orgGuid,jdbcType=VARCHAR},
+            </if>
+            <if test="sign != null">
+                sign = #{sign,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="enableFlag != null">
+                enable_flag = #{enableFlag,jdbcType=SMALLINT},
+            </if>
+            <if test="version != null">
+                version = #{version,jdbcType=INTEGER},
+            </if>
+        </set>
+        where guid = #{guid,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.commandcenter.model.smp.SmpUserInfo">
+    update smp_t_user_info
+    set user_code = #{userCode,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR},
+      login_time = #{loginTime,jdbcType=TIMESTAMP},
+      last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
+      count = #{count,jdbcType=BIGINT},
+      isvalid = #{isvalid,jdbcType=VARCHAR},
+      customer_type = #{customerType,jdbcType=VARCHAR},
+      chk_user_head = #{chkUserHead,jdbcType=VARCHAR},
+      org_guid = #{orgGuid,jdbcType=VARCHAR},
+      sign = #{sign,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      enable_flag = #{enableFlag,jdbcType=SMALLINT}
+    where guid = #{guid,jdbcType=VARCHAR}
+  </update>
+
+    <select id="selectUserByStaffGuid" resultMap="modelMap" parameterType="java.lang.String">
+    SELECT * FROM
+    smp_t_user_info t
+    LEFT JOIN
+    smp_t_staff_user u
+    ON u.staff_guid = #{staffGuid,jdbcType=VARCHAR}
+    where  t.isvalid = 'Y' and t.guid = u.user_guid
+
+  </select>
+
+    <select id="selectUserByUserCode" resultMap="modelMap" parameterType="java.lang.String">
+    SELECT t.* FROM
+    smp_t_user_info t
+    where  t.isvalid = 'Y' and t.user_code= #{userCode,jdbcType=VARCHAR}
+
+  </select>
+
+    <select id="selectUserByStaffCode" resultMap="modelMap" parameterType="java.lang.String">
+    SELECT t.* FROM
+    smp_t_user_info t
+    where
+    t.isvalid = 'Y'
+    and t.guid = (select u.user_guid from smp_t_staff_user u left join  smp_t_staff_info i
+    ON u.staff_guid = i.guid  where  i.staff_code = #{staffCode,jdbcType=VARCHAR}
+    )
+
+  </select>
+
+    <select id="selectUserByMobile" resultMap="modelMap" parameterType="java.lang.String">
+    SELECT t.* FROM
+    smp_t_user_info t
+    where
+    t.isvalid = 'Y'
+    and t.guid = (select u.user_guid from smp_t_staff_user u left join smp_t_staff_info i
+    ON u.staff_guid = i.guid where  i.mobile = #{mobile,jdbcType=VARCHAR} )
+  </select>
+
+    <select id="selectUserByMap" resultMap="modelMap" parameterType="java.util.Map">
+        SELECT t.*
+        FROM smp_t_user_info t,smp_t_staff_user u,smp_t_staff_info i,SMP_T_ORG_INFO o
+        where
+        t.isvalid = 'Y' and t.enable_flag=1
+        and t.guid = u.user_guid and i.org_guid=o.guid and o.enable_flag=1
+        and u.staff_guid = i.guid
+        <if test="orgId!=null">
+            and o.guid=#{orgId}
+        </if>
+    </select>
+
+    <select id="selectUserByOrgGuid" resultMap="BaseResultMap">
+    SELECT t.*
+    FROM smp_t_user_info t,smp_t_staff_user u,smp_t_staff_info i,SMP_T_ORG_INFO o
+    where
+    t.isvalid = 'Y' and t.enable_flag=1
+    and t.guid = u.user_guid and i.org_guid=o.guid and o.enable_flag=1
+    and u.staff_guid = i.guid
+    and o.guid=#{orgGuid}
+  </select>
+
+    <select id="selectUserByContain" resultMap="containMap" parameterType="java.util.Map">
+        SELECT t.guid,t.user_code,i.staff_name,o.org_name
+        FROM smp_t_user_info t,smp_t_staff_user u,smp_t_staff_info i,SMP_T_ORG_INFO o
+        where
+        t.isvalid = 'Y' and t.enable_flag=1
+        and t.guid = u.user_guid and i.org_guid=o.guid and o.enable_flag=1
+        and u.staff_guid = i.guid
+        <if test="staffName!=null and staffName!=''">
+            and i.staff_name = #{staffName}
+        </if>
+    </select>
+
+    <select id="selectUserIdByUserCode" resultMap="containMap" parameterType="java.util.Map">
+        SELECT guid
+        FROM smp_t_user_info
+        WHERE isvalid = 'Y' and enable_flag = '1'
+        <if test="userCode!=null and userCode!=''">
+            and user_code = #{userCode}
+        </if>
+    </select>
+
+    <select id="selectUserStaff" resultMap="containMap" parameterType="java.util.Map">
+        SELECT u.guid
+        FROM smp_t_user_info u,smp_t_staff_info s,smp_t_staff_user su
+        WHERE u.guid = su.user_guid and s.guid = su.staff_guid and
+        u.isvalid = 'Y' and u.enable_flag = '1'
+        <if test="staffGuid!=null and staffGuid!=''">
+            and s.guid = #{staffGuid}
+        </if>
+    </select>
+    <select id="selectUserCount" resultType="java.lang.Integer">
+    select count(*) from smp_t_user_info
+  </select>
+    <select id="selectUserMaxVersion" resultType="java.lang.Integer">
+    select COALESCE(MAX(version),0) AS version from smp_t_user_info;
+  </select>
+    <select id="selectUserByGuid" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select * from smp_t_user_info where guid=#{userGuid};
+  </select>
+
+
+    <select id="selectUserCodeListByStaffGuid" resultType="java.lang.String" parameterType="java.util.List">
+        SELECT t.user_code
+        FROM smp_t_user_info t,smp_t_staff_user u,smp_t_staff_info i
+        where
+        t.isvalid = 'Y' and t.enable_flag=1
+        and t.guid = u.user_guid
+        and u.staff_guid = i.guid
+        and i.guid in
+        <foreach collection="array" item="staffGuid" index="index" open="(" close=")" separator=",">
+            #{staffGuid}
+        </foreach>
+    </select>
+
+
+    <select id="selectLeaderCodeByOrgGovCode" resultType="java.lang.String" parameterType="java.util.List">
+        SELECT t.user_code
+        FROM smp_t_user_info t,smp_t_staff_user u,smp_t_staff_info i,SMP_T_ORG_INFO o
+        where
+        t.isvalid = 'Y' and t.enable_flag=1
+        and t.guid = u.user_guid and i.org_guid=o.guid and o.enable_flag=1
+        and u.staff_guid = i.guid
+--         and i.isleader = '1'
+        and o.org_gov_code=#{orgGovCode}
+    </select>
+
+</mapper>

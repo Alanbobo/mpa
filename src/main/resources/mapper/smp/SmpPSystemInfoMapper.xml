@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.commandcenter.dao.smp.SmpPSystemInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.commandcenter.model.smp.SmpPSystemInfo" >
+    <result column="guid" property="guid" jdbcType="VARCHAR" />
+    <result column="puc_id" property="pucId" jdbcType="VARCHAR" />
+    <result column="system_id" property="systemId" jdbcType="VARCHAR" />
+    <result column="system_alias" property="systemAlias" jdbcType="VARCHAR" />
+    <result column="system_type" property="systemType" jdbcType="INTEGER" />
+    <result column="version_seq" property="versionSeq" jdbcType="INTEGER" />
+    <result column="enable_flag" property="enableFlag" jdbcType="INTEGER" />
+    <result column="createuser" property="createuser" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="updateuser" property="updateuser" jdbcType="VARCHAR" />
+    <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="source" property="source" jdbcType="VARCHAR" />
+  </resultMap>
+  <insert id="insert" parameterType="com.commandcenter.model.smp.SmpPSystemInfo" >
+    insert into smp_p_system_info (guid, puc_id, system_id, 
+      system_alias, system_type, version_seq, 
+      enable_flag, createuser, createtime, 
+      updateuser, updatetime, remark, 
+      source)
+    values (#{guid,jdbcType=VARCHAR}, #{pucId,jdbcType=VARCHAR}, #{systemId,jdbcType=VARCHAR}, 
+      #{systemAlias,jdbcType=VARCHAR}, #{systemType,jdbcType=INTEGER}, #{versionSeq,jdbcType=INTEGER}, 
+      #{enableFlag,jdbcType=INTEGER}, #{createuser,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, 
+      #{source,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.commandcenter.model.smp.SmpPSystemInfo" >
+    insert into smp_p_system_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="guid != null" >
+        guid,
+      </if>
+      <if test="pucId != null" >
+        puc_id,
+      </if>
+      <if test="systemId != null" >
+        system_id,
+      </if>
+      <if test="systemAlias != null" >
+        system_alias,
+      </if>
+      <if test="systemType != null" >
+        system_type,
+      </if>
+      <if test="versionSeq != null" >
+        version_seq,
+      </if>
+      <if test="enableFlag != null" >
+        enable_flag,
+      </if>
+      <if test="createuser != null" >
+        createuser,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="updateuser != null" >
+        updateuser,
+      </if>
+      <if test="updatetime != null" >
+        updatetime,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="source != null" >
+        source,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="guid != null" >
+        #{guid,jdbcType=VARCHAR},
+      </if>
+      <if test="pucId != null" >
+        #{pucId,jdbcType=VARCHAR},
+      </if>
+      <if test="systemId != null" >
+        #{systemId,jdbcType=VARCHAR},
+      </if>
+      <if test="systemAlias != null" >
+        #{systemAlias,jdbcType=VARCHAR},
+      </if>
+      <if test="systemType != null" >
+        #{systemType,jdbcType=INTEGER},
+      </if>
+      <if test="versionSeq != null" >
+        #{versionSeq,jdbcType=INTEGER},
+      </if>
+      <if test="enableFlag != null" >
+        #{enableFlag,jdbcType=INTEGER},
+      </if>
+      <if test="createuser != null" >
+        #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null" >
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null" >
+        #{source,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

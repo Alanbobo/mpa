@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.commandcenter.dao.smp.SmpResourcesMapper">
+  <resultMap id="BaseResultMap" type="com.commandcenter.model.smp.SmpResources">
+    <id column="guid" jdbcType="VARCHAR" property="guid" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="ip" jdbcType="VARCHAR" property="ip" />
+    <result column="port" jdbcType="INTEGER" property="port" />
+    <result column="longitude" jdbcType="DOUBLE" property="longitude" />
+    <result column="latitude" jdbcType="DOUBLE" property="latitude" />
+    <result column="geoposition" jdbcType="VARCHAR" property="geoposition" />
+    <result column="createuser" jdbcType="VARCHAR" property="createuser" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="updateuser" jdbcType="VARCHAR" property="updateuser" />
+    <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="version" jdbcType="BIGINT" property="version" />
+    <result column="enable_flag" jdbcType="VARCHAR" property="enableFlag" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="fiber_number" jdbcType="INTEGER" property="fiberNumber" />
+    <result column="attachment_path" jdbcType="VARCHAR" property="attachmentPath" />
+  </resultMap>
+  <resultMap id="ResourceResultMap" type="java.util.Map">
+    <id column="guid" jdbcType="VARCHAR" property="guid" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="ip" jdbcType="VARCHAR" property="ip" />
+    <result column="port" jdbcType="INTEGER" property="port" />
+    <result column="longitude" jdbcType="DOUBLE" property="longitude" />
+    <result column="latitude" jdbcType="DOUBLE" property="latitude" />
+    <result column="geoposition" jdbcType="VARCHAR" property="geoposition" />
+    <result column="createuser" jdbcType="VARCHAR" property="createuser" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="updateuser" jdbcType="VARCHAR" property="updateuser" />
+    <result column="updatetime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="version" jdbcType="BIGINT" property="version" />
+    <result column="enable_flag" jdbcType="VARCHAR" property="enableFlag" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="is_online" jdbcType="VARCHAR" property="isOnline" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="fiber_number" jdbcType="INTEGER" property="fiberNumber" />
+    <result column="attachment_path" jdbcType="INTEGER" property="attachmentPath" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    guid, type, code, name, ip, port, longitude, latitude, geoposition, createuser, createtime, 
+    updateuser, updatetime, version, enable_flag, remark, phone, fiber_number, attachment_path
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from smp_t_resources
+    where guid = #{guid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from smp_t_resources
+    where guid = #{guid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteAllSmpResourceInfo">
+    delete from smp_t_resources
+    where 1=1;COMMIT;
+  </delete>
+  <insert id="insert" parameterType="com.commandcenter.model.smp.SmpResources">
+    insert into smp_t_resources (guid, type, code, 
+      name, ip, port, longitude, 
+      latitude, geoposition, createuser, 
+      createtime, updateuser, updatetime, 
+      version, enable_flag, remark, phone, fiber_number, attachment_path
+      )
+    values (#{guid,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}, #{port,jdbcType=INTEGER}, #{longitude,jdbcType=DOUBLE}, 
+      #{latitude,jdbcType=DOUBLE}, #{geoposition,jdbcType=VARCHAR}, #{createuser,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, 
+      #{version,jdbcType=BIGINT}, #{enableFlag,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},
+      #{phone,jdbcType=VARCHAR}, #{fiberNumber,jdbcType=INTEGER}, #{attachmentPath,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.commandcenter.model.smp.SmpResources">
+    insert into smp_t_resources
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="guid != null">
+        guid,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="ip != null">
+        ip,
+      </if>
+      <if test="port != null">
+        port,
+      </if>
+      <if test="longitude != null">
+        longitude,
+      </if>
+      <if test="latitude != null">
+        latitude,
+      </if>
+      <if test="geoposition != null">
+        geoposition,
+      </if>
+      <if test="createuser != null">
+        createuser,
+      </if>
+      <if test="updateuser != null">
+        updateuser,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+      <if test="enableFlag != null">
+        enable_flag,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="fiberNumber != null">
+        fiber_number,
+      </if>
+      <if test="attachmentPath != null">
+        attachment_path,
+      </if>
+      createtime,updatetime
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="guid != null">
+        #{guid,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="ip != null">
+        #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="port != null">
+        #{port,jdbcType=INTEGER},
+      </if>
+      <if test="longitude != null">
+        #{longitude,jdbcType=DOUBLE},
+      </if>
+      <if test="latitude != null">
+        #{latitude,jdbcType=DOUBLE},
+      </if>
+      <if test="geoposition != null">
+        #{geoposition,jdbcType=VARCHAR},
+      </if>
+      <if test="createuser != null">
+        #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=BIGINT},
+      </if>
+      <if test="enableFlag != null">
+        #{enableFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="fiberNumber != null">
+        #{fiberNumber,jdbcType=INTEGER},
+      </if>
+      <if test="attachmentPath != null">
+        #{attachmentPath,jdbcType=VARCHAR},
+      </if>
+      now(),now()
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.commandcenter.model.smp.SmpResources">
+    update smp_t_resources
+    <set>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="ip != null">
+        ip = #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="port != null">
+        port = #{port,jdbcType=INTEGER},
+      </if>
+      <if test="longitude != null">
+        longitude = #{longitude,jdbcType=DOUBLE},
+      </if>
+      <if test="latitude != null">
+        latitude = #{latitude,jdbcType=DOUBLE},
+      </if>
+      <if test="geoposition != null">
+        geoposition = #{geoposition,jdbcType=VARCHAR},
+      </if>
+      <if test="createuser != null">
+        createuser = #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        updateuser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null">
+        version = #{version,jdbcType=BIGINT},
+      </if>
+      <if test="enableFlag != null">
+        enable_flag = #{enableFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="fiberNumber != null">
+        fiber_number = #{fiberNumber,jdbcType=INTEGER},
+      </if>
+      <if test="attachmentPath != null">
+        attachment_path = #{attachmentPath,jdbcType=VARCHAR},
+      </if>
+
+      updatetime = now()
+    </set>
+    where guid = #{guid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateSmpResources" parameterType="java.util.Map">
+    update smp_t_resources
+    <set>
+    <if test="type != null">
+      type = #{type,jdbcType=VARCHAR},
+    </if>
+    <if test="code != null">
+      code = #{code,jdbcType=VARCHAR},
+    </if>
+    <if test="name != null">
+      name = #{name,jdbcType=VARCHAR},
+    </if>
+    <if test="ip != null">
+      ip = #{ip,jdbcType=VARCHAR},
+    </if>
+    <if test="port != null">
+      port = #{port,jdbcType=INTEGER},
+    </if>
+    <if test="longitude != null">
+      longitude = #{longitude,jdbcType=DOUBLE},
+    </if>
+    <if test="latitude != null">
+      latitude = #{latitude,jdbcType=DOUBLE},
+    </if>
+    <if test="geoposition != null">
+      geoposition = #{geoposition,jdbcType=VARCHAR},
+    </if>
+    <if test="createuser != null">
+      createuser = #{createuser,jdbcType=VARCHAR},
+    </if>
+    <if test="createtime != null">
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+    </if>
+    <if test="updateuser != null">
+      updateuser = #{updateuser,jdbcType=VARCHAR},
+    </if>
+    <if test="version != null">
+      version = #{version,jdbcType=BIGINT},
+    </if>
+    <if test="enableFlag != null">
+      enable_flag = #{enableFlag,jdbcType=VARCHAR},
+    </if>
+    <if test="remark != null">
+      remark = #{remark,jdbcType=VARCHAR},
+    </if>
+    <if test="phone != null">
+      phone = #{phone,jdbcType=VARCHAR},
+    </if>
+    <if test="fiberNumber != null">
+      fiber_number = #{fiberNumber,jdbcType=INTEGER},
+    </if>
+    <if test="attachmentPath != null">
+      attachment_path = #{attachmentPath,jdbcType=VARCHAR},
+    </if>
+    updatetime = now()
+    </set>
+    <where>
+      <if test="oldguid != null and oldguid != ''">
+        and guid = #{oldguid}
+      </if>
+      <if test="smpResourcesGuids != null">
+        AND guid in
+        <foreach item="oldGuid" index="index" collection="smpResourcesGuids" open="(" separator="," close=")">
+          #{oldGuid}
+        </foreach>
+      </if>
+    </where>
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.commandcenter.model.smp.SmpResources">
+    update smp_t_resources
+    set type = #{type,jdbcType=VARCHAR},
+      code = #{code,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      ip = #{ip,jdbcType=VARCHAR},
+      port = #{port,jdbcType=INTEGER},
+      longitude = #{longitude,jdbcType=DOUBLE},
+      latitude = #{latitude,jdbcType=DOUBLE},
+      geoposition = #{geoposition,jdbcType=VARCHAR},
+      createuser = #{createuser,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      updateuser = #{updateuser,jdbcType=VARCHAR},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      version = #{version,jdbcType=BIGINT},
+      enable_flag = #{enableFlag,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      fiber_number = #{fiberNumber,jdbcType=INTEGER},
+      attachment_path = #{attachmentPath,jdbcType=VARCHAR}
+    where guid = #{guid,jdbcType=VARCHAR}
+  </update>
+  <select id="getSmpResourcesList" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from smp_t_resources
+    where 1=1
+    <if test="guid != null and guid != ''">
+      and guid = #{guid}
+    </if>
+    <if test="type != null and type != ''">
+      and type = #{type}
+    </if>
+    <if test="code != null and code != ''">
+      and code = #{code}
+    </if>
+    <if test="name != null and name != ''">
+      and name = #{name}
+    </if>
+    <if test="searchcode != null and searchcode != ''">
+      and code like '%${searchcode}%'
+    </if>
+    <if test="searchname != null and searchname != ''">
+      and name like '%${searchname}%'
+    </if>
+    <if test="ip != null and ip != ''">
+      and ip = #{ip}
+    </if>
+    <if test="port != null and port != ''">
+      and port = #{port}
+    </if>
+    <if test="enableFlag != null and enableFlag != ''">
+      and enable_flag = #{enableFlag}
+    </if>
+    order by updatetime desc
+  </select>
+  <select id="selectResourceNum" resultType="java.lang.Integer">
+    select COUNT (*) from smp_t_resources
+  </select>
+  <select id="selectResourcesList" resultMap="ResourceResultMap">
+    SELECT r.guid, r.type, r.code, r.name, r.ip, r.port, r.longitude, r.latitude, r.geoposition, r.createuser, r.createtime,
+    r.updateuser, r.updatetime, r.version, r.enable_flag, r.remark,rs.status,rs.is_online, r.phone, r.fiber_number, r.attachment_path
+    FROM smp_t_resources r LEFT JOIN mpa_t_resource_status_info rs on r.guid=rs.resource_id
+  </select>
+</mapper>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.commandcenter.dao.smp.SmpAttachgrpInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.commandcenter.model.smp.SmpAttachgrpInfo" >
+    <result column="guid" property="guid" jdbcType="VARCHAR" />
+    <result column="puc_id" property="pucId" jdbcType="VARCHAR" />
+    <result column="system_id" property="systemId" jdbcType="VARCHAR" />
+    <result column="group_number" property="groupNumber" jdbcType="VARCHAR" />
+    <result column="device_number" property="deviceNumber" jdbcType="VARCHAR" />
+    <result column="group_type" property="groupType" jdbcType="INTEGER" />
+    <result column="device_type" property="deviceType" jdbcType="INTEGER" />
+    <result column="enable_flag" property="enableFlag" jdbcType="INTEGER" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <insert id="insert" parameterType="com.commandcenter.model.smp.SmpAttachgrpInfo" >
+    insert into smp_p_attachgrp_info (guid, puc_id, system_id, 
+      group_number, device_number, group_type, 
+      device_type, enable_flag, createtime, 
+      updatetime)
+    values (#{guid,jdbcType=VARCHAR}, #{pucId,jdbcType=VARCHAR}, #{systemId,jdbcType=VARCHAR}, 
+      #{groupNumber,jdbcType=VARCHAR}, #{deviceNumber,jdbcType=VARCHAR}, #{groupType,jdbcType=INTEGER}, 
+      #{deviceType,jdbcType=INTEGER}, #{enableFlag,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.commandcenter.model.smp.SmpAttachgrpInfo" >
+    insert into smp_p_attachgrp_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="guid != null" >
+        guid,
+      </if>
+      <if test="pucId != null" >
+        puc_id,
+      </if>
+      <if test="systemId != null" >
+        system_id,
+      </if>
+      <if test="groupNumber != null" >
+        group_number,
+      </if>
+      <if test="deviceNumber != null" >
+        device_number,
+      </if>
+      <if test="groupType != null" >
+        group_type,
+      </if>
+      <if test="deviceType != null" >
+        device_type,
+      </if>
+      <if test="enableFlag != null" >
+        enable_flag,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="updatetime != null" >
+        updatetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="guid != null" >
+        #{guid,jdbcType=VARCHAR},
+      </if>
+      <if test="pucId != null" >
+        #{pucId,jdbcType=VARCHAR},
+      </if>
+      <if test="systemId != null" >
+        #{systemId,jdbcType=VARCHAR},
+      </if>
+      <if test="groupNumber != null" >
+        #{groupNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceNumber != null" >
+        #{deviceNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="groupType != null" >
+        #{groupType,jdbcType=INTEGER},
+      </if>
+      <if test="deviceType != null" >
+        #{deviceType,jdbcType=INTEGER},
+      </if>
+      <if test="enableFlag != null" >
+        #{enableFlag,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+</mapper>

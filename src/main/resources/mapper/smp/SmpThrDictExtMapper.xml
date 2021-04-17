@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.commandcenter.dao.smp.SmpThrDictExtMapper" >
+  <resultMap id="BaseResultMap" type="com.commandcenter.model.smp.SmpThrDictExt" >
+    <id column="guid" property="guid" jdbcType="VARCHAR" />
+    <result column="dict_guid" property="dictGuid" jdbcType="VARCHAR" />
+    <result column="thr_dict_type" property="thrDictType" jdbcType="VARCHAR" />
+    <result column="thr_peer_code" property="thrPeerCode" jdbcType="VARCHAR" />
+    <result column="thr_sys_name" property="thrSysName" jdbcType="VARCHAR" />
+    <result column="sort" property="sort" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    guid, dict_guid, thr_dict_type, thr_peer_code, thr_sys_name, sort, create_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from smp_t_thr_dict_ext
+    where guid = #{guid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from smp_t_thr_dict_ext
+    where guid = #{guid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.commandcenter.model.smp.SmpThrDictExt" >
+    insert into smp_t_thr_dict_ext (guid, dict_guid, thr_dict_type, 
+      thr_peer_code, thr_sys_name, sort, 
+      create_time)
+    values (#{guid,jdbcType=VARCHAR}, #{dictGuid,jdbcType=VARCHAR}, #{thrDictType,jdbcType=VARCHAR}, 
+      #{thrPeerCode,jdbcType=VARCHAR}, #{thrSysName,jdbcType=VARCHAR}, #{sort,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.commandcenter.model.smp.SmpThrDictExt" >
+    insert into smp_t_thr_dict_ext
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="guid != null" >
+        guid,
+      </if>
+      <if test="dictGuid != null" >
+        dict_guid,
+      </if>
+      <if test="thrDictType != null" >
+        thr_dict_type,
+      </if>
+      <if test="thrPeerCode != null" >
+        thr_peer_code,
+      </if>
+      <if test="thrSysName != null" >
+        thr_sys_name,
+      </if>
+      <if test="sort != null" >
+        sort,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="guid != null" >
+        #{guid,jdbcType=VARCHAR},
+      </if>
+      <if test="dictGuid != null" >
+        #{dictGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="thrDictType != null" >
+        #{thrDictType,jdbcType=VARCHAR},
+      </if>
+      <if test="thrPeerCode != null" >
+        #{thrPeerCode,jdbcType=VARCHAR},
+      </if>
+      <if test="thrSysName != null" >
+        #{thrSysName,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.commandcenter.model.smp.SmpThrDictExt" >
+    update smp_t_thr_dict_ext
+    <set >
+      <if test="dictGuid != null" >
+        dict_guid = #{dictGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="thrDictType != null" >
+        thr_dict_type = #{thrDictType,jdbcType=VARCHAR},
+      </if>
+      <if test="thrPeerCode != null" >
+        thr_peer_code = #{thrPeerCode,jdbcType=VARCHAR},
+      </if>
+      <if test="thrSysName != null" >
+        thr_sys_name = #{thrSysName,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        sort = #{sort,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where guid = #{guid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.commandcenter.model.smp.SmpThrDictExt" >
+    update smp_t_thr_dict_ext
+    set dict_guid = #{dictGuid,jdbcType=VARCHAR},
+      thr_dict_type = #{thrDictType,jdbcType=VARCHAR},
+      thr_peer_code = #{thrPeerCode,jdbcType=VARCHAR},
+      thr_sys_name = #{thrSysName,jdbcType=VARCHAR},
+      sort = #{sort,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where guid = #{guid,jdbcType=VARCHAR}
+  </update>
+</mapper>

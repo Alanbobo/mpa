@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.commandcenter.dao.smp.SmpDictInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.commandcenter.model.smp.SmpDictInfo" >
+    <id column="guid" property="guid" jdbcType="VARCHAR" />
+    <result column="parent_guid" property="parentGuid" jdbcType="VARCHAR" />
+    <result column="dict_info_key" property="dictInfoKey" jdbcType="VARCHAR" />
+    <result column="dict_info_code" property="dictInfoCode" jdbcType="VARCHAR" />
+    <result column="system_guid" property="systemGuid" jdbcType="VARCHAR" />
+    <result column="level" property="level" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+    <result column="tree_path" property="treePath" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="describe" property="describe" jdbcType="VARCHAR" />
+    <result column="dict_type" property="dictType" jdbcType="VARCHAR" />
+    <result column="version" property="version" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    guid, parent_guid, dict_info_key, dict_info_code, system_guid, level, status, sort, 
+    tree_path, create_time, create_user, update_time, update_user, describe, dict_type,version
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from smp_t_dict_info
+    where guid = #{guid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteAllSmpDictInfo" >
+   delete  from  smp_t_dict_info where 1=1; commit;
+  </delete>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from smp_t_dict_info
+    where guid = #{guid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.commandcenter.model.smp.SmpDictInfo" >
+    insert into smp_t_dict_info (guid, parent_guid, dict_info_key, 
+      dict_info_code, system_guid, level, 
+      status, sort, tree_path, 
+      create_time, create_user, update_time, 
+      update_user, describe, dict_type,version
+      )
+    values (#{guid,jdbcType=VARCHAR}, #{parentGuid,jdbcType=VARCHAR}, #{dictInfoKey,jdbcType=VARCHAR}, 
+      #{dictInfoCode,jdbcType=VARCHAR}, #{systemGuid,jdbcType=VARCHAR}, #{level,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}, #{treePath,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updateUser,jdbcType=VARCHAR}, #{describe,jdbcType=VARCHAR}, #{dictType,jdbcType=VARCHAR},#{version,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.commandcenter.model.smp.SmpDictInfo" >
+    insert into smp_t_dict_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="guid != null" >
+        guid,
+      </if>
+      <if test="parentGuid != null" >
+        parent_guid,
+      </if>
+      <if test="dictInfoKey != null" >
+        dict_info_key,
+      </if>
+      <if test="dictInfoCode != null" >
+        dict_info_code,
+      </if>
+      <if test="systemGuid != null" >
+        system_guid,
+      </if>
+      <if test="level != null" >
+        level,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="sort != null" >
+        sort,
+      </if>
+      <if test="treePath != null" >
+        tree_path,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="createUser != null" >
+        create_user,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="updateUser != null" >
+        update_user,
+      </if>
+      <if test="describe != null" >
+        describe,
+      </if>
+      <if test="dictType != null" >
+        dict_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="guid != null" >
+        #{guid,jdbcType=VARCHAR},
+      </if>
+      <if test="parentGuid != null" >
+        #{parentGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="dictInfoKey != null" >
+        #{dictInfoKey,jdbcType=VARCHAR},
+      </if>
+      <if test="dictInfoCode != null" >
+        #{dictInfoCode,jdbcType=VARCHAR},
+      </if>
+      <if test="systemGuid != null" >
+        #{systemGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null" >
+        #{level,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="treePath != null" >
+        #{treePath,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="describe != null" >
+        #{describe,jdbcType=VARCHAR},
+      </if>
+      <if test="dictType != null" >
+        #{dictType,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.commandcenter.model.smp.SmpDictInfo" >
+    update smp_t_dict_info
+    <set >
+      <if test="parentGuid != null" >
+        parent_guid = #{parentGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="dictInfoKey != null" >
+        dict_info_key = #{dictInfoKey,jdbcType=VARCHAR},
+      </if>
+      <if test="dictInfoCode != null" >
+        dict_info_code = #{dictInfoCode,jdbcType=VARCHAR},
+      </if>
+      <if test="systemGuid != null" >
+        system_guid = #{systemGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null" >
+        level = #{level,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="treePath != null" >
+        tree_path = #{treePath,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null" >
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="describe != null" >
+        describe = #{describe,jdbcType=VARCHAR},
+      </if>
+      <if test="dictType != null" >
+        dict_type = #{dictType,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        version = #{version,jdbcType=INTEGER},
+      </if>
+    </set>
+    where guid = #{guid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.commandcenter.model.smp.SmpDictInfo" >
+    update smp_t_dict_info
+    set parent_guid = #{parentGuid,jdbcType=VARCHAR},
+      dict_info_key = #{dictInfoKey,jdbcType=VARCHAR},
+      dict_info_code = #{dictInfoCode,jdbcType=VARCHAR},
+      system_guid = #{systemGuid,jdbcType=VARCHAR},
+      level = #{level,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      sort = #{sort,jdbcType=INTEGER},
+      tree_path = #{treePath,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      describe = #{describe,jdbcType=VARCHAR},
+      dict_type = #{dictType,jdbcType=VARCHAR}
+    where guid = #{guid,jdbcType=VARCHAR}
+  </update>
+  <select id="selectDictInfoCount" resultType="java.lang.Integer">
+    select count(*) from smp_t_dict_info;
+  </select>
+  <select id="selectDictMaxVersion" resultType="java.lang.Integer">
+    select COALESCE(MAX(version),0) AS version from smp_t_dict_info
+  </select>
+</mapper>

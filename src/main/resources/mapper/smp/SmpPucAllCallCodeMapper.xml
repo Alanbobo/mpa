@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.commandcenter.dao.smp.SmpPucAllCallCodeMapper" >
+  <resultMap id="BaseResultMap" type="com.commandcenter.model.smp.SmpPucAllCallCode" >
+    <result column="guid" property="guid" jdbcType="VARCHAR" />
+    <result column="puc_id" property="pucId" jdbcType="VARCHAR" />
+    <result column="system_id" property="systemId" jdbcType="VARCHAR" />
+    <result column="code_value" property="codeValue" jdbcType="INTEGER" />
+    <result column="version_seq" property="versionSeq" jdbcType="INTEGER" />
+    <result column="createuser" property="createuser" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="updateuser" property="updateuser" jdbcType="VARCHAR" />
+    <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <insert id="insert" parameterType="com.commandcenter.model.smp.SmpPucAllCallCode" >
+    insert into smp_p_all_call_code (guid, puc_id, system_id, 
+      code_value, version_seq, createuser, 
+      createtime, updateuser, updatetime, 
+      remark)
+    values (#{guid,jdbcType=VARCHAR}, #{pucId,jdbcType=VARCHAR}, #{systemId,jdbcType=VARCHAR}, 
+      #{codeValue,jdbcType=INTEGER}, #{versionSeq,jdbcType=INTEGER}, #{createuser,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.commandcenter.model.smp.SmpPucAllCallCode" >
+    insert into smp_p_all_call_code
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="guid != null" >
+        guid,
+      </if>
+      <if test="pucId != null" >
+        puc_id,
+      </if>
+      <if test="systemId != null" >
+        system_id,
+      </if>
+      <if test="codeValue != null" >
+        code_value,
+      </if>
+      <if test="versionSeq != null" >
+        version_seq,
+      </if>
+      <if test="createuser != null" >
+        createuser,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="updateuser != null" >
+        updateuser,
+      </if>
+      <if test="updatetime != null" >
+        updatetime,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="guid != null" >
+        #{guid,jdbcType=VARCHAR},
+      </if>
+      <if test="pucId != null" >
+        #{pucId,jdbcType=VARCHAR},
+      </if>
+      <if test="systemId != null" >
+        #{systemId,jdbcType=VARCHAR},
+      </if>
+      <if test="codeValue != null" >
+        #{codeValue,jdbcType=INTEGER},
+      </if>
+      <if test="versionSeq != null" >
+        #{versionSeq,jdbcType=INTEGER},
+      </if>
+      <if test="createuser != null" >
+        #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null" >
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.commandcenter.dao.smp.SmpStaffDeviceMapper" >
+  <resultMap id="BaseResultMap" type="com.commandcenter.model.smp.SmpStaffDeviceInfo" >
+    <id column="guid" property="guid" jdbcType="VARCHAR" />
+    <result column="staff_guid" property="staffGuid" jdbcType="VARCHAR" />
+    <result column="device_id" property="deviceId" jdbcType="VARCHAR" />
+    <result column="device_type" property="deviceType" jdbcType="VARCHAR" />
+    <result column="device_guid" property="deviceGuid" jdbcType="VARCHAR" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+    <result column="version" property="version" jdbcType="INTEGER" />
+    <result column="enable_flag" property="enableFlag" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    guid,staff_guid,device_id,device_type,device_guid,sort,version,enable_flag
+  </sql>
+  <delete id="deleteAllSmpStaffDeviceInfo">
+    delete from smp_t_staff_device where 1=1;commit;
+  </delete>
+  <insert id="insertSmptStaffDeviceInfo" parameterType="com.commandcenter.model.smp.SmpStaffDeviceInfo">
+    insert into smp_t_staff_device(guid,staff_guid,device_id,device_type,device_guid,sort,version,enable_flag) VALUES (#{guid},#{staffGuid},#{deviceId},#{deviceType},#{deviceGuid},#{sort},#{version},#{enableFlag})
+  </insert>
+  <update id="updateSmptStaffDeviceById" parameterType="com.commandcenter.model.smp.SmpStaffDeviceInfo">
+    UPDATE smp_t_staff_device SET
+    guid=#{guid},staff_guid=#{staffGuid},device_id=#{deviceId},device_type=#{deviceType},device_guid=#{deviceGuid},sort=#{sort},version=#{version},enable_flag=#{enableFlag} where guid=#{guid}
+  </update>
+  <delete id="deleteSmptStaffDeviceById" parameterType="java.lang.String">
+    DELETE FROM smp_t_staff_device where guid=#{id}
+  </delete>
+  <delete id="deleteSmptStaffDeviceByIdLogic" parameterType="com.commandcenter.model.smp.SmpStaffDeviceInfo">
+    UPDATE smp_t_staff_device SET enable_flag=0,version=#{version,jdbcType=INTEGER}
+    where guid = #{guid,jdbcType=VARCHAR}
+  </delete>
+  <select id="selectstaffDeviceNum" resultType="java.lang.Integer">
+    select count(*) from smp_t_staff_device
+  </select>
+  <select id="selectByPrimaryKey" resultType="com.commandcenter.model.smp.SmpStaffDeviceInfo" parameterType="java.lang.String">
+    select
+    <include refid="Base_Column_List" />
+    from smp_t_staff_device
+    where guid = #{guid,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectStaffDeviceByDeviceGuid" resultType="com.commandcenter.model.smp.SmpStaffDeviceInfo" parameterType="java.lang.String">
+    select
+    <include refid="Base_Column_List" />
+    from smp_t_staff_device
+    where device_guid = #{deviceGuid,jdbcType=VARCHAR} and enable_flag='1'
+  </select>
+
+
+  <resultMap id="ContactsMap" type="com.commandcenter.model.contacts.StaffDeviceInfoForApp" >
+    <id column="guid" property="guid" jdbcType="VARCHAR" />
+    <result column="staff_guid" property="staffGuid" jdbcType="VARCHAR" />
+    <result column="device_id" property="deviceCode" jdbcType="VARCHAR" />
+    <result column="device_type" property="deviceType" jdbcType="VARCHAR" />
+    <result column="device_guid" property="deviceGuid" jdbcType="VARCHAR" />
+    <result column="version" property="version" jdbcType="INTEGER" />
+    <result column="enable_flag" property="enableFlag" jdbcType="VARCHAR" />
+  </resultMap>
+  <!--会返回所有数据，包括已经删除的数据-->
+  <select id="selectstaffDeviceInfoByMap" resultMap="ContactsMap" parameterType="java.util.Map">
+    select
+    <include refid="Base_Column_List" />
+    from smp_t_staff_device
+    <where>
+      <if test="version != null and version!='' ">
+        and version &gt; #{version}
+      </if>
+    </where>
+  </select>
+
+</mapper>

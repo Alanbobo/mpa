@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd">
+
+  <!-- 磁盘缓存位置 -->
+  <diskStore path="c:/ehcache_mpa"/>
+  <!-- 系统监控状态 -->
+  <cache name="mpa_agent_status"
+         maxElementsInMemory="1"
+         diskPersistent="true"/>
+</ehcache>

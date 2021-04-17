@@ -1,0 +1,775 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.commandcenter.dao.casedao.VcstCaseInfoDao">
+    <!-- VcstCaseInfo的resultMap,column是给数据库列起的别名,它对应property类的属性-->
+    <resultMap id="result_VcstCaseInfo_Map" type="com.commandcenter.model.casemodel.VcstCaseInfo">
+        <result column="id" property="id"/>
+        <result column="callerno" property="callerno"/>
+        <result column="calledno" property="calledno"/>
+        <result column="callingtime" property="callingtime"/>
+        <result column="answeringtime" property="answeringtime"/>
+        <result column="seatno" property="seatno"/>
+        <result column="contact" property="contact"/>
+        <result column="contactno" property="contactno"/>
+        <result column="contactsex" property="contactsex"/>
+        <result column="casedestrict" property="casedestrict"/>
+        <result column="areaorg" property="areaorg"/>
+        <result column="caseaddress" property="caseaddress"/>
+        <result column="longitude" property="longitude"/>
+        <result column="latitude" property="latitude"/>
+        <result column="casetime" property="casetime"/>
+        <result column="casetype" property="casetype"/>
+        <result column="casesubtype" property="casesubtype"/>
+        <result column="casethreetype" property="casethreetype"/>
+        <result column="casesource" property="casesource"/>
+        <result column="caselevel" property="caselevel"/>
+        <result column="casedesc" property="casedesc"/>
+        <result column="createuser" property="createuser"/>
+        <result column="createtime" property="createtime"/>
+        <result column="updateuser" property="updateuser"/>
+        <result column="updatetime" property="updatetime"/>
+        <result column="delflag" property="delflag"/>
+        <result column="status" property="status"/>
+        <result column="lastsynctime" property="lastsynctime"/>
+        <result column="issensitive" property="issensitive"/>
+        <result column="mergeid" property="mergeid"/>
+        <result column="dispatchmode" property="dispatchmode"/>
+        <result column="callsuccessed" property="callsuccessed"/>
+        <result column="ismajor" property="ismajor"/>
+        <result column="create_time_extend" property="createTimeExtend"/>
+        <result column="CASE_TYPE_VALUE" property="caseTypeValue"/>
+        <result column="CASE_SUB_TYPE_VALUE" property="caseSubTypeValue"/>
+        <result column="CASE_THREE_TYPE_VALUE" property="caseThreeTypeValue"/>
+        <result column="FEEDBACK_STATUS" property="feedbackStatus"/>
+    </resultMap>
+
+    <resultMap id="result_CaseDetail_Map" type="com.commandcenter.model.casemodel.VcstCaseInfo">
+        <result column="id" property="id"/>
+        <result column="callerno" property="callerno"/>
+        <result column="calledno" property="calledno"/>
+        <result column="callingtime" property="callingtime"/>
+        <result column="answeringtime" property="answeringtime"/>
+        <result column="seatno" property="seatno"/>
+        <result column="contact" property="contact"/>
+        <result column="contactno" property="contactno"/>
+        <result column="contactsex" property="contactsex"/>
+        <result column="casedestrict" property="casedestrict"/>
+        <result column="areaorg" property="areaorg"/>
+        <result column="caseaddress" property="caseaddress"/>
+        <result column="longitude" property="longitude"/>
+        <result column="latitude" property="latitude"/>
+        <result column="casetime" property="casetime"/>
+        <result column="casetype" property="casetype"/>
+        <result column="casesubtype" property="casesubtype"/>
+        <result column="casethreetype" property="casethreetype"/>
+        <result column="casesource" property="casesource"/>
+        <result column="caselevel" property="caselevel"/>
+        <result column="casedesc" property="casedesc"/>
+        <result column="createuser" property="createuser"/>
+        <result column="createtime" property="createtime"/>
+        <result column="updateuser" property="updateuser"/>
+        <result column="updatetime" property="updatetime"/>
+        <result column="delflag" property="delflag"/>
+        <result column="status" property="status"/>
+        <result column="lastsynctime" property="lastsynctime"/>
+        <result column="issensitive" property="issensitive"/>
+        <result column="mergeid" property="mergeid"/>
+        <result column="dispatchmode" property="dispatchmode"/>
+        <result column="callsuccessed" property="callsuccessed"/>
+        <result column="ismajor" property="ismajor"/>
+        <result column="create_time_extend" property="createTimeExtend"/>
+        <result column="CASE_TYPE_VALUE" property="caseTypeValue"/>
+        <result column="CASE_SUB_TYPE_VALUE" property="caseSubTypeValue"/>
+        <result column="CASE_THREE_TYPE_VALUE" property="caseThreeTypeValue"/>
+        <result column="FEEDBACK_STATUS" property="feedbackStatus"/>
+
+        <association property="alarmFbcontent" column="id"
+                     select="com.commandcenter.dao.casedao.VcstCaseFeedbackDao.selectFBByCaseId"/>
+    </resultMap>
+
+
+    <resultMap id="staff_stateMap" type="java.util.Map">
+        <result column="guid" property="staffGuid" jdbcType="VARCHAR"/>
+        <result column="staff_code" property="staffCode" jdbcType="VARCHAR"/>
+        <result column="staff_name" property="staffName" jdbcType="VARCHAR"/>
+        <result column="mobile" property="mobile" jdbcType="VARCHAR"/>
+        <result column="telephone" property="telephone" jdbcType="VARCHAR"/>
+        <result column="org_name" property="orgName" jdbcType="VARCHAR"/>
+        <result column="gpsType" property="gpsType" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="VARCHAR"/>
+        <result column="latitude" property="latitude" jdbcType="VARCHAR"/>
+        <result column="longitude" property="longitude" jdbcType="VARCHAR"/>
+        <result column="deviceId" property="deviceId" jdbcType="VARCHAR"/>
+        <result column="is_online" property="isOnline" jdbcType="VARCHAR"/>
+
+    </resultMap>
+    <!-- 数据库中表名为:vcs_t_case_info的列名,as前是数据库的列明,as后是列的别名用于映射成实体类中的属性,需要注意的是别名必须与resultMap中的column别名一致 -->
+    <sql id="vcs_t_case_info_Column">
+        vcs_t_case_info.id as id
+        ,vcs_t_case_info.callerno as callerno
+        ,vcs_t_case_info.calledno as calledno
+        ,vcs_t_case_info.callingtime as callingtime
+        ,vcs_t_case_info.answeringtime as answeringtime
+        ,vcs_t_case_info.seatno as seatno
+        ,vcs_t_case_info.contact as contact
+        ,vcs_t_case_info.contactno as contactno
+        ,vcs_t_case_info.contactsex as contactsex
+        ,vcs_t_case_info.casedestrict as casedestrict
+        ,vcs_t_case_info.areaorg as areaorg
+        ,vcs_t_case_info.caseaddress as caseaddress
+        ,vcs_t_case_info.longitude as longitude
+        ,vcs_t_case_info.latitude as latitude
+        ,vcs_t_case_info.casetime as casetime
+        ,vcs_t_case_info.casetype as casetype
+        ,vcs_t_case_info.casesubtype as casesubtype
+        ,vcs_t_case_info.casethreetype as casethreetype
+        ,vcs_t_case_info.casesource as casesource
+        ,vcs_t_case_info.caselevel as caselevel
+        ,vcs_t_case_info.casedesc as casedesc
+        ,vcs_t_case_info.createuser as createuser
+        ,vcs_t_case_info.createtime as createtime
+        ,vcs_t_case_info.updateuser as updateuser
+        ,vcs_t_case_info.updatetime as updatetime
+        ,vcs_t_case_info.delflag as delflag
+        ,vcs_t_case_info.status as status
+        ,vcs_t_case_info.lastsynctime as lastsynctime
+        ,vcs_t_case_info.issensitive as issensitive
+        ,vcs_t_case_info.mergeid as mergeid
+        ,vcs_t_case_info.dispatchmode as dispatchmode
+        ,vcs_t_case_info.callsuccessed as callsuccessed
+        ,vcs_t_case_info.ismajor as ismajor
+        ,vcs_t_case_info.create_time_extend as create_time_extend
+    </sql>
+
+    <!--获得类名为:VcstCaseInfo对应的数据库表的数据总行数 -->
+    <select id="getVcstCaseInfoRowCount" resultType="java.lang.Long">
+        select count(*) from vcs_t_case_info
+    </select>
+    <!-- 获得类名为:VcstCaseInfo对应数据库中表的数据集合 -->
+    <select id="selectVcstCaseInfo" resultMap="result_VcstCaseInfo_Map">
+        select
+        <include refid="vcs_t_case_info_Column"/>
+        from vcs_t_case_info
+    </select>
+
+    <select id="selectVcstCaseInfoCountById" resultType="java.lang.Integer">
+        select
+        count(vcs_t_case_info.id)
+        from vcs_t_case_info vcs_t_case_info
+        left join smp_t_dict dt1
+        on vcs_t_case_info.casetype=dt1.key_value
+        left join smp_t_dict dt2
+        on vcs_t_case_info.casesubtype=dt2.key_value
+        left join smp_t_dict dt3
+        on vcs_t_case_info.casethreetype=dt3.key_value
+        left join smp_t_dict dt4
+        on vcs_t_case_info.casesource=dt4.key_value
+        where id = #{id}
+    </select>
+
+    <select id="selectVcstCaseInfoById" resultMap="result_CaseDetail_Map">
+        select
+        <include refid="vcs_t_case_info_Column"/>, dt4.key_name as casesource,dt2.key_name as case_sub_type_value,
+        dt1.key_name as case_type_value,dt3.key_name as case_three_type_value
+        from vcs_t_case_info vcs_t_case_info
+        left join smp_t_dict dt1
+        on vcs_t_case_info.casetype=dt1.key_value
+        left join smp_t_dict dt2
+        on vcs_t_case_info.casesubtype=dt2.key_value
+        left join smp_t_dict dt3
+        on vcs_t_case_info.casethreetype=dt3.key_value
+        left join smp_t_dict dt4
+        on vcs_t_case_info.casesource=dt4.key_value
+        where id = #{id}
+    </select>
+
+    <select id="selectCaseList" parameterType="java.util.Map" resultMap="result_VcstCaseInfo_Map">
+        select a.*,
+        (select max(dd.status) from mpa_t_dispatch dd
+        where dd.case_id=a.id and dd.staff_guid=#{staffGuid,jdbcType=VARCHAR}
+        and ((dd.iscancel is null) or dd.iscancel != '1')) as FEEDBACK_STATUS
+        from(
+        select
+        DISTINCT
+        t.id,t.callerno,t.calledno,t.callingtime,t.answeringtime,t.seatno,t.contact,t.contactno,t.contactsex
+        ,t.casedestrict,t.areaorg ,
+        t.caseaddress,t.longitude,t.latitude,t.casetime ,dt1.key_name as case_type_value,casetype ,dt2.key_name as
+        case_sub_type_value,casesubtype,
+        dt3.key_name as case_three_type_value,t.casethreetype,dt4.key_name as case_source ,t.caselevel ,t.casedesc,
+        t.createuser,t.createtime ,t.updateuser,t.updatetime ,t.delflag ,t.status,t.lastsynctime ,t.issensitive
+        ,t.create_time_extend
+        from VCS_T_CASE_INFO t
+        left join smp_t_staff_user u
+        on u.staff_guid=#{staffGuid,jdbcType=VARCHAR}
+        left join smp_t_staff_info s
+        on s.guid=#{staffGuid,jdbcType=VARCHAR}
+        left join mpa_t_dispatch d
+        on ((d.staff_guid=#{staffGuid,jdbcType=VARCHAR} or d.user_guid=u.user_guid or d.org_guid=s.org_guid) and
+        ((d.iscancel is null) or d.iscancel !='1')
+        <if test="statusArrays != null">
+            and d.status IN
+            <foreach collection="statusArrays" index="index" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        )
+        left join smp_t_dict dt1
+        on t.casetype=dt1.key_value
+        left join smp_t_dict dt2
+        on t.casesubtype=dt2.key_value
+        left join smp_t_dict dt3
+        on t.casethreetype=dt3.key_value
+        left join smp_t_dict dt4
+        on t.casesource=dt4.key_value
+        where d.case_id=t.id
+        and (t.delflag != 1 or t.delflag is null)
+
+        <if test='keyword != null '>
+            and
+            (
+            t.caseaddress ~* #{keyword} or t.casedesc ~* #{keyword}
+            or t.id ~* #{keyword} or t.contact ~* #{keyword} or t.contactno ~* #{keyword}
+            )
+        </if>
+        <if test="startDate != null">
+            and t.create_time_extend &gt;= #{startDate,jdbcType=VARCHAR}
+        </if>
+        <if test="endDate != null">
+            and t.create_time_extend &lt; #{endDate,jdbcType=VARCHAR}
+        </if>
+        <if test="indsTemp != null">
+            and t.casetime >= to_date(to_char(CURRENT_TIMESTAMP::TIMESTAMP + INTERVAL '-${intervalDays}
+            day','yyyy-MM-dd'),'yyyy-MM-dd')
+        </if>
+        <if test="intervalDays != null">
+            and t.create_time_extend >= #{intervalDays,jdbcType=VARCHAR}
+        </if>
+        ) a
+        order by create_time_extend desc
+
+    </select>
+
+    <select id="selectTaskList" parameterType="java.util.Map" resultMap="result_VcstCaseInfo_Map">
+        select a.*,
+        (select max(dd.status) from mpa_t_dispatch dd where dd.case_id=a.id and
+        dd.staff_guid=#{staffGuid,jdbcType=VARCHAR}
+        and ((dd.iscancel is null) or dd.iscancel != '1')) as FEEDBACK_STATUS
+        from(
+        select
+        DISTINCT
+        t.id,t.callerno,t.calledno,t.callingtime,t.answeringtime,t.seatno,t.contact,t.contactno,t.contactsex
+        ,t.casedestrict,t.areaorg ,
+        t.caseaddress,t.longitude,t.latitude,t.casetime ,dt1.key_name as case_type_value,casetype ,dt2.key_name as
+        case_sub_type_value,casesubtype,
+        dt3.key_name as case_three_type_value,t.casethreetype,dt4.key_name as case_source ,t.caselevel ,t.casedesc,
+        t.createuser,t.createtime ,t.updateuser,t.updatetime ,t.delflag ,t.status,t.lastsynctime ,t.issensitive
+        ,t.create_time_extend
+        from VCS_T_CASE_INFO t
+        left join smp_t_dict dt1 on t.casetype=dt1.key_value
+        left join smp_t_dict dt2 on t.casesubtype=dt2.key_value
+        left join smp_t_dict dt3 on t.casethreetype=dt3.key_value
+        left join smp_t_dict dt4 on t.casesource=dt4.key_value,
+        smp_t_staff_user u,
+        smp_t_staff_info s,
+        mpa_t_dispatch d
+        where d.case_id=t.id and (t.delflag != 1 or t.delflag is null)
+        AND u.staff_guid=d.staff_guid AND s.guid=d.staff_guid and ((d.iscancel is null) or d.iscancel !='1')
+        AND d.staff_guid=#{staffGuid,jdbcType=VARCHAR}
+
+        <if test="startDate != null">
+            and t.create_time_extend &gt;= #{startDate,jdbcType=VARCHAR}
+        </if>
+        <if test="endDate != null">
+            and t.create_time_extend &lt; #{endDate,jdbcType=VARCHAR}
+        </if>
+        <if test='keyword != null '>
+            and
+            (
+            t.caseaddress LIKE '%${keyword}%' or t.casedesc like '%${keyword}%'
+            or t.id like '%${keyword}%' or t.contact like '%${keyword}%' or t.contactno like '%${keyword}%'
+            )
+        </if>
+        <if test="intervalDays != null">
+            and t.create_time_extend >= #{intervalDays,jdbcType=VARCHAR}
+        </if>
+        ) a
+        order by FEEDBACK_STATUS,create_time_extend desc
+    </select>
+
+    <select id="selectNotAcceptList" parameterType="java.util.Map" resultMap="result_VcstCaseInfo_Map">
+        select
+        t.id,t.callerno,t.calledno,t.callingtime,t.answeringtime,t.seatno,t.contact,t.contactno,t.contactsex
+        ,t.casedestrict,t.areaorg ,
+        t.caseaddress,t.longitude,t.latitude,t.casetime ,dt1.key_name as case_type_value,casetype ,dt2.key_name as
+        case_sub_type_value,casesubtype,
+        dt3.key_name as case_three_type_value,t.casethreetype,dt4.key_name as case_source ,t.caselevel ,t.casedesc,
+        t.createuser,t.createtime ,t.updateuser,t.updatetime ,t.delflag ,t.status,t.lastsynctime ,t.issensitive
+        ,t.create_time_extend, '' as FEEDBACK_STATUS
+        from VCS_T_CASE_INFO t
+        left join smp_t_dict dt1 on t.casetype=dt1.key_value
+        left join smp_t_dict dt2 on t.casesubtype=dt2.key_value
+        left join smp_t_dict dt3 on t.casethreetype=dt3.key_value
+        left join smp_t_dict dt4 on t.casesource=dt4.key_value,
+        smp_t_staff_info s,
+        mpa_t_dispatch d
+        WHERE d.case_id=t.id and d.org_guid=s.org_guid
+        AND s.guid=#{staffGuid,jdbcType=VARCHAR} AND t.status != 'JQZT005' AND t.status != 'JQZT006'
+        AND d.case_id not in (
+        select case_id from mpa_t_dispatch where staff_guid = #{staffGuid,jdbcType=VARCHAR}
+        AND (iscancel is null OR iscancel != '1' ))
+        and (t.delflag != 1 or t.delflag is null)
+        <if test='keyword != null '>
+            and
+            (
+            t.caseaddress LIKE '%${keyword}%' or t.casedesc like '%${keyword}%'
+            or t.id like '%${keyword}%' or t.contact like '%${keyword}%' or t.contactno like '%${keyword}%'
+            )
+        </if>
+        <if test="startDate != null">
+            and t.create_time_extend &gt;= #{startDate,jdbcType=VARCHAR}
+        </if>
+        <if test="endDate != null">
+            and t.create_time_extend &lt; #{endDate,jdbcType=VARCHAR}
+        </if>
+        <if test="intervalDays != null">
+            and t.create_time_extend >= #{intervalDays,jdbcType=VARCHAR}
+        </if>
+        order by t.create_time_extend desc
+    </select>
+
+    <select id="selectCaseByAlarmIdAndStaffGuid" parameterType="java.util.Map" resultMap="result_CaseDetail_Map">
+        select a.*,
+        (select max(dd.status) from mpa_t_dispatch dd where dd.case_id=a.id and
+        dd.staff_guid=#{staffGuid,jdbcType=VARCHAR}
+        and ((dd.iscancel is null) or dd.iscancel != '1')) as FEEDBACK_STATUS
+        from(
+        select
+        t.id,t.callerno,t.calledno,t.callingtime,t.answeringtime,t.seatno,t.contact,t.contactno,t.contactsex
+        ,t.casedestrict,t.areaorg ,
+        t.caseaddress,t.longitude,t.latitude,t.casetime ,dt1.key_name as case_type_value,casetype ,dt2.key_name as
+        case_sub_type_value,casesubtype,
+        dt3.key_name as case_three_type_value,t.casethreetype,dt4.key_name as case_source ,t.caselevel ,t.casedesc,
+        t.createuser,t.createtime ,t.updateuser,t.updatetime ,t.delflag ,t.status,t.lastsynctime ,t.issensitive
+        ,t.create_time_extend
+        from VCS_T_CASE_INFO t
+        left join smp_t_dict dt1 on t.casetype=dt1.key_value
+        left join smp_t_dict dt2 on t.casesubtype=dt2.key_value
+        left join smp_t_dict dt3 on t.casethreetype=dt3.key_value
+        left join smp_t_dict dt4 on t.casesource=dt4.key_value
+        where (t.delflag != 1 or t.delflag is null)
+        AND t.id=#{alarmId,jdbcType=VARCHAR}
+        ) a
+    </select>
+
+    <!-- 将VcstCaseInfo插入到对应数据库的表中,包括属性值为null的数据-->
+
+    <insert id="insertVcstCaseInfo" parameterType="com.commandcenter.model.casemodel.VcstCaseInfo">
+        insert into vcs_t_case_info(id,callerno,calledno,callingtime,answeringtime,seatno,contact,contactno,contactsex,casedestrict,areaorg,caseaddress,longitude,latitude,casetime,casetype,casesubtype,casethreetype,casesource,caselevel,casedesc,createuser,createtime,updateuser,updatetime,delflag,status,lastsynctime,issensitive,mergeid,dispatchmode,callsuccessed,ismajor) 
+        values(#{id},#{callerno},#{calledno},#{callingtime},#{answeringtime},#{seatno},#{contact},#{contactno},#{contactsex},#{casedestrict},#{areaorg},#{caseaddress},#{longitude},#{latitude},#{casetime},#{casetype},#{casesubtype},#{casethreetype},#{casesource},#{caselevel},#{casedesc},#{createuser},#{createtime},#{updateuser},#{updatetime},#{delflag},#{status},#{lastsynctime},#{issensitive},#{mergeid},#{dispatchmode},#{callsuccessed},#{ismajor})
+    </insert>
+
+    <!-- 将VcstCaseInfo中属性值不为null的数据,插入到对应数据库的表中-->
+    <insert id="insertNonEmptyVcstCaseInfo" parameterType="com.commandcenter.model.casemodel.VcstCaseInfo">
+        insert into vcs_t_case_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="callerno != null">callerno,</if>
+            <if test="calledno != null">calledno,</if>
+            <if test="callingtime != null">callingtime,</if>
+            <if test="answeringtime != null">answeringtime,</if>
+            <if test="seatno != null">seatno,</if>
+            <if test="contact != null">contact,</if>
+            <if test="contactno != null">contactno,</if>
+            <if test="contactsex != null">contactsex,</if>
+            <if test="casedestrict != null">casedestrict,</if>
+            <if test="areaorg != null">areaorg,</if>
+            <if test="caseaddress != null">caseaddress,</if>
+            <if test="longitude != null">longitude,</if>
+            <if test="latitude != null">latitude,</if>
+            <if test="casetime != null">casetime,</if>
+            <if test="casetype != null">casetype,</if>
+            <if test="casesubtype != null">casesubtype,</if>
+            <if test="casethreetype != null">casethreetype,</if>
+            <if test="casesource != null">casesource,</if>
+            <if test="caselevel != null">caselevel,</if>
+            <if test="casedesc != null">casedesc,</if>
+            <if test="createuser != null">createuser,</if>
+            <if test="createtime != null">createtime,</if>
+            <if test="updateuser != null">updateuser,</if>
+            <if test="updatetime != null">updatetime,</if>
+            <if test="delflag != null">delflag,</if>
+            <if test="status != null">status,</if>
+            <if test="lastsynctime != null">lastsynctime,</if>
+            <if test="issensitive != null">issensitive,</if>
+            <if test="mergeid != null">mergeid,</if>
+            <if test="dispatchmode != null">dispatchmode,</if>
+            <if test="callsuccessed != null">callsuccessed,</if>
+            <if test="ismajor != null">ismajor,</if>
+            <if test="createTimeExtend != null">create_time_extend,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="callerno != null">#{callerno},</if>
+            <if test="calledno != null">#{calledno},</if>
+            <if test="callingtime != null">#{callingtime},</if>
+            <if test="answeringtime != null">#{answeringtime},</if>
+            <if test="seatno != null">#{seatno},</if>
+            <if test="contact != null">#{contact},</if>
+            <if test="contactno != null">#{contactno},</if>
+            <if test="contactsex != null">#{contactsex},</if>
+            <if test="casedestrict != null">#{casedestrict},</if>
+            <if test="areaorg != null">#{areaorg},</if>
+            <if test="caseaddress != null">#{caseaddress},</if>
+            <if test="longitude != null">#{longitude},</if>
+            <if test="latitude != null">#{latitude},</if>
+            <if test="casetime != null">#{casetime},</if>
+            <if test="casetype != null">#{casetype},</if>
+            <if test="casesubtype != null">#{casesubtype},</if>
+            <if test="casethreetype != null">#{casethreetype},</if>
+            <if test="casesource != null">#{casesource},</if>
+            <if test="caselevel != null">#{caselevel},</if>
+            <if test="casedesc != null">#{casedesc},</if>
+            <if test="createuser != null">#{createuser},</if>
+            <if test="createtime != null">#{createtime},</if>
+            <if test="updateuser != null">#{updateuser},</if>
+            <if test="updatetime != null">#{updatetime},</if>
+            <if test="delflag != null">#{delflag},</if>
+            <if test="status != null">#{status},</if>
+            <if test="lastsynctime != null">#{lastsynctime},</if>
+            <if test="issensitive != null">#{issensitive},</if>
+            <if test="mergeid != null">#{mergeid},</if>
+            <if test="dispatchmode != null">#{dispatchmode},</if>
+            <if test="callsuccessed != null">#{callsuccessed},</if>
+            <if test="ismajor != null">#{ismajor},</if>
+            <if test="createTimeExtend != null">#{createTimeExtend},</if>
+        </trim>
+    </insert>
+
+    <!-- 通过VcstCaseInfo的id将数据库表中对应的数据删除-->
+    <delete id="deleteVcstCaseInfoById" parameterType="java.lang.String">
+        delete from vcs_t_case_info
+        where id = #{id}
+    </delete>
+
+    <!-- 通过VcstCaseInfo的id将VcstCaseInfo的数据更新到数据库中对应的表,包括值null的数据-->
+    <update id="updateVcstCaseInfoById" parameterType="com.commandcenter.model.casemodel.VcstCaseInfo">
+        update vcs_t_case_info set
+        callerno=#{callerno}
+        ,calledno=#{calledno}
+        ,callingtime=#{callingtime}
+        ,answeringtime=#{answeringtime}
+        ,seatno=#{seatno}
+        ,contact=#{contact}
+        ,contactno=#{contactno}
+        ,contactsex=#{contactsex}
+        ,casedestrict=#{casedestrict}
+        ,areaorg=#{areaorg}
+        ,caseaddress=#{caseaddress}
+        ,longitude=#{longitude}
+        ,latitude=#{latitude}
+        ,casetime=#{casetime}
+        ,casetype=#{casetype}
+        ,casesubtype=#{casesubtype}
+        ,casethreetype=#{casethreetype}
+        ,casesource=#{casesource}
+        ,caselevel=#{caselevel}
+        ,casedesc=#{casedesc}
+        ,createuser=#{createuser}
+        ,createtime=#{createtime}
+        ,updateuser=#{updateuser}
+        ,updatetime=#{updatetime}
+        ,delflag=#{delflag}
+        ,status=#{status}
+        ,lastsynctime=#{lastsynctime}
+        ,issensitive=#{issensitive}
+        ,mergeid=#{mergeid}
+        ,dispatchmode=#{dispatchmode}
+        ,callsuccessed=#{callsuccessed}
+        ,ismajor=#{ismajor}
+        ,create_time_extend=#{createTimeExtend}
+        where id=#{id}
+    </update>
+
+    <!-- 通过VcstCaseInfo的id将VcstCaseInfo中属性值不为null的数据更新到数据库对应的表中-->
+    <update id="updateNonEmptyVcstCaseInfoById" parameterType="com.commandcenter.model.casemodel.VcstCaseInfo">
+        update vcs_t_case_info
+        <set>
+            <if test="callerno != null">
+                callerno=#{callerno},
+            </if>
+            <if test="calledno != null">
+                calledno=#{calledno},
+            </if>
+            <if test="callingtime != null">
+                callingtime=#{callingtime},
+            </if>
+            <if test="answeringtime != null">
+                answeringtime=#{answeringtime},
+            </if>
+            <if test="seatno != null">
+                seatno=#{seatno},
+            </if>
+            <if test="contact != null">
+                contact=#{contact},
+            </if>
+            <if test="contactno != null">
+                contactno=#{contactno},
+            </if>
+            <if test="contactsex != null">
+                contactsex=#{contactsex},
+            </if>
+            <if test="casedestrict != null">
+                casedestrict=#{casedestrict},
+            </if>
+            <if test="areaorg != null">
+                areaorg=#{areaorg},
+            </if>
+            <if test="caseaddress != null">
+                caseaddress=#{caseaddress},
+            </if>
+            <if test="longitude != null">
+                longitude=#{longitude},
+            </if>
+            <if test="latitude != null">
+                latitude=#{latitude},
+            </if>
+            <if test="casetime != null">
+                casetime=#{casetime},
+            </if>
+            <if test="casetype != null">
+                casetype=#{casetype},
+            </if>
+            <if test="casesubtype != null">
+                casesubtype=#{casesubtype},
+            </if>
+            <if test="casethreetype != null">
+                casethreetype=#{casethreetype},
+            </if>
+            <if test="casesource != null">
+                casesource=#{casesource},
+            </if>
+            <if test="caselevel != null">
+                caselevel=#{caselevel},
+            </if>
+            <if test="casedesc != null">
+                casedesc=#{casedesc},
+            </if>
+            <if test="createuser != null">
+                createuser=#{createuser},
+            </if>
+            <if test="createtime != null">
+                createtime=#{createtime},
+            </if>
+            <if test="updateuser != null">
+                updateuser=#{updateuser},
+            </if>
+            <if test="updatetime != null">
+                updatetime=#{updatetime},
+            </if>
+            <if test="delflag != null">
+                delflag=#{delflag},
+            </if>
+            <if test="status != null">
+                status=#{status},
+            </if>
+            <if test="lastsynctime != null">
+                lastsynctime=#{lastsynctime},
+            </if>
+            <if test="issensitive != null">
+                issensitive=#{issensitive},
+            </if>
+            <if test="mergeid != null">
+                mergeid=#{mergeid},
+            </if>
+            <if test="dispatchmode != null">
+                dispatchmode=#{dispatchmode},
+            </if>
+            <if test="callsuccessed != null">
+                callsuccessed=#{callsuccessed},
+            </if>
+            <if test="ismajor != null">
+                ismajor=#{ismajor},
+            </if>
+            <if test="createTimeExtend != null">
+                create_time_extend=#{createTimeExtend},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <select id="selectCaseListForLeader" parameterType="java.util.Map" resultMap="result_VcstCaseInfo_Map">
+        select
+        DISTINCT
+        t.id ,t.callerno,t.calledno,t.callingtime,t.answeringtime,t.seatno,t.contact,t.contactno,t.contactsex
+        ,t.casedestrict,t.areaorg ,
+        t.caseaddress,t.longitude,t.latitude,t.casetime ,dt1.key_name as case_type_value,casetype ,dt2.key_name as
+        case_sub_type_value,casesubtype,
+        dt3.key_name as case_three_type_value,t.casethreetype,dt4.key_name as case_source ,t.caselevel ,t.casedesc,
+        t.createuser,t.createtime ,t.updateuser,t.updatetime ,t.delflag ,t.status,t.lastsynctime ,t.issensitive
+        ,t.create_time_extend
+        from VCS_T_CASE_INFO t
+        left join smp_t_dict dt1 on t.casetype=dt1.key_value
+        left join smp_t_dict dt2 on t.casesubtype=dt2.key_value
+        left join smp_t_dict dt3 on t.casethreetype=dt3.key_value
+        left join smp_t_dict dt4 on t.casesource=dt4.key_value,
+        mpa_t_dispatch d
+        where d.case_id=t.id and (t.delflag != 1 or t.delflag is null)
+        and d.org_guid is not null
+        and ((d.iscancel is null) or d.iscancel !='1')
+        <if test="minId != null">
+            and t.create_time_extend &lt; #{minId,jdbcType=VARCHAR}
+        </if>
+        <if test="maxId != null">
+            and t.create_time_extend &gt; #{maxId,jdbcType=VARCHAR}
+        </if>
+        <if test='keyword != null '>
+            and
+            (
+            t.caseaddress LIKE '%${keyword}%' or t.casedesc like '%${keyword}%'
+            or t.id like '%${keyword}%' or t.contact like '%${keyword}%' or t.contactno like '%${keyword}%'
+            )
+        </if>
+        <if test="intervalDays != null">
+            and t.create_time_extend >= #{intervalDays,jdbcType=VARCHAR}
+        </if>
+        <if test="startDate != null">
+            and t.create_time_extend &gt;= #{startDate,jdbcType=VARCHAR}
+        </if>
+        <if test="endDate != null">
+            and t.create_time_extend &lt; #{endDate,jdbcType=VARCHAR}
+        </if>
+        <if test="caseLevel != null and caseLevel !=''">
+            and t.caselevel = #{caseLevel,jdbcType=VARCHAR}
+        </if>
+        <if test="belongOrg != null">
+            and
+            (t.areaorg in
+            <foreach item="belongOrgItem" index="index" collection="belongOrg" open="(" separator="," close=")">
+                #{belongOrgItem,jdbcType=VARCHAR}
+            </foreach>
+            OR
+            d.org_guid in
+            <foreach item="belongOrgItem" index="index" collection="belongOrg" open="(" separator="," close=")">
+                #{belongOrgItem,jdbcType=VARCHAR}
+            </foreach>
+            )
+        </if>
+        order by t.status,t.create_time_extend desc
+    </select>
+
+
+    <select id="getCaseTypeStatistic" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT count(1),b.value as "caseTypeName",t.casetype as "caseType"
+        FROM vcs_t_case_info t
+        left join smp_t_dict_info a on t.casetype = a.dict_info_key
+        left join smp_t_dict_info aa on a.parent_guid = aa.guid
+        left join smp_t_dict_value b on a.guid = b.dict_guid
+        left join smp_t_system_info c on a.system_guid = c.guid
+        LEFT JOIN smp_t_language d on b.language_guid = d.guid
+        where (t.delflag != 1 or t.delflag is null) and c.system_no = 'ICC' and d.language_code = 'ZH_CN' and aa.dict_info_key = 'DIC003'
+        <if test="startDate != null and startDate != ''">
+            and t.create_time_extend &gt;= #{startDate,jdbcType=VARCHAR}
+        </if>
+        <if test="endDate != null and endDate != ''">
+            and t.create_time_extend &lt;= #{endDate,jdbcType=VARCHAR}
+        </if>
+        <if test="belongOrg != null and belongOrg != ''">
+            and t.areaorg = #{belongOrg,jdbcType=VARCHAR}
+        </if>
+        group by t.casetype,b.value
+        order by t.casetype
+    </select>
+
+    <select id="getCaseCountByMap" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT count(1)
+        FROM vcs_t_case_info t
+        where (t.delflag != 1 or t.delflag is null)
+        <if test="startDateStr != null and startDateStr !=''">
+            and t.create_time_extend &gt;= #{startDateStr,jdbcType=VARCHAR}
+        </if>
+        <if test="endDateStr != null and endDateStr != ''">
+            and t.create_time_extend &lt;= #{endDateStr,jdbcType=VARCHAR}
+        </if>
+        <if test="belongOrg != null and belongOrg != ''">
+            and t.areaorg = #{belongOrg,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+    <select id="getMonthCaseCountByMap" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT count(1)
+        FROM vcs_t_case_info t
+        where (t.delflag != 1 or t.delflag is null)
+        and t.areaorg = #{belongOrg,jdbcType=VARCHAR}
+
+        <if test="startDate != null and startDate != ''">
+            and t.create_time_extend &gt;= #{startDate,jdbcType=VARCHAR}
+        </if>
+        <if test="endDate != null and endDate != ''">
+            and t.create_time_extend &lt;= #{endDate,jdbcType=VARCHAR}
+        </if>
+
+    </select>
+
+
+    <select id="selectNonGpsInfoByMap" parameterType="java.util.Map" resultMap="staff_stateMap">
+        select
+        st.guid ,st.staff_code,st.staff_name,dt1.key_name as "position",st.mobile,st.telephone, '2' as "gpsType",so.org_name,'${status}' as "status"
+        FROM smp_t_staff_info st
+		inner join smp_t_org_info so on st.org_guid = so.guid
+		LEFT join smp_t_dict dt1 on st.position = dt1.key_value
+        where
+		st.guid=#{staffGuid,jdbcType=VARCHAR} and st.enable_flag = 1  and so.enable_flag = 1
+
+    </select>
+
+    <select id="selectStaffStateByOrg" parameterType="java.util.Map" resultType="java.util.Map">
+
+        SELECT DISTINCT
+        d.staff_guid as "staffGuid",
+        CASE d.status
+        WHEN 'JQZT004' THEN '4'
+        WHEN 'JQZT003' THEN '4'
+        END as "status"
+        FROM
+        vcs_t_case_info t
+        INNER JOIN mpa_t_dispatch d ON t.ID = d.case_id
+        WHERE
+        t.areaorg = #{orgGuid,jdbcType=VARCHAR}
+        and  to_char(t.createtime, 'yyyy-mm-dd' ) = #{currentDate,jdbcType=VARCHAR}
+        AND ( d.iscancel IS NULL OR d.iscancel != '1' )
+        AND ( T.delflag != 1 OR T.delflag IS NULL )
+        AND d.staff_guid IS NOT NULL
+        AND (d.status = 'JQZT004' or d.status = 'JQZT003')
+    </select>
+
+
+    <select id="selectMapInfoByStaffGuid" parameterType="java.util.Map" resultMap="staff_stateMap">
+		select
+        st.guid ,st.staff_code,st.staff_name,dt1.key_name as "position",st.mobile,st.telephone, '0' as "gpsType",so.org_name,'${status}' as "status"
+        ,p.latitude,p.longitude,sm.dispatcher_account as "deviceId",q.is_online
+        FROM smp_t_staff_info st
+		inner join smp_t_org_info so on st.org_guid = so.guid
+		inner JOIN smp_t_smartapp_info sm on st.guid=sm.staff_guid
+		LEFT join smp_t_dict dt1 on st.position = dt1.key_value
+        LEFT JOIN puc_gps_gpsdata p on sm.dispatcher_account = p.device_id and sm.puc_id = p.puc_id
+        LEFT JOIN puc_online_data q on sm.dispatcher_account = q.device_id and sm.puc_id = q.puc_id
+        where
+		st.guid=#{staffGuid,jdbcType=VARCHAR} and st.enable_flag = 1 and sm.enable_flag = 1 and so.enable_flag = 1
+        union
+        select
+        st.guid ,st.staff_code,st.staff_name,dt1.key_name as "position",st.mobile,st.telephone,'1' as gpsType,so.org_name,'${status}' as status
+        ,p.latitude,p.longitude,si.device_id as "deviceId",q.is_online
+        FROM smp_t_staff_info st
+		inner join smp_t_org_info so on st.org_guid = so.guid
+		inner JOIN smp_t_staff_device sd on st.guid=sd.staff_guid
+		inner JOIN smp_t_interphone_info si on sd.device_guid=si.guid
+		LEFT join smp_t_dict dt1 on st.position = dt1.key_value
+        LEFT JOIN puc_gps_gpsdata p on si.device_id = p.device_id and si.puc_id = p.puc_id
+        LEFT JOIN puc_online_data q on si.device_id = q.device_id and si.puc_id = q.puc_id
+        where
+		st.guid=#{staffGuid,jdbcType=VARCHAR} and st.enable_flag = 1 and si.enable_flag = 1 and sd.enable_flag = '1'                  and so.enable_flag = 1
+
+    </select>
+
+
+</mapper>

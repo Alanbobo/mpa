@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.commandcenter.dao.smp.SmpSeatInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.commandcenter.model.smp.SmpSeatInfo" >
+    <id column="guid" property="guid" jdbcType="VARCHAR" />
+    <result column="seat_ip" property="seatIp" jdbcType="VARCHAR" />
+    <result column="seat_name" property="seatName" jdbcType="VARCHAR" />
+    <result column="seat_password" property="seatPassword" jdbcType="VARCHAR" />
+    <result column="enable_flag" property="enableFlag" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    guid, seat_ip, seat_name, seat_password, enable_flag, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from smp_t_seat_info
+    where guid = #{guid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from smp_t_seat_info
+    where guid = #{guid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.commandcenter.model.smp.SmpSeatInfo" >
+    insert into smp_t_seat_info (guid, seat_ip, seat_name, 
+      seat_password, enable_flag, create_time, 
+      update_time)
+    values (#{guid,jdbcType=VARCHAR}, #{seatIp,jdbcType=VARCHAR}, #{seatName,jdbcType=VARCHAR}, 
+      #{seatPassword,jdbcType=VARCHAR}, #{enableFlag,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.commandcenter.model.smp.SmpSeatInfo" >
+    insert into smp_t_seat_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="guid != null" >
+        guid,
+      </if>
+      <if test="seatIp != null" >
+        seat_ip,
+      </if>
+      <if test="seatName != null" >
+        seat_name,
+      </if>
+      <if test="seatPassword != null" >
+        seat_password,
+      </if>
+      <if test="enableFlag != null" >
+        enable_flag,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="guid != null" >
+        #{guid,jdbcType=VARCHAR},
+      </if>
+      <if test="seatIp != null" >
+        #{seatIp,jdbcType=VARCHAR},
+      </if>
+      <if test="seatName != null" >
+        #{seatName,jdbcType=VARCHAR},
+      </if>
+      <if test="seatPassword != null" >
+        #{seatPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="enableFlag != null" >
+        #{enableFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.commandcenter.model.smp.SmpSeatInfo" >
+    update smp_t_seat_info
+    <set >
+      <if test="seatIp != null" >
+        seat_ip = #{seatIp,jdbcType=VARCHAR},
+      </if>
+      <if test="seatName != null" >
+        seat_name = #{seatName,jdbcType=VARCHAR},
+      </if>
+      <if test="seatPassword != null" >
+        seat_password = #{seatPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="enableFlag != null" >
+        enable_flag = #{enableFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where guid = #{guid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.commandcenter.model.smp.SmpSeatInfo" >
+    update smp_t_seat_info
+    set seat_ip = #{seatIp,jdbcType=VARCHAR},
+      seat_name = #{seatName,jdbcType=VARCHAR},
+      seat_password = #{seatPassword,jdbcType=VARCHAR},
+      enable_flag = #{enableFlag,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where guid = #{guid,jdbcType=VARCHAR}
+  </update>
+</mapper>

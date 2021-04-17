@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.commandcenter.dao.smp.SmptSmartappInfoDao">
+    <!-- SmptSmartappInfo的resultMap,column是给数据库列起的别名,它对应property类的属性-->
+    <resultMap id="result_SmptSmartappInfo_Map" type="com.commandcenter.model.smp.SmptSmartappInfo">
+        <id column="guid" property="guid" />
+        <result column="create_user" property="createUser" />
+        <result column="create_time" property="createTime" />
+        <result column="update_user" property="updateUser" />
+        <result column="update_time" property="updateTime" />
+        <result column="org_identifier" property="orgIdentifier" />
+        <result column="puc_id" property="pucId" />
+        <result column="staff_guid" property="staffGuid" />
+        <result column="dispatcher_account" property="dispatcherAccount" />
+        <result column="dispatcher_pwd" property="dispatcherPwd" />
+        <result column="dispatcher_name" property="dispatcherName" />
+        <result column="dispatcher_num" property="dispatcherNum" />
+        <result column="role" property="role" />
+        <result column="online_status" property="onlineStatus" />
+        <result column="enable_flag" property="enableFlag" />
+        <result column="org_guid" property="orgGuid" />
+        <result column="version" property="version" />
+    </resultMap>
+    <resultMap id="ContactsSmartOne" type="com.commandcenter.model.contacts.SmartAppForApp" >
+        <result column="guid" property="guid" jdbcType="VARCHAR" />
+        <result column="org_identifier" property="orgIdentifier" />
+        <result column="puc_id" property="pucId" />
+        <result column="staff_guid" property="staffGuid" />
+        <result column="dispatcher_account" property="dispatcherAccount" />
+        <result column="dispatcher_name" property="dispatcherName" />
+        <result column="dispatcher_num" property="dispatcherNum" />
+        <result column="online_status" property="onlineStatus" />
+        <result column="org_guid" property="parentOrgGuid" />
+        <result column="version" property="version" />
+        <result column="org_name" property="orgName" />
+        <result column="enable_flag" property="enableFlag" />
+    </resultMap>
+
+
+    <!-- 数据库中表名为:smp_t_smartapp_info的列名,as前是数据库的列明,as后是列的别名用于映射成实体类中的属性,需要注意的是别名必须与resultMap中的column别名一致 -->
+    <sql id="smp_t_smartapp_info_Column">
+        smp_t_smartapp_info.guid as guid
+        ,smp_t_smartapp_info.create_user as create_user
+        ,smp_t_smartapp_info.create_time as create_time
+        ,smp_t_smartapp_info.update_user as update_user
+        ,smp_t_smartapp_info.update_time as update_time
+        ,smp_t_smartapp_info.org_identifier as org_identifier
+        ,smp_t_smartapp_info.puc_id as puc_id
+        ,smp_t_smartapp_info.staff_guid as staff_guid
+        ,smp_t_smartapp_info.dispatcher_account as dispatcher_account
+        ,smp_t_smartapp_info.dispatcher_pwd as dispatcher_pwd
+        ,smp_t_smartapp_info.dispatcher_name as dispatcher_name
+        ,smp_t_smartapp_info.dispatcher_num as dispatcher_num
+        ,smp_t_smartapp_info.role as role
+        ,smp_t_smartapp_info.online_status as online_status
+        ,smp_t_smartapp_info.enable_flag as enable_flag
+        ,smp_t_smartapp_info.org_guid as org_guid
+        ,smp_t_smartapp_info.version as version
+    </sql>
+
+    <!--获得类名为:SmptSmartappInfo对应的数据库表的数据总行数 -->
+    <select id="getSmptSmartappInfoRowCount" resultType="java.lang.Long">
+        select count(guid) from smp_t_smartapp_info
+    </select>
+    <!-- 获得类名为:SmptSmartappInfo对应数据库中表的数据集合 -->
+    <select id="selectSmptSmartappInfo" resultMap="result_SmptSmartappInfo_Map">
+        select 
+        <include refid="smp_t_smartapp_info_Column" /> 
+        from smp_t_smartapp_info
+    </select>
+
+    <select id="selectSmptSmartappInfoByMap" parameterType="java.util.Map" resultMap="result_SmptSmartappInfo_Map">
+        select
+        <include refid="smp_t_smartapp_info_Column" />
+        from smp_t_smartapp_info
+        <where>
+            <if test="dispatcherAccount != null and dispatcherAccount != '' ">
+                and dispatcher_account = #{dispatcherAccount}
+            </if>
+            <if test="enableFlag != null ">
+                and smp_t_smartapp_info.enable_flag = #{enableFlag}
+            </if>
+            <if test="staffGuid != null ">
+                and smp_t_smartapp_info.staff_guid = #{staffGuid}
+            </if>
+            and enable_flag = 1
+        </where>
+        Limit 1
+    </select>
+    <select id="seleSmartappInfoNullStaff" resultMap="ContactsSmartOne">
+        SELECT guid,dispatcher_name,dispatcher_account from smp_t_smartapp_info where (staff_guid is null or staff_guid='') and org_guid=#{orgGuid}
+    </select>
+
+    <select id="selectSmptSmartappInfoByStaffGuid" parameterType="java.lang.String" resultMap="result_SmptSmartappInfo_Map">
+        select
+        <include refid="smp_t_smartapp_info_Column" />
+        from smp_t_smartapp_info
+        WHERE smp_t_smartapp_info.enable_flag = 1
+        and smp_t_smartapp_info.staff_guid = #{staffGuid}
+        Limit 1
+    </select>
+
+    <!--会返回所有数据，包括已经删除的数据-->
+    <select id="selectSmartInfoByMap" resultMap="ContactsSmartOne" parameterType="java.util.Map">
+        SELECT
+        <include refid="smp_t_smartapp_info_Column" />
+        from smp_t_smartapp_info
+        <where>
+            <if test="version != null and version!='' ">
+                and version &gt; #{version}
+            </if>
+        </where>
+    </select>
+    <!--and enable_flag='1'-->
+
+    <!-- 获得一个SmptSmartappInfo对象,以参数SmptSmartappInfo对象中不为空的属性作为条件进行查询-->
+    <select id="selectSmptSmartappInfoByObj" parameterType="com.commandcenter.model.smp.SmptSmartappInfo" resultMap="result_SmptSmartappInfo_Map">
+        select 
+            <include refid="smp_t_smartapp_info_Column" /> 
+        from smp_t_smartapp_info
+        <where>
+            <if test="version != null "> and smp_t_smartapp_info.version = #{version}</if>
+            <if test="orgGuid != null "> and smp_t_smartapp_info.org_guid = #{orgGuid}</if>
+            <if test="enableFlag != null "> and smp_t_smartapp_info.enable_flag = #{enableFlag}</if>
+            <if test="onlineStatus != null "> and smp_t_smartapp_info.online_status = #{onlineStatus}</if>
+            <if test="role != null "> and smp_t_smartapp_info.role = #{role}</if>
+            <if test="dispatcherNum != null "> and smp_t_smartapp_info.dispatcher_num = #{dispatcherNum}</if>
+            <if test="dispatcherName != null "> and smp_t_smartapp_info.dispatcher_name = #{dispatcherName}</if>
+            <if test="dispatcherPwd != null "> and smp_t_smartapp_info.dispatcher_pwd = #{dispatcherPwd}</if>
+            <if test="dispatcherAccount != null "> and smp_t_smartapp_info.dispatcher_account = #{dispatcherAccount}</if>
+            <if test="staffGuid != null "> and smp_t_smartapp_info.staff_guid = #{staffGuid}</if>
+            <if test="pucId != null "> and smp_t_smartapp_info.puc_id = #{pucId}</if>
+            <if test="orgIdentifier != null "> and smp_t_smartapp_info.org_identifier = #{orgIdentifier}</if>
+            <if test="updateTime != null "> and smp_t_smartapp_info.update_time = #{updateTime}</if>
+            <if test="updateUser != null "> and smp_t_smartapp_info.update_user = #{updateUser}</if>
+            <if test="createTime != null "> and smp_t_smartapp_info.create_time = #{createTime}</if>
+            <if test="createUser != null "> and smp_t_smartapp_info.create_user = #{createUser}</if>
+            <if test="guid != null "> and smp_t_smartapp_info.guid = #{guid}</if>
+        </where>
+    </select> 
+
+    <!-- 通过SmptSmartappInfo的id获得对应数据库中表的数据对象-->
+    <select id="selectSmptSmartappInfoById" parameterType="java.lang.String" resultMap="result_SmptSmartappInfo_Map">
+        select 
+            <include refid="smp_t_smartapp_info_Column" /> 
+        from smp_t_smartapp_info
+        where smp_t_smartapp_info.guid = #{id}
+    </select> 
+
+    <!-- 将SmptSmartappInfo插入到对应数据库的表中,包括属性值为null的数据-->
+
+    <insert id="insertSmptSmartappInfo" parameterType="com.commandcenter.model.smp.SmptSmartappInfo">
+        insert into smp_t_smartapp_info(guid,create_user,create_time,update_user,update_time,org_identifier,puc_id,staff_guid,dispatcher_account,dispatcher_pwd,dispatcher_name,dispatcher_num,role,online_status,enable_flag,org_guid,version) 
+        values(#{guid},#{createUser},#{createTime},#{updateUser},#{updateTime},#{orgIdentifier},#{pucId},#{staffGuid},#{dispatcherAccount},#{dispatcherPwd},#{dispatcherName},#{dispatcherNum},#{role},#{onlineStatus},#{enableFlag},#{orgGuid},#{version})
+    </insert>
+
+    <!-- 将SmptSmartappInfo中属性值不为null的数据,插入到对应数据库的表中-->
+    <insert id="insertNonEmptySmptSmartappInfo" parameterType="com.commandcenter.model.smp.SmptSmartappInfo">
+        insert into smp_t_smartapp_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="guid != null">guid,</if>
+            <if test="createUser != null">create_user,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateUser != null">update_user,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="orgIdentifier != null">org_identifier,</if>
+            <if test="pucId != null">puc_id,</if>
+            <if test="staffGuid != null">staff_guid,</if>
+            <if test="dispatcherAccount != null">dispatcher_account,</if>
+            <if test="dispatcherPwd != null">dispatcher_pwd,</if>
+            <if test="dispatcherName != null">dispatcher_name,</if>
+            <if test="dispatcherNum != null">dispatcher_num,</if>
+            <if test="role != null">role,</if>
+            <if test="onlineStatus != null">online_status,</if>
+            <if test="enableFlag != null">enable_flag,</if>
+            <if test="orgGuid != null">org_guid,</if>
+            <if test="version != null">version,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="guid != null"> #{guid},</if>
+            <if test="createUser != null"> #{createUser},</if>
+            <if test="createTime != null"> #{createTime},</if>
+            <if test="updateUser != null"> #{updateUser},</if>
+            <if test="updateTime != null"> #{updateTime},</if>
+            <if test="orgIdentifier != null"> #{orgIdentifier},</if>
+            <if test="pucId != null"> #{pucId},</if>
+            <if test="staffGuid != null"> #{staffGuid},</if>
+            <if test="dispatcherAccount != null"> #{dispatcherAccount},</if>
+            <if test="dispatcherPwd != null"> #{dispatcherPwd},</if>
+            <if test="dispatcherName != null"> #{dispatcherName},</if>
+            <if test="dispatcherNum != null"> #{dispatcherNum},</if>
+            <if test="role != null"> #{role},</if>
+            <if test="onlineStatus != null"> #{onlineStatus},</if>
+            <if test="enableFlag != null"> #{enableFlag},</if>
+            <if test="orgGuid != null"> #{orgGuid},</if>
+            <if test="version != null"> #{version},</if>
+        </trim>
+    </insert>
+
+    <!-- 通过SmptSmartappInfo的id将数据库表中对应的数据删除-->
+    <delete id="deleteSmptSmartappInfoById" parameterType="java.lang.String">
+        delete from smp_t_smartapp_info
+        where guid = #{id}
+    </delete>
+
+    <delete id="deleteSmptSmartappInfoByIdLogic" parameterType="com.commandcenter.model.smp.SmptSmartappInfo">
+        update smp_t_smartapp_info set
+        enable_flag=0
+        ,version=#{version}
+        where guid=#{guid}
+    </delete>
+
+    <!-- 通过SmptSmartappInfo的id将SmptSmartappInfo的数据更新到数据库中对应的表,包括值null的数据-->
+    <update id="updateSmptSmartappInfoById" parameterType="com.commandcenter.model.smp.SmptSmartappInfo">
+        update smp_t_smartapp_info set
+            create_user=#{createUser}
+            ,create_time=#{createTime}
+            ,update_user=#{updateUser}
+            ,update_time=#{updateTime}
+            ,org_identifier=#{orgIdentifier}
+            ,puc_id=#{pucId}
+            ,staff_guid=#{staffGuid}
+            ,dispatcher_account=#{dispatcherAccount}
+            ,dispatcher_pwd=#{dispatcherPwd}
+            ,dispatcher_name=#{dispatcherName}
+            ,dispatcher_num=#{dispatcherNum}
+            ,role=#{role}
+            ,online_status=#{onlineStatus}
+            ,enable_flag=#{enableFlag}
+            ,org_guid=#{orgGuid}
+            ,version=#{version}
+        where guid=#{guid}
+    </update>
+
+    <!-- 通过SmptSmartappInfo的id将SmptSmartappInfo中属性值不为null的数据更新到数据库对应的表中-->
+    <update id="updateNonEmptySmptSmartappInfoById" parameterType="com.commandcenter.model.smp.SmptSmartappInfo">
+        update smp_t_smartapp_info
+        <set>
+            <if test="createUser != null">
+                create_user=#{createUser},
+            </if>
+            <if test="createTime != null">
+                create_time=#{createTime},
+            </if>
+            <if test="updateUser != null">
+                update_user=#{updateUser},
+            </if>
+            <if test="updateTime != null">
+                update_time=#{updateTime},
+            </if>
+            <if test="orgIdentifier != null">
+                org_identifier=#{orgIdentifier},
+            </if>
+            <if test="pucId != null">
+                puc_id=#{pucId},
+            </if>
+            <if test="staffGuid != null">
+                staff_guid=#{staffGuid},
+            </if>
+            <if test="dispatcherAccount != null">
+                dispatcher_account=#{dispatcherAccount},
+            </if>
+            <if test="dispatcherPwd != null">
+                dispatcher_pwd=#{dispatcherPwd},
+            </if>
+            <if test="dispatcherName != null">
+                dispatcher_name=#{dispatcherName},
+            </if>
+            <if test="dispatcherNum != null">
+                dispatcher_num=#{dispatcherNum},
+            </if>
+            <if test="role != null">
+                role=#{role},
+            </if>
+            <if test="onlineStatus != null">
+                online_status=#{onlineStatus},
+            </if>
+            <if test="enableFlag != null">
+                enable_flag=#{enableFlag},
+            </if>
+            <if test="orgGuid != null">
+                org_guid=#{orgGuid},
+            </if>
+            <if test="version != null">
+                version=#{version},
+            </if>
+        </set>
+        where guid=#{guid}
+    </update>
+    <delete id="deleteSmptSmartAppInfo" parameterType="java.lang.String">
+        DELETE FROM smp_t_smartapp_info
+    </delete>
+    <select id="selectSmartOneCount" resultType="java.lang.Integer">
+        select count(*) from smp_t_smartapp_info
+    </select>
+    <select id="selectSmartAppMaxVersion" resultType="java.lang.Integer">
+        select COALESCE(MAX(version),0) AS version from smp_t_smartapp_info
+    </select>
+    <select id="selectByPrimaryKey" resultType="com.commandcenter.model.smp.SmptSmartappInfo" parameterType="java.lang.String">
+        select
+        <include refid="smp_t_smartapp_info_Column" />
+        from smp_t_staff_device
+        where guid = #{guid,jdbcType=VARCHAR}
+    </select>
+
+</mapper>

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.commandcenter.dao.logdao.MpaLogAnalyseDao">
+    <!-- MpaLogAnalyse的resultMap,column是给数据库列起的别名,它对应property类的属性-->
+    <resultMap id="result_MpaLogAnalyse_Map" type="com.commandcenter.model.logmodel.MpaLogAnalyse">
+        <result column="guid" property="guid" />
+        <result column="op_name" property="opName" />
+        <result column="op_staff" property="opStaff" />
+        <result column="op_time" property="opTime" />
+        <result column="log_time" property="logTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="op_mark" property="opMark" />
+    </resultMap>
+    <resultMap id="result_CountByTime_Map" type="java.util.Map">
+        <result column="count" property="count" />
+        <result column="log_time" property="logTime" />
+    </resultMap>
+
+    <!-- 数据库中表名为:mpa_log_analyse的列名,as前是数据库的列明,as后是列的别名用于映射成实体类中的属性,需要注意的是别名必须与resultMap中的column别名一致 -->
+    <sql id="mpa_log_analyse_Column">
+        mpa_log_analyse.guid as guid
+        ,mpa_log_analyse.op_name as op_name
+        ,mpa_log_analyse.op_staff as op_staff
+        ,mpa_log_analyse.op_time as op_time
+        ,mpa_log_analyse.log_time as log_time
+        ,mpa_log_analyse.update_time as update_time
+        ,mpa_log_analyse.op_mark as op_mark
+    </sql>
+
+    <!--获得类名为:MpaLogAnalyse对应的数据库表的数据总行数 -->
+    <select id="getMpaLogAnalyseRowCount" resultType="java.lang.Long">
+        select count(*) from mpa_log_analyse
+    </select>
+    <!-- 获得类名为:MpaLogAnalyse对应数据库中表的数据集合 -->
+    <select id="selectMpaLogAnalyse" resultMap="result_MpaLogAnalyse_Map">
+        select 
+        <include refid="mpa_log_analyse_Column" /> 
+        from mpa_log_analyse
+    </select> 
+
+    <!-- 将MpaLogAnalyse插入到对应数据库的表中,包括属性值为null的数据-->
+
+    <insert id="insertMpaLogAnalyse" parameterType="com.commandcenter.model.logmodel.MpaLogAnalyse">
+        insert into mpa_log_analyse(guid,op_name,op_staff,op_time,log_time,update_time,op_mark) 
+        values(#{guid},#{opName},#{opStaff},#{opTime},#{logTime},#{updateTime},#{opMark})
+    </insert>
+
+    <!-- 将MpaLogAnalyse中属性值不为null的数据,插入到对应数据库的表中-->
+    <insert id="insertNonEmptyMpaLogAnalyse" parameterType="com.commandcenter.model.logmodel.MpaLogAnalyse">
+        insert into mpa_log_analyse
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="guid != null">guid,</if>
+            <if test="opName != null">op_name,</if>
+            <if test="opStaff != null">op_staff,</if>
+            <if test="opTime != null">op_time,</if>
+            <if test="logTime != null">log_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="opMark != null">op_mark,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="guid != null"> #{guid},</if>
+            <if test="opName != null"> #{opName},</if>
+            <if test="opStaff != null"> #{opStaff},</if>
+            <if test="opTime != null"> #{opTime},</if>
+            <if test="logTime != null"> #{logTime},</if>
+            <if test="updateTime != null"> #{updateTime},</if>
+            <if test="opMark != null"> #{opMark},</if>
+        </trim>
+    </insert>
+
+    <delete id="deleteMpaLogAnalyseByLogTime">
+        DELETE FROM mpa_log_analyse where log_time=#{logTime}
+    </delete>
+
+    <select id="getMpaLogAnalyseRowCountByOrgTimeOpName" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT
+        COUNT(*) FROM mpa_log_analyse
+        where
+        1=1
+        <if test="startTime != null and startTime != ''">
+            and log_time &gt;= #{startTime}
+        </if>
+        <if test="endTime !=null and endTime != ''">
+            and log_time &lt;= #{endTime}
+        </if>
+        <if test="functionName != null and functionName != ''">
+            and op_name = #{functionName}
+        </if>
+        <if test="orgCode != null and orgCode != ''">
+            and op_staff
+            in (select DISTINCT a.op_staff
+            from mpa_log_analyse a LEFT JOIN ((SELECT guid as op_staff,org_guid from smp_t_staff_info) UNION (select u.user_code as op_staff,s.org_guid from smp_t_user_info u,smp_t_staff_info s,smp_t_staff_user su where u.guid=su.user_guid and s.guid=su.staff_guid)) s
+            ON a.op_staff = s.op_staff where s.org_guid
+            in (select guid
+            from smp_t_org_info
+            where org_identifier
+            like '%${orgCode}%'))
+        </if>
+
+
+    </select>
+
+    <select id="getCountAndTimeByOrgTimeOpName" resultMap="result_CountByTime_Map" parameterType="java.util.Map">
+        select COUNT(*) as count,log_time FROM
+        (SELECT
+        * FROM mpa_log_analyse
+        where
+        1=1
+        <if test="startTime != null and startTime != ''">
+            and log_time &gt;= #{startTime}
+        </if>
+        <if test="endTime !=null and endTime != ''">
+            and log_time &lt;= #{endTime}
+        </if>
+        <if test="functionName != null and functionName != ''">
+            and op_name = #{functionName}
+        </if>
+        <if test="orgCode != null and orgCode != ''">
+            and op_staff
+            in (select DISTINCT a.op_staff
+            from mpa_log_analyse a LEFT JOIN ((SELECT guid as op_staff,org_guid from smp_t_staff_info) UNION (select u.user_code as op_staff,s.org_guid from smp_t_user_info u,smp_t_staff_info s,smp_t_staff_user su where u.guid=su.user_guid and s.guid=su.staff_guid)) s
+            ON a.op_staff = s.op_staff where s.org_guid
+            in (select guid
+            from smp_t_org_info
+            where org_identifier
+            like '%${orgCode}%'))
+        </if>) AS log
+        GROUP BY log_time ORDER BY log_time
+    </select>
+
+    <select id="checkStatus" resultType="java.lang.Integer">
+        select 1
+    </select>
+</mapper>

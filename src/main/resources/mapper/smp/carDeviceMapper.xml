@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.commandcenter.dao.smp.CarDeviceMapper">
+<resultMap id="VehicleDeviceMap" type="java.util.Map">
+    <result column="guid" property="guid" jdbcType="VARCHAR"/>
+    <result column="car_guid" property="carGuid" jdbcType="VARCHAR"/>
+    <result column="device_type" property="deviceType" jdbcType="VARCHAR"/>
+    <result column="device_id" property="deviceId" jdbcType="VARCHAR"/>
+    <result column="sort" property="sort" jdbcType="INTEGER"/>
+    <result column="device_guid" property="deviceGuid" jdbcType="VARCHAR"/>
+    <result column="version" property="version" jdbcType="VARCHAR"/>
+    <result column="enable_flag" property="enableFlag" jdbcType="VARCHAR"/>
+    <result column="device_name" property="deviceName" jdbcType="VARCHAR"/>
+    <result column="system_alias" property="systemAlias" jdbcType="VARCHAR"/>
+</resultMap>
+<select id="queryVehicleDevice" resultMap="VehicleDeviceMap" parameterType="java.util.Map">
+    select d.* ,i.device_name,s.system_alias from smp_t_car_device d
+    left join smp_t_interphone_info i on d.device_guid=i.guid and i.isvalid ='Y'
+    left join puc_system_info s on i.puc_id=s.puc_id and i.system_id=s.system_id and s.enable_flag='1'
+<where>
+    d.enable_flag='1'
+    <if test="carGuid != null and carGuid != ''">
+        and d.car_guid = #{carGuid}
+    </if>
+    <if test="deviceGuid != null and deviceGuid != ''">
+        and d.device_guid = #{deviceGuid}
+    </if>
+    <if test="deviceType != null and deviceType != ''">
+        and d.device_type = #{deviceType}
+    </if>
+    <if test="deviceIdList != null">
+        and d.device_id in
+        <foreach item="guid" index="index" collection="deviceIdList" open=" ( " separator="," close=")">
+          #{guid}
+        </foreach>
+    </if>
+    <if test="carGuidList != null ">
+        and d.car_guid in
+        <foreach item="guid" index="index" collection="carGuidList" open=" ( " separator="," close=")">
+           #{guid}
+        </foreach>
+    </if>
+    <if test="deviceTypeArray != null">
+        and d.device_type in
+        <foreach item="deviceType" index="index" collection="deviceTypeArray" open=" ( " separator="," close=")">
+          #{deviceType}
+        </foreach>
+    </if>
+    <if test="deviceGuidList != null">
+        and d.device_guid in
+        <foreach item="guid" index="index" collection="deviceGuidList" open=" ( " separator="," close=")">
+            #{guid}
+        </foreach>
+    </if>
+</where>
+    order by d.sort
+</select>
+    <select id="getVehicleDevice" resultMap="VehicleDeviceMap" parameterType="java.util.Map">
+        select d.* from smp_t_car_device d
+        <where>
+            1=1
+            <if test="enableFlag != null and enableFlag != ''">
+                and d.enable_flag = #{enableFlag}
+            </if>
+            <if test="carGuid != null and carGuid != ''">
+                and d.car_guid = #{carGuid}
+            </if>
+            <if test="deviceGuid != null and deviceGuid != ''">
+                and d.device_guid = #{deviceGuid}
+            </if>
+        </where>
+    </select>
+<insert id="insert" parameterType="java.util.Map">
+insert into smp_t_car_device
+<trim prefix="(" suffix=")" suffixOverrides=",">
+
+    <if test="guid != null and guid != ''">
+        guid,
+    </if>
+    <if test="carGuid != null and carGuid != ''">
+        car_guid,
+    </if>
+    <if test="deviceType != null and deviceType != ''">
+        device_type,
+    </if>
+    <if test="deviceId != null and deviceId != ''">
+        device_id,
+    </if>
+    <if test="deviceGuid!= null and deviceGuid != ''">
+        device_Guid,
+    </if>
+    <if test="sort != null and sort != ''">
+        sort,
+    </if>
+    <if test="version != null and version != ''">
+        version,
+    </if>
+    <if test="enableFlag != null and enableFlag != ''">
+        enable_flag,
+    </if>
+</trim>
+<trim prefix="values (" suffix=")" suffixOverrides=",">
+
+    <if test="guid != null and guid != ''">
+        #{guid},
+    </if>
+    <if test="carGuid != null and carGuid != ''">
+        #{carGuid},
+    </if>
+    <if test="deviceType != null and deviceType != ''">
+        #{deviceType},
+    </if>
+    <if test="deviceId != null and deviceId != ''">
+        #{deviceId},
+    </if>
+    <if test="deviceGuid != null and deviceGuid != ''">
+        #{deviceGuid},
+    </if>
+    <if test="sort != null and sort != ''">
+        #{sort},
+    </if>
+    <if test="version != null and version != ''">
+        #{version},
+    </if>
+    <if test="enableFlag != null and enableFlag != ''">
+        #{enableFlag},
+    </if>
+</trim>
+</insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.commandcenter.model.smp.SmpVehicleDevice">
+        update smp_t_car_device
+        <set >
+            <if test="carGuid != null" >
+                car_guid = #{carGuid,jdbcType=VARCHAR},
+            </if>
+            <if test="deviceId != null" >
+                device_id = #{deviceId,jdbcType=VARCHAR},
+            </if>
+            <if test="deviceType != null" >
+                device_type = #{deviceType,jdbcType=VARCHAR},
+            </if>
+            <if test="sort != null" >
+                sort = #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="deviceGuid != null" >
+                device_guid = #{deviceGuid,jdbcType=VARCHAR},
+            </if>
+            <if test="version != null" >
+                version = #{version,jdbcType=SMALLINT},
+            </if>
+            <if test="enableFlag != null" >
+                enable_flag = #{enableFlag,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <where>
+          <if test="guid != null">
+              guid = #{guid,jdbcType=VARCHAR}
+          </if>
+        </where>
+    </update>
+    <update id="updateVehicleDevice" parameterType="java.util.Map" >
+        update smp_t_car_device
+        <set >
+            <if test="carGuid != null" >
+                car_guid = #{carGuid,jdbcType=VARCHAR},
+            </if>
+            <if test="deviceId != null" >
+                device_id = #{deviceId,jdbcType=VARCHAR},
+            </if>
+            <if test="deviceType != null" >
+                device_type = #{deviceType,jdbcType=VARCHAR},
+            </if>
+            <if test="sort != null" >
+                sort = #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="deviceGuid != null" >
+                device_guid = #{deviceGuid,jdbcType=VARCHAR},
+            </if>
+            <if test="version != null" >
+                version = #{version,jdbcType=SMALLINT},
+            </if>
+            <if test="enableFlag != null" >
+                enable_flag = #{enableFlag,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <where>
+        <if test="oldGuid != null and oldGuid != ''">
+            and guid = #{oldGuid}
+        </if>
+        <if test="oldCarGuid != null and oldCarGuid != ''">
+            and car_guid = #{oldCarGuid}
+        </if>
+        <if test="oldDeviceType != null and oldDeviceType != ''">
+            and device_type = #{oldDeviceType}
+        </if>
+        <if test="oldDeviceId != null and oldDeviceId != ''">
+            and device_id = #{oldDeviceId}
+        </if>
+        <if test="oldDeviceGuid != null and oldDeviceGuid != ''">
+            and device_Guid = #{oldDeviceGuid}
+        </if>
+        <if test="oldDeviceIdList != null">
+            <foreach item="guid" index="index" collection="oldDeviceIdList" open=" and ( " separator="or" close=")">
+                device_id = #{guid}
+            </foreach>
+        </if>
+        <if test="oldDeviceGuidList != null">
+            <foreach item="guid" index="index" collection="oldDeviceGuidList" open=" and ( " separator="or" close=")">
+                device_guid = #{guid}
+            </foreach>
+        </if>
+        <if test="oldCarGuidList != null">
+            <foreach item="guid" index="index" collection="oldCarGuidList" open=" and ( " separator="or" close=")">
+                car_guid = #{guid}
+            </foreach>
+        </if>
+        </where>
+    </update>
+<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from smp_t_car_device
+    WHERE guid=#{guid}
+</delete>
+<delete id="deleteVehicleDevice" parameterType="java.util.Map">
+delete from smp_t_car_device
+<where>
+    <if test="guid != null and guid != ''">
+        and guid = #{guid}
+    </if>
+    <if test="carGuid != null and carGuid != ''">
+        and car_guid = #{carGuid}
+    </if>
+    <if test="deviceType != null and deviceType != ''">
+        and device_type = #{deviceType}
+    </if>
+    <if test="deviceId != null and deviceId != ''">
+        and device_id = #{deviceId}
+    </if>
+    <if test="deviceGuid != null and deviceGuid != ''">
+        and device_Guid = #{deviceGuid}
+    </if>
+    <if test="deviceIdList != null">
+        <foreach item="guid" index="index" collection="deviceIdList" open=" and ( " separator="or" close=")">
+            device_id = #{guid}
+        </foreach>
+    </if>
+</where>
+</delete>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String">
+        select * from smp_t_car_device where guid= #{guid}
+    </select>
+    <select id="queryVehicleDeviceByCondtions" resultMap="VehicleDeviceMap" parameterType="java.util.Map">
+        select * from smp_t_car_device d
+        <where>
+            <if test="carGuid != null and carGuid != ''">
+                and d.car_guid = #{carGuid}
+            </if>
+            <if test="deviceGuid != null and deviceGuid != ''">
+                and d.device_guid = #{deviceGuid}
+            </if>
+            <if test="deviceType != null and deviceType != ''">
+                and d.device_type = #{deviceType}
+            </if>
+            <if test="deviceIdList != null ">
+                and d.device_id in
+                <foreach item="guid" index="index" collection="deviceIdList" open=" ( " separator="," close=")">
+                    #{guid}
+                </foreach>
+            </if>
+            <if test="carGuidList != null">
+                and d.car_guid in
+                <foreach item="guid" index="index" collection="carGuidList" open=" ( " separator="," close=")">
+                    #{guid}
+                </foreach>
+            </if>
+            <if test="deviceTypeArray != null">
+                and d.device_type in
+                <foreach item="deviceType" index="index" collection="deviceTypeArray" open=" ( " separator="," close=")">
+                    #{deviceType}
+                </foreach>
+            </if>
+            <if test="deviceGuidList != null">
+                and d.device_guid in
+                <foreach item="guid" index="index" collection="deviceGuidList" open=" ( " separator="," close=")">
+                    #{guid}
+                </foreach>
+            </if>
+        </where>
+        order by d.sort
+    </select>
+</mapper>

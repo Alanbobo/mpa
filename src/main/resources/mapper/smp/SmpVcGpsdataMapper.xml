@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.commandcenter.dao.smp.SmpVcGpsdataMapper" >
+  <resultMap id="BaseResultMap" type="com.commandcenter.model.smp.SmpVcGpsdata" >
+    <id column="guid" property="guid" jdbcType="VARCHAR" />
+    <result column="device_id" property="deviceId" jdbcType="VARCHAR" />
+    <result column="gps_datetime" property="gpsDatetime" jdbcType="TIMESTAMP" />
+    <result column="longitude" property="longitude" jdbcType="DOUBLE" />
+    <result column="latitude" property="latitude" jdbcType="DOUBLE" />
+    <result column="speed" property="speed" jdbcType="BIGINT" />
+    <result column="mileage" property="mileage" jdbcType="BIGINT" />
+    <result column="position" property="position" jdbcType="VARCHAR" />
+    <result column="direction" property="direction" jdbcType="BIGINT" />
+    <result column="device_type" property="deviceType" jdbcType="BIGINT" />
+    <result column="device_name" property="deviceName" jdbcType="VARCHAR" />
+    <result column="is_online" property="isOnline" jdbcType="BIGINT" />
+    <result column="ischanged" property="ischanged" jdbcType="BIGINT" />
+    <result column="org_id" property="orgId" jdbcType="VARCHAR" />
+    <result column="car_type" property="carType" jdbcType="VARCHAR" />
+    <result column="channel_count" property="channelCount" jdbcType="BIGINT" />
+    <result column="gatew_ip" property="gatewIp" jdbcType="VARCHAR" />
+    <result column="gatew_port" property="gatewPort" jdbcType="VARCHAR" />
+    <result column="gatew_uname" property="gatewUname" jdbcType="VARCHAR" />
+    <result column="gatew_pwd" property="gatewPwd" jdbcType="VARCHAR" />
+    <result column="staff_guid" property="staffGuid" jdbcType="VARCHAR" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="enable_flag" property="enableFlag" jdbcType="SMALLINT" />
+    <result column="source" property="source" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    guid, device_id, gps_datetime, longitude, latitude, speed, mileage, position, direction, 
+    device_type, device_name, is_online, ischanged, org_id, car_type, channel_count, 
+    gatew_ip, gatew_port, gatew_uname, gatew_pwd, staff_guid, create_user, create_time, 
+    update_user, update_time, enable_flag, source
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from smp_t_vc_gpsdata
+    where guid = #{guid,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByStaffGuid" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from smp_t_vc_gpsdata
+    where staff_guid = #{staffGuid,jdbcType=VARCHAR}
+  </select>
+  <update id="unBindVcGpsdata"  parameterType="java.lang.String" >
+    update smp_t_vc_gpsdata SET staff_guid = null where staff_guid = #{staffGuid,jdbcType=VARCHAR}
+  </update>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from smp_t_vc_gpsdata
+    where guid = #{guid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteAllVcgpsdataInfor" parameterType="java.lang.String" >
+    delete from smp_t_vc_gpsdata
+    where 1=1;COMMIT ;
+  </delete>
+  <insert id="insert" parameterType="com.commandcenter.model.smp.SmpVcGpsdata" >
+    insert into smp_t_vc_gpsdata (guid, device_id, gps_datetime, 
+      longitude, latitude, speed, 
+      mileage, position, direction, 
+      device_type, device_name, is_online, 
+      ischanged, org_id, car_type, 
+      channel_count, gatew_ip, gatew_port, 
+      gatew_uname, gatew_pwd, staff_guid, 
+      create_user, create_time, update_user, 
+      update_time, enable_flag, source
+      )
+    values (#{guid,jdbcType=VARCHAR}, #{deviceId,jdbcType=VARCHAR}, #{gpsDatetime,jdbcType=TIMESTAMP}, 
+      #{longitude,jdbcType=DOUBLE}, #{latitude,jdbcType=DOUBLE}, #{speed,jdbcType=BIGINT}, 
+      #{mileage,jdbcType=BIGINT}, #{position,jdbcType=VARCHAR}, #{direction,jdbcType=BIGINT}, 
+      #{deviceType,jdbcType=BIGINT}, #{deviceName,jdbcType=VARCHAR}, #{isOnline,jdbcType=BIGINT}, 
+      #{ischanged,jdbcType=BIGINT}, #{orgId,jdbcType=VARCHAR}, #{carType,jdbcType=VARCHAR}, 
+      #{channelCount,jdbcType=BIGINT}, #{gatewIp,jdbcType=VARCHAR}, #{gatewPort,jdbcType=VARCHAR}, 
+      #{gatewUname,jdbcType=VARCHAR}, #{gatewPwd,jdbcType=VARCHAR}, #{staffGuid,jdbcType=VARCHAR}, 
+      #{createUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{enableFlag,jdbcType=SMALLINT}, #{source,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.commandcenter.model.smp.SmpVcGpsdata" >
+    insert into smp_t_vc_gpsdata
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="guid != null" >
+        guid,
+      </if>
+      <if test="deviceId != null" >
+        device_id,
+      </if>
+      <if test="gpsDatetime != null" >
+        gps_datetime,
+      </if>
+      <if test="longitude != null" >
+        longitude,
+      </if>
+      <if test="latitude != null" >
+        latitude,
+      </if>
+      <if test="speed != null" >
+        speed,
+      </if>
+      <if test="mileage != null" >
+        mileage,
+      </if>
+      <if test="position != null" >
+        position,
+      </if>
+      <if test="direction != null" >
+        direction,
+      </if>
+      <if test="deviceType != null" >
+        device_type,
+      </if>
+      <if test="deviceName != null" >
+        device_name,
+      </if>
+      <if test="isOnline != null" >
+        is_online,
+      </if>
+      <if test="ischanged != null" >
+        ischanged,
+      </if>
+      <if test="orgId != null" >
+        org_id,
+      </if>
+      <if test="carType != null" >
+        car_type,
+      </if>
+      <if test="channelCount != null" >
+        channel_count,
+      </if>
+      <if test="gatewIp != null" >
+        gatew_ip,
+      </if>
+      <if test="gatewPort != null" >
+        gatew_port,
+      </if>
+      <if test="gatewUname != null" >
+        gatew_uname,
+      </if>
+      <if test="gatewPwd != null" >
+        gatew_pwd,
+      </if>
+      <if test="staffGuid != null" >
+        staff_guid,
+      </if>
+      <if test="createUser != null" >
+        create_user,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateUser != null" >
+        update_user,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="enableFlag != null" >
+        enable_flag,
+      </if>
+      <if test="source != null" >
+        source,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="guid != null" >
+        #{guid,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceId != null" >
+        #{deviceId,jdbcType=VARCHAR},
+      </if>
+      <if test="gpsDatetime != null" >
+        #{gpsDatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="longitude != null" >
+        #{longitude,jdbcType=DOUBLE},
+      </if>
+      <if test="latitude != null" >
+        #{latitude,jdbcType=DOUBLE},
+      </if>
+      <if test="speed != null" >
+        #{speed,jdbcType=BIGINT},
+      </if>
+      <if test="mileage != null" >
+        #{mileage,jdbcType=BIGINT},
+      </if>
+      <if test="position != null" >
+        #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="direction != null" >
+        #{direction,jdbcType=BIGINT},
+      </if>
+      <if test="deviceType != null" >
+        #{deviceType,jdbcType=BIGINT},
+      </if>
+      <if test="deviceName != null" >
+        #{deviceName,jdbcType=VARCHAR},
+      </if>
+      <if test="isOnline != null" >
+        #{isOnline,jdbcType=BIGINT},
+      </if>
+      <if test="ischanged != null" >
+        #{ischanged,jdbcType=BIGINT},
+      </if>
+      <if test="orgId != null" >
+        #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="carType != null" >
+        #{carType,jdbcType=VARCHAR},
+      </if>
+      <if test="channelCount != null" >
+        #{channelCount,jdbcType=BIGINT},
+      </if>
+      <if test="gatewIp != null" >
+        #{gatewIp,jdbcType=VARCHAR},
+      </if>
+      <if test="gatewPort != null" >
+        #{gatewPort,jdbcType=VARCHAR},
+      </if>
+      <if test="gatewUname != null" >
+        #{gatewUname,jdbcType=VARCHAR},
+      </if>
+      <if test="gatewPwd != null" >
+        #{gatewPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="staffGuid != null" >
+        #{staffGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enableFlag != null" >
+        #{enableFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="source != null" >
+        #{source,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.commandcenter.model.smp.SmpVcGpsdata" >
+    update smp_t_vc_gpsdata
+    <set >
+      <if test="deviceId != null" >
+        device_id = #{deviceId,jdbcType=VARCHAR},
+      </if>
+      <if test="gpsDatetime != null" >
+        gps_datetime = #{gpsDatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="longitude != null" >
+        longitude = #{longitude,jdbcType=DOUBLE},
+      </if>
+      <if test="latitude != null" >
+        latitude = #{latitude,jdbcType=DOUBLE},
+      </if>
+      <if test="speed != null" >
+        speed = #{speed,jdbcType=BIGINT},
+      </if>
+      <if test="mileage != null" >
+        mileage = #{mileage,jdbcType=BIGINT},
+      </if>
+      <if test="position != null" >
+        position = #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="direction != null" >
+        direction = #{direction,jdbcType=BIGINT},
+      </if>
+      <if test="deviceType != null" >
+        device_type = #{deviceType,jdbcType=BIGINT},
+      </if>
+      <if test="deviceName != null" >
+        device_name = #{deviceName,jdbcType=VARCHAR},
+      </if>
+      <if test="isOnline != null" >
+        is_online = #{isOnline,jdbcType=BIGINT},
+      </if>
+      <if test="ischanged != null" >
+        ischanged = #{ischanged,jdbcType=BIGINT},
+      </if>
+      <if test="orgId != null" >
+        org_id = #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="carType != null" >
+        car_type = #{carType,jdbcType=VARCHAR},
+      </if>
+      <if test="channelCount != null" >
+        channel_count = #{channelCount,jdbcType=BIGINT},
+      </if>
+      <if test="gatewIp != null" >
+        gatew_ip = #{gatewIp,jdbcType=VARCHAR},
+      </if>
+      <if test="gatewPort != null" >
+        gatew_port = #{gatewPort,jdbcType=VARCHAR},
+      </if>
+      <if test="gatewUname != null" >
+        gatew_uname = #{gatewUname,jdbcType=VARCHAR},
+      </if>
+      <if test="gatewPwd != null" >
+        gatew_pwd = #{gatewPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="staffGuid != null" >
+        staff_guid = #{staffGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enableFlag != null" >
+        enable_flag = #{enableFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="source != null" >
+        source = #{source,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where guid = #{guid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.commandcenter.model.smp.SmpVcGpsdata" >
+    update smp_t_vc_gpsdata
+    set device_id = #{deviceId,jdbcType=VARCHAR},
+      gps_datetime = #{gpsDatetime,jdbcType=TIMESTAMP},
+      longitude = #{longitude,jdbcType=DOUBLE},
+      latitude = #{latitude,jdbcType=DOUBLE},
+      speed = #{speed,jdbcType=BIGINT},
+      mileage = #{mileage,jdbcType=BIGINT},
+      position = #{position,jdbcType=VARCHAR},
+      direction = #{direction,jdbcType=BIGINT},
+      device_type = #{deviceType,jdbcType=BIGINT},
+      device_name = #{deviceName,jdbcType=VARCHAR},
+      is_online = #{isOnline,jdbcType=BIGINT},
+      ischanged = #{ischanged,jdbcType=BIGINT},
+      org_id = #{orgId,jdbcType=VARCHAR},
+      car_type = #{carType,jdbcType=VARCHAR},
+      channel_count = #{channelCount,jdbcType=BIGINT},
+      gatew_ip = #{gatewIp,jdbcType=VARCHAR},
+      gatew_port = #{gatewPort,jdbcType=VARCHAR},
+      gatew_uname = #{gatewUname,jdbcType=VARCHAR},
+      gatew_pwd = #{gatewPwd,jdbcType=VARCHAR},
+      staff_guid = #{staffGuid,jdbcType=VARCHAR},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      enable_flag = #{enableFlag,jdbcType=SMALLINT},
+      source = #{source,jdbcType=VARCHAR}
+    where guid = #{guid,jdbcType=VARCHAR}
+  </update>
+  <select id="selectVcsGpsCount" resultType="java.lang.Integer">
+    select COUNT(*) from smp_t_vc_gpsdata;
+  </select>
+</mapper>

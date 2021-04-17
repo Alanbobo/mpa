@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.commandcenter.dao.smp.SmpStaffExMapper" >
+  <resultMap id="BaseResultMap" type="com.commandcenter.model.smp.SmpStaffEx" >
+    <id column="guid" property="guid" jdbcType="VARCHAR" />
+    <result column="staff_id" property="staffId" jdbcType="VARCHAR" />
+    <result column="jwt_no" property="jwtNo" jdbcType="VARCHAR" />
+    <result column="jobyearscur" property="jobyearscur" jdbcType="VARCHAR" />
+    <result column="jobyearsinner" property="jobyearsinner" jdbcType="VARCHAR" />
+    <result column="jobyearsout" property="jobyearsout" jdbcType="VARCHAR" />
+    <result column="borthplace" property="borthplace" jdbcType="VARCHAR" />
+    <result column="borthday" property="borthday" jdbcType="TIMESTAMP" />
+    <result column="school" property="school" jdbcType="VARCHAR" />
+    <result column="edudomain" property="edudomain" jdbcType="VARCHAR" />
+    <result column="bloodtype" property="bloodtype" jdbcType="VARCHAR" />
+    <result column="localism" property="localism" jdbcType="VARCHAR" />
+    <result column="foreignlanguage" property="foreignlanguage" jdbcType="VARCHAR" />
+    <result column="procertificate" property="procertificate" jdbcType="VARCHAR" />
+    <result column="seriousillness" property="seriousillness" jdbcType="VARCHAR" />
+    <result column="staminaexamine" property="staminaexamine" jdbcType="VARCHAR" />
+    <result column="messexp" property="messexp" jdbcType="VARCHAR" />
+    <result column="missionhours" property="missionhours" jdbcType="VARCHAR" />
+    <result column="awardorpunish" property="awardorpunish" jdbcType="VARCHAR" />
+    <result column="featureskill" property="featureskill" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="deleteflag" property="deleteflag" jdbcType="VARCHAR" />
+    <result column="rowstamp" property="rowstamp" jdbcType="TIMESTAMP" />
+    <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    guid, staff_id, jwt_no, jobyearscur, jobyearsinner, jobyearsout, borthplace, borthday, 
+    school, edudomain, bloodtype, localism, foreignlanguage, procertificate, seriousillness, 
+    staminaexamine, messexp, missionhours, awardorpunish, featureskill, createtime, deleteflag, 
+    rowstamp, updatetime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from smp_t_staff_ex
+    where guid = #{guid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from smp_t_staff_ex
+    where guid = #{guid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.commandcenter.model.smp.SmpStaffEx" >
+    insert into smp_t_staff_ex (guid, staff_id, jwt_no, 
+      jobyearscur, jobyearsinner, jobyearsout, 
+      borthplace, borthday, school, 
+      edudomain, bloodtype, localism, 
+      foreignlanguage, procertificate, seriousillness, 
+      staminaexamine, messexp, missionhours, 
+      awardorpunish, featureskill, createtime, 
+      deleteflag, rowstamp, updatetime
+      )
+    values (#{guid,jdbcType=VARCHAR}, #{staffId,jdbcType=VARCHAR}, #{jwtNo,jdbcType=VARCHAR}, 
+      #{jobyearscur,jdbcType=VARCHAR}, #{jobyearsinner,jdbcType=VARCHAR}, #{jobyearsout,jdbcType=VARCHAR}, 
+      #{borthplace,jdbcType=VARCHAR}, #{borthday,jdbcType=TIMESTAMP}, #{school,jdbcType=VARCHAR}, 
+      #{edudomain,jdbcType=VARCHAR}, #{bloodtype,jdbcType=VARCHAR}, #{localism,jdbcType=VARCHAR}, 
+      #{foreignlanguage,jdbcType=VARCHAR}, #{procertificate,jdbcType=VARCHAR}, #{seriousillness,jdbcType=VARCHAR}, 
+      #{staminaexamine,jdbcType=VARCHAR}, #{messexp,jdbcType=VARCHAR}, #{missionhours,jdbcType=VARCHAR}, 
+      #{awardorpunish,jdbcType=VARCHAR}, #{featureskill,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{deleteflag,jdbcType=VARCHAR}, #{rowstamp,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.commandcenter.model.smp.SmpStaffEx" >
+    insert into smp_t_staff_ex
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="guid != null" >
+        guid,
+      </if>
+      <if test="staffId != null" >
+        staff_id,
+      </if>
+      <if test="jwtNo != null" >
+        jwt_no,
+      </if>
+      <if test="jobyearscur != null" >
+        jobyearscur,
+      </if>
+      <if test="jobyearsinner != null" >
+        jobyearsinner,
+      </if>
+      <if test="jobyearsout != null" >
+        jobyearsout,
+      </if>
+      <if test="borthplace != null" >
+        borthplace,
+      </if>
+      <if test="borthday != null" >
+        borthday,
+      </if>
+      <if test="school != null" >
+        school,
+      </if>
+      <if test="edudomain != null" >
+        edudomain,
+      </if>
+      <if test="bloodtype != null" >
+        bloodtype,
+      </if>
+      <if test="localism != null" >
+        localism,
+      </if>
+      <if test="foreignlanguage != null" >
+        foreignlanguage,
+      </if>
+      <if test="procertificate != null" >
+        procertificate,
+      </if>
+      <if test="seriousillness != null" >
+        seriousillness,
+      </if>
+      <if test="staminaexamine != null" >
+        staminaexamine,
+      </if>
+      <if test="messexp != null" >
+        messexp,
+      </if>
+      <if test="missionhours != null" >
+        missionhours,
+      </if>
+      <if test="awardorpunish != null" >
+        awardorpunish,
+      </if>
+      <if test="featureskill != null" >
+        featureskill,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="deleteflag != null" >
+        deleteflag,
+      </if>
+      <if test="rowstamp != null" >
+        rowstamp,
+      </if>
+      <if test="updatetime != null" >
+        updatetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="guid != null" >
+        #{guid,jdbcType=VARCHAR},
+      </if>
+      <if test="staffId != null" >
+        #{staffId,jdbcType=VARCHAR},
+      </if>
+      <if test="jwtNo != null" >
+        #{jwtNo,jdbcType=VARCHAR},
+      </if>
+      <if test="jobyearscur != null" >
+        #{jobyearscur,jdbcType=VARCHAR},
+      </if>
+      <if test="jobyearsinner != null" >
+        #{jobyearsinner,jdbcType=VARCHAR},
+      </if>
+      <if test="jobyearsout != null" >
+        #{jobyearsout,jdbcType=VARCHAR},
+      </if>
+      <if test="borthplace != null" >
+        #{borthplace,jdbcType=VARCHAR},
+      </if>
+      <if test="borthday != null" >
+        #{borthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="school != null" >
+        #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="edudomain != null" >
+        #{edudomain,jdbcType=VARCHAR},
+      </if>
+      <if test="bloodtype != null" >
+        #{bloodtype,jdbcType=VARCHAR},
+      </if>
+      <if test="localism != null" >
+        #{localism,jdbcType=VARCHAR},
+      </if>
+      <if test="foreignlanguage != null" >
+        #{foreignlanguage,jdbcType=VARCHAR},
+      </if>
+      <if test="procertificate != null" >
+        #{procertificate,jdbcType=VARCHAR},
+      </if>
+      <if test="seriousillness != null" >
+        #{seriousillness,jdbcType=VARCHAR},
+      </if>
+      <if test="staminaexamine != null" >
+        #{staminaexamine,jdbcType=VARCHAR},
+      </if>
+      <if test="messexp != null" >
+        #{messexp,jdbcType=VARCHAR},
+      </if>
+      <if test="missionhours != null" >
+        #{missionhours,jdbcType=VARCHAR},
+      </if>
+      <if test="awardorpunish != null" >
+        #{awardorpunish,jdbcType=VARCHAR},
+      </if>
+      <if test="featureskill != null" >
+        #{featureskill,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteflag != null" >
+        #{deleteflag,jdbcType=VARCHAR},
+      </if>
+      <if test="rowstamp != null" >
+        #{rowstamp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.commandcenter.model.smp.SmpStaffEx" >
+    update smp_t_staff_ex
+    <set >
+      <if test="staffId != null" >
+        staff_id = #{staffId,jdbcType=VARCHAR},
+      </if>
+      <if test="jwtNo != null" >
+        jwt_no = #{jwtNo,jdbcType=VARCHAR},
+      </if>
+      <if test="jobyearscur != null" >
+        jobyearscur = #{jobyearscur,jdbcType=VARCHAR},
+      </if>
+      <if test="jobyearsinner != null" >
+        jobyearsinner = #{jobyearsinner,jdbcType=VARCHAR},
+      </if>
+      <if test="jobyearsout != null" >
+        jobyearsout = #{jobyearsout,jdbcType=VARCHAR},
+      </if>
+      <if test="borthplace != null" >
+        borthplace = #{borthplace,jdbcType=VARCHAR},
+      </if>
+      <if test="borthday != null" >
+        borthday = #{borthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="school != null" >
+        school = #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="edudomain != null" >
+        edudomain = #{edudomain,jdbcType=VARCHAR},
+      </if>
+      <if test="bloodtype != null" >
+        bloodtype = #{bloodtype,jdbcType=VARCHAR},
+      </if>
+      <if test="localism != null" >
+        localism = #{localism,jdbcType=VARCHAR},
+      </if>
+      <if test="foreignlanguage != null" >
+        foreignlanguage = #{foreignlanguage,jdbcType=VARCHAR},
+      </if>
+      <if test="procertificate != null" >
+        procertificate = #{procertificate,jdbcType=VARCHAR},
+      </if>
+      <if test="seriousillness != null" >
+        seriousillness = #{seriousillness,jdbcType=VARCHAR},
+      </if>
+      <if test="staminaexamine != null" >
+        staminaexamine = #{staminaexamine,jdbcType=VARCHAR},
+      </if>
+      <if test="messexp != null" >
+        messexp = #{messexp,jdbcType=VARCHAR},
+      </if>
+      <if test="missionhours != null" >
+        missionhours = #{missionhours,jdbcType=VARCHAR},
+      </if>
+      <if test="awardorpunish != null" >
+        awardorpunish = #{awardorpunish,jdbcType=VARCHAR},
+      </if>
+      <if test="featureskill != null" >
+        featureskill = #{featureskill,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteflag != null" >
+        deleteflag = #{deleteflag,jdbcType=VARCHAR},
+      </if>
+      <if test="rowstamp != null" >
+        rowstamp = #{rowstamp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where guid = #{guid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.commandcenter.model.smp.SmpStaffEx" >
+    update smp_t_staff_ex
+    set staff_id = #{staffId,jdbcType=VARCHAR},
+      jwt_no = #{jwtNo,jdbcType=VARCHAR},
+      jobyearscur = #{jobyearscur,jdbcType=VARCHAR},
+      jobyearsinner = #{jobyearsinner,jdbcType=VARCHAR},
+      jobyearsout = #{jobyearsout,jdbcType=VARCHAR},
+      borthplace = #{borthplace,jdbcType=VARCHAR},
+      borthday = #{borthday,jdbcType=TIMESTAMP},
+      school = #{school,jdbcType=VARCHAR},
+      edudomain = #{edudomain,jdbcType=VARCHAR},
+      bloodtype = #{bloodtype,jdbcType=VARCHAR},
+      localism = #{localism,jdbcType=VARCHAR},
+      foreignlanguage = #{foreignlanguage,jdbcType=VARCHAR},
+      procertificate = #{procertificate,jdbcType=VARCHAR},
+      seriousillness = #{seriousillness,jdbcType=VARCHAR},
+      staminaexamine = #{staminaexamine,jdbcType=VARCHAR},
+      messexp = #{messexp,jdbcType=VARCHAR},
+      missionhours = #{missionhours,jdbcType=VARCHAR},
+      awardorpunish = #{awardorpunish,jdbcType=VARCHAR},
+      featureskill = #{featureskill,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      deleteflag = #{deleteflag,jdbcType=VARCHAR},
+      rowstamp = #{rowstamp,jdbcType=TIMESTAMP},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP}
+    where guid = #{guid,jdbcType=VARCHAR}
+  </update>
+</mapper>

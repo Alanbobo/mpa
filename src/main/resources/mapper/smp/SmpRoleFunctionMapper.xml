@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.commandcenter.dao.smp.SmpRoleFunctionMapper" >
+  <resultMap id="BaseResultMap" type="com.commandcenter.model.smp.SmpRoleFunctionInfo" >
+    <result column="guid" property="guid" jdbcType="VARCHAR" />
+    <result column="function_guid" property="functionGuid" jdbcType="VARCHAR" />
+    <result column="role_guid" property="roleGuid" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <insert id="insert" parameterType="com.commandcenter.model.smp.SmpRoleUser" >
+    insert into smp_t_role_function (guid, function_guid, role_guid,code
+      )
+    values (#{guid,jdbcType=VARCHAR}, #{functionGuid,jdbcType=VARCHAR}, #{roleGuid,jdbcType=VARCHAR},#{code,jdbcType=VARCHAR}
+      )
+  </insert>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from smp_t_role_function
+    where code = #{code,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteAllRoleFunctionInfo" >
+    delete from smp_t_role_function
+    where 1=1
+  </delete>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    *
+    from smp_t_role_function
+    where code = #{code,jdbcType=VARCHAR}
+  </select>
+  <select id="selectFunctionByuserCode" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select fr.* from smp_t_role_function fr left join smp_t_role_info r on fr.role_guid=r.guid left join smp_t_role_user ru on r.guid = ru.role_guid left join smp_t_user_info u on ru.user_guid = u.guid where u.user_code=#{userCode,jdbcType=VARCHAR} and fr.code is NOT  null
+  </select>
+
+
+</mapper>

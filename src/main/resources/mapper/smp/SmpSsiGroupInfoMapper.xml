@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.commandcenter.dao.smp.SmpSsiGroupInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.commandcenter.model.smp.SmpSsiGroupInfo" >
+    <id column="guid" property="guid" jdbcType="VARCHAR" />
+    <result column="puc_id" property="pucId" jdbcType="VARCHAR" />
+    <result column="system_id" property="systemId" jdbcType="VARCHAR" />
+    <result column="group_id" property="groupId" jdbcType="VARCHAR" />
+    <result column="group_name" property="groupName" jdbcType="VARCHAR" />
+    <result column="number_type" property="numberType" jdbcType="VARCHAR" />
+    <result column="isvalid" property="isvalid" jdbcType="VARCHAR" />
+    <result column="createuser" property="createuser" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="updateuser" property="updateuser" jdbcType="VARCHAR" />
+    <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="org_guid" property="orgGuid" jdbcType="VARCHAR" />
+    <result column="org_identifier" property="orgIdentifier" jdbcType="VARCHAR" />
+    <result column="system_no" property="systemNo" jdbcType="VARCHAR" />
+    <result column="enable_flag" property="enableFlag" jdbcType="SMALLINT" />
+    <result column="source" property="source" jdbcType="VARCHAR" />
+    <result column="alias" property="alias" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ContactsGroup" type="com.commandcenter.model.contacts.GroupForApp">
+    <result column="guid" property="smartonegroupGuid" jdbcType="VARCHAR"/>
+    <result column="group_id" property="groupId" jdbcType="VARCHAR"/>
+    <result column="group_name" property="cmdName" jdbcType="VARCHAR"/>
+    <result column="enable_flag" property="enableFlag" jdbcType="VARCHAR"/>
+    <result column="puc_id" property="pucId" jdbcType="VARCHAR"/>
+    <result column="alias" property="smartonegroupAlias" jdbcType="VARCHAR"/>
+    <result column="number_type" property="smartonegroupNumber" jdbcType="VARCHAR"/>
+    <result column="org_guid" property="parentOrgGuid" jdbcType="VARCHAR"/>
+    <result column="system_id" property="systemId" jdbcType="VARCHAR"/>
+    <result column="org_name" property="orgName" jdbcType="VARCHAR"/>
+    <result column="dataType" property="dataType" jdbcType="INTEGER"/>
+    <result column="version" property="version" jdbcType="INTEGER"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    guid, puc_id, system_id, group_id, group_name, number_type, isvalid, createuser, 
+    createtime, updateuser, updatetime, remark, org_guid, org_identifier, system_no, 
+    enable_flag, source, alias
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from smp_t_ssi_group_info
+    where guid = #{guid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from smp_t_ssi_group_info
+    where guid = #{guid,jdbcType=VARCHAR}
+  </delete>
+
+  <delete id="deleteByPrimaryKeyLogic" parameterType="com.commandcenter.model.smp.SmpSsiGroupInfo">
+    update smp_t_ssi_group_info set
+    enable_flag=0
+    ,version=#{version}
+    where guid=#{guid}
+  </delete>
+  <insert id="insert" parameterType="com.commandcenter.model.smp.SmpSsiGroupInfo" >
+    insert into smp_t_ssi_group_info (guid, puc_id, system_id, 
+      group_id, group_name, number_type, 
+      isvalid, createuser, createtime, 
+      updateuser, updatetime, remark, 
+      org_guid, org_identifier, system_no, 
+      enable_flag, source, alias
+      )
+    values (#{guid,jdbcType=VARCHAR}, #{pucId,jdbcType=VARCHAR}, #{systemId,jdbcType=VARCHAR}, 
+      #{groupId,jdbcType=VARCHAR}, #{groupName,jdbcType=VARCHAR}, #{numberType,jdbcType=VARCHAR}, 
+      #{isvalid,jdbcType=VARCHAR}, #{createuser,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, 
+      #{orgGuid,jdbcType=VARCHAR}, #{orgIdentifier,jdbcType=VARCHAR}, #{systemNo,jdbcType=VARCHAR}, 
+      #{enableFlag,jdbcType=SMALLINT}, #{source,jdbcType=VARCHAR}, #{alias,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.commandcenter.model.smp.SmpSsiGroupInfo" >
+    insert into smp_t_ssi_group_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="guid != null" >
+        guid,
+      </if>
+      <if test="pucId != null" >
+        puc_id,
+      </if>
+      <if test="systemId != null" >
+        system_id,
+      </if>
+      <if test="groupId != null" >
+        group_id,
+      </if>
+      <if test="groupName != null" >
+        group_name,
+      </if>
+      <if test="numberType != null" >
+        number_type,
+      </if>
+      <if test="isvalid != null" >
+        isvalid,
+      </if>
+      <if test="createuser != null" >
+        createuser,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="updateuser != null" >
+        updateuser,
+      </if>
+      <if test="updatetime != null" >
+        updatetime,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="orgGuid != null" >
+        org_guid,
+      </if>
+      <if test="orgIdentifier != null" >
+        org_identifier,
+      </if>
+      <if test="systemNo != null" >
+        system_no,
+      </if>
+      <if test="enableFlag != null" >
+        enable_flag,
+      </if>
+      <if test="source != null" >
+        source,
+      </if>
+      <if test="alias != null" >
+        alias,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="guid != null" >
+        #{guid,jdbcType=VARCHAR},
+      </if>
+      <if test="pucId != null" >
+        #{pucId,jdbcType=VARCHAR},
+      </if>
+      <if test="systemId != null" >
+        #{systemId,jdbcType=VARCHAR},
+      </if>
+      <if test="groupId != null" >
+        #{groupId,jdbcType=VARCHAR},
+      </if>
+      <if test="groupName != null" >
+        #{groupName,jdbcType=VARCHAR},
+      </if>
+      <if test="numberType != null" >
+        #{numberType,jdbcType=VARCHAR},
+      </if>
+      <if test="isvalid != null" >
+        #{isvalid,jdbcType=VARCHAR},
+      </if>
+      <if test="createuser != null" >
+        #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null" >
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="orgGuid != null" >
+        #{orgGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="orgIdentifier != null" >
+        #{orgIdentifier,jdbcType=VARCHAR},
+      </if>
+      <if test="systemNo != null" >
+        #{systemNo,jdbcType=VARCHAR},
+      </if>
+      <if test="enableFlag != null" >
+        #{enableFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="source != null" >
+        #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="alias != null" >
+        #{alias,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.commandcenter.model.smp.SmpSsiGroupInfo" >
+    update smp_t_ssi_group_info
+    <set >
+      <if test="pucId != null" >
+        puc_id = #{pucId,jdbcType=VARCHAR},
+      </if>
+      <if test="systemId != null" >
+        system_id = #{systemId,jdbcType=VARCHAR},
+      </if>
+      <if test="groupId != null" >
+        group_id = #{groupId,jdbcType=VARCHAR},
+      </if>
+      <if test="groupName != null" >
+        group_name = #{groupName,jdbcType=VARCHAR},
+      </if>
+      <if test="numberType != null" >
+        number_type = #{numberType,jdbcType=VARCHAR},
+      </if>
+      <if test="isvalid != null" >
+        isvalid = #{isvalid,jdbcType=VARCHAR},
+      </if>
+      <if test="createuser != null" >
+        createuser = #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null" >
+        updateuser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="orgGuid != null" >
+        org_guid = #{orgGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="orgIdentifier != null" >
+        org_identifier = #{orgIdentifier,jdbcType=VARCHAR},
+      </if>
+      <if test="systemNo != null" >
+        system_no = #{systemNo,jdbcType=VARCHAR},
+      </if>
+      <if test="enableFlag != null" >
+        enable_flag = #{enableFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="source != null" >
+        source = #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="alias != null" >
+        alias = #{alias,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where guid = #{guid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.commandcenter.model.smp.SmpSsiGroupInfo" >
+    update smp_t_ssi_group_info
+    set puc_id = #{pucId,jdbcType=VARCHAR},
+      system_id = #{systemId,jdbcType=VARCHAR},
+      group_id = #{groupId,jdbcType=VARCHAR},
+      group_name = #{groupName,jdbcType=VARCHAR},
+      number_type = #{numberType,jdbcType=VARCHAR},
+      isvalid = #{isvalid,jdbcType=VARCHAR},
+      createuser = #{createuser,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      updateuser = #{updateuser,jdbcType=VARCHAR},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR},
+      org_guid = #{orgGuid,jdbcType=VARCHAR},
+      org_identifier = #{orgIdentifier,jdbcType=VARCHAR},
+      system_no = #{systemNo,jdbcType=VARCHAR},
+      enable_flag = #{enableFlag,jdbcType=SMALLINT},
+      source = #{source,jdbcType=VARCHAR},
+      alias = #{alias,jdbcType=VARCHAR}
+    where guid = #{guid,jdbcType=VARCHAR}
+  </update>
+  <delete id="deleteAllGroupInfo">
+    DELETE FROM smp_t_ssi_group_info where 1=1; COMMIT
+  </delete>
+
+  <!--会返回所有数据，包括已经删除的数据-->
+  <select id="selectGroupInfoByMap" resultMap="ContactsGroup" parameterType="java.util.Map">
+    SELECT
+    <include refid="Base_Column_List"/>
+    from smp_t_ssi_group_info
+    <where>
+      <if test="version != null and version!='' ">
+        and version &gt; #{version}
+      </if>
+    </where>
+  </select>
+  <!--and enable_flag='1'-->
+
+  <select id="selectAllGroupInfo" resultMap="ContactsGroup">
+    SELECT guid,group_name,group_id,createuser,alias from smp_t_ssi_group_info where enable_flag='1' and org_guid=#{orgGuid,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectSsiGroupCount" resultType="java.lang.Integer">
+    select COUNT(*) from smp_t_ssi_group_info
+  </select>
+
+
+</mapper>

@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.commandcenter.dao.casedao.MpatFeedbackFileDao">
+    <!-- MpatFeedbackFile的resultMap,column是给数据库列起的别名,它对应property类的属性-->
+    <resultMap id="result_MpatFeedbackFile_Map" type="com.commandcenter.model.casemodel.MpatFeedbackFile">
+        <result column="id" property="id" />
+        <result column="feedback_id" property="feedbackId" />
+        <result column="file_url" property="fileUrl" />
+        <result column="file_type" property="fileType" />
+        <result column="file_name" property="fileName" />
+        <result column="case_id" property="caseId" />
+        <result column="creater" property="creater" />
+        <result column="file_time" property="fileTime" />
+        <result column="remark" property="remark" />
+        <result column="longitude" property="longitude" />
+        <result column="latitude" property="latitude" />
+        <result column="file_size" property="fileSize" />
+        <result column="file_suffix" property="fileSuffix" />
+        <result column="file_encode" property="fileEncode" />
+        <result column="file_guid" property="fileGuid" />
+        <result column="original_id" property="originalId" />
+    </resultMap>
+
+    <resultMap id="ModelMap" type="com.commandcenter.model.wcf.FeedBackFileModel">
+        <result column="ID" property="id" jdbcType="VARCHAR"/>
+        <result column="FILE_URL" property="fileUrl" jdbcType="VARCHAR"/>
+        <result column="FILE_TYPE" property="fileType" jdbcType="VARCHAR"/>
+        <result column="FILE_NAME" property="fileName" jdbcType="VARCHAR"/>
+        <result column="FILE_TIME" property="fileTime" jdbcType="TIMESTAMP"/>
+        <result column="FILE_SIZE" property="fileSize" jdbcType="VARCHAR"/>
+        <result column="audio_size" property="audioSize" jdbcType="NUMERIC"/>
+        <result column="FILE_SUFFIX" property="fileSuffix" jdbcType="VARCHAR"/>
+        <result column="FILE_ENCODE" property="fileEncode" jdbcType="VARCHAR"/>
+        <result column="FEEDBACK_ID" property="feedBackId" jdbcType="VARCHAR"/>
+        <result column="CASE_ID" property="caseId" jdbcType="VARCHAR"/>
+        <result column="FILE_GUID" property="fileGuid" jdbcType="VARCHAR"/>
+        <result column="ORIGINAL_ID" property="originalId" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!-- 数据库中表名为:mpa_t_feedback_file的列名,as前是数据库的列明,as后是列的别名用于映射成实体类中的属性,需要注意的是别名必须与resultMap中的column别名一致 -->
+    <sql id="mpa_t_feedback_file_Column">
+        mpa_t_feedback_file.id as id
+        ,mpa_t_feedback_file.feedback_id as feedback_id
+        ,mpa_t_feedback_file.file_url as file_url
+        ,mpa_t_feedback_file.file_type as file_type
+        ,mpa_t_feedback_file.file_name as file_name
+        ,mpa_t_feedback_file.case_id as case_id
+        ,mpa_t_feedback_file.creater as creater
+        ,mpa_t_feedback_file.file_time as file_time
+        ,mpa_t_feedback_file.remark as remark
+        ,mpa_t_feedback_file.longitude as longitude
+        ,mpa_t_feedback_file.latitude as latitude
+        ,mpa_t_feedback_file.file_size as file_size
+        ,mpa_t_feedback_file.file_suffix as file_suffix
+        ,mpa_t_feedback_file.file_encode as file_encode
+        ,mpa_t_feedback_file.file_guid as file_guid
+        ,mpa_t_feedback_file.original_id as original_id
+    </sql>
+
+    <!--获得类名为:MpatFeedbackFile对应的数据库表的数据总行数 -->
+    <select id="getMpatFeedbackFileRowCount" resultType="java.lang.Long">
+        select count(*) from mpa_t_feedback_file
+    </select>
+    <!-- 获得类名为:MpatFeedbackFile对应数据库中表的数据集合 -->
+    <select id="selectMpatFeedbackFile" resultMap="result_MpatFeedbackFile_Map">
+        select 
+        <include refid="mpa_t_feedback_file_Column" /> 
+        from mpa_t_feedback_file
+    </select>
+
+    <select id="selectFileByFeedbackId" resultMap="ModelMap" parameterType="java.lang.String">
+        select
+        t.ID,t.FILE_URL,t.FILE_NAME,t.FILE_TIME,t.FILE_SIZE,t.FILE_SUFFIX,t.FILE_ENCODE,t.FEEDBACK_ID,t.CASE_ID, t.FILE_TYPE, t.FILE_GUID,t.ORIGINAL_ID
+        FROM
+        mpa_t_feedback_file t
+        where
+        t.feedback_id=#{_parameter}
+        order by t.FILE_TIME desc
+    </select>
+
+    <select id="selectFileListByCaseId" resultMap="ModelMap" parameterType="java.lang.String">
+        select
+        t.ID,t.FILE_URL,t.FILE_NAME,t.FILE_TIME,t.FILE_SIZE,t.FILE_SUFFIX,t.FILE_ENCODE,t.FEEDBACK_ID,t.CASE_ID, t.FILE_TYPE, t.FILE_GUID,t.ORIGINAL_ID,t.audio_size
+        FROM
+        mpa_t_feedback_file t
+        where
+        t.feedback_id in
+        (select id from VCS_T_CASE_FEEDBACK where CASE_ID = #{caseId})
+        order by t.FILE_TIME desc
+    </select>
+    <!-- 将MpatFeedbackFile插入到对应数据库的表中,包括属性值为null的数据-->
+
+    <insert id="insertMpatFeedbackFile" parameterType="com.commandcenter.model.casemodel.MpatFeedbackFile">
+        insert into mpa_t_feedback_file(id,feedback_id,file_url,file_type,file_name,case_id,creater,file_time,remark,longitude,latitude,file_size,file_suffix,file_encode,file_guid,original_id) 
+        values(#{id},#{feedbackId},#{fileUrl},#{fileType},#{fileName},#{caseId},#{creater},#{fileTime},#{remark},#{longitude},#{latitude},#{fileSize},#{fileSuffix},#{fileEncode},#{fileGuid},#{originalId})
+    </insert>
+
+    <!-- 将MpatFeedbackFile中属性值不为null的数据,插入到对应数据库的表中-->
+    <insert id="insertNonEmptyMpatFeedbackFile" parameterType="com.commandcenter.model.casemodel.MpatFeedbackFile">
+        insert into mpa_t_feedback_file
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="feedbackId != null">feedback_id,</if>
+            <if test="fileUrl != null">file_url,</if>
+            <if test="fileType != null">file_type,</if>
+            <if test="fileName != null">file_name,</if>
+            <if test="caseId != null">case_id,</if>
+            <if test="creater != null">creater,</if>
+            <if test="fileTime != null">file_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="longitude != null">longitude,</if>
+            <if test="latitude != null">latitude,</if>
+            <if test="fileSize != null">file_size,</if>
+            <if test="fileSuffix != null">file_suffix,</if>
+            <if test="fileEncode != null">file_encode,</if>
+            <if test="fileGuid != null">file_guid,</if>
+            <if test="originalId != null">original_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null"> #{id},</if>
+            <if test="feedbackId != null"> #{feedbackId},</if>
+            <if test="fileUrl != null"> #{fileUrl},</if>
+            <if test="fileType != null"> #{fileType},</if>
+            <if test="fileName != null"> #{fileName},</if>
+            <if test="caseId != null"> #{caseId},</if>
+            <if test="creater != null"> #{creater},</if>
+            <if test="fileTime != null"> #{fileTime},</if>
+            <if test="remark != null"> #{remark},</if>
+            <if test="longitude != null"> #{longitude},</if>
+            <if test="latitude != null"> #{latitude},</if>
+            <if test="fileSize != null"> #{fileSize},</if>
+            <if test="fileSuffix != null"> #{fileSuffix},</if>
+            <if test="fileEncode != null"> #{fileEncode},</if>
+            <if test="fileGuid != null"> #{fileGuid},</if>
+            <if test="originalId != null"> #{originalId},</if>
+        </trim>
+    </insert>
+
+    <update id="updateFileFeedbackId" parameterType="map">
+        update MPA_T_FEEDBACK_FILE
+        <set>
+
+            <if test="feedbackId != null">
+                FEEDBACK_ID = #{feedbackId,jdbcType=VARCHAR}
+            </if>
+
+
+        </set>
+        where ORIGINAL_ID = #{originalId, jdbcType=VARCHAR}
+    </update>
+
+    <delete id="deleteByFeedbackId" parameterType="java.lang.String">
+      delete from MPA_T_FEEDBACK_FILE
+      where feedback_id = #{feedbackId}
+    </delete>
+
+    <insert id="batchInsert" parameterType="java.util.List" >
+        insert into mpa_t_feedback_file(feedback_id,file_url,file_type,file_name,case_id,creater,file_time,
+        remark,longitude,latitude,file_size,file_suffix,file_encode,file_guid,original_id,audio_size)
+        values
+        <foreach collection="list" item="item" index="index" separator="," >
+            (
+            #{item.feedbackId},#{item.fileUrl},#{item.fileType},#{item.fileName},#{item.caseId},#{item.creater},#{item.fileTime},#{item.remark},
+            #{item.longitude},#{item.latitude},#{item.fileSize},#{item.fileSuffix},#{item.fileEncode},#{item.fileGuid},#{item.originalId},#{item.audioSize}
+            )
+        </foreach>
+    </insert>
+
+</mapper>

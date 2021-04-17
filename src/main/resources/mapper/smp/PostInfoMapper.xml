@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.commandcenter.dao.smp.PostInfoMapper">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.commandcenter.model.smp.PostInfo" id="postInfoMap">
+        <result property="guid" column="guid" jdbcType="VARCHAR"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="shortName" column="short_name" jdbcType="VARCHAR"/>
+        <result property="taskType" column="task_type" jdbcType="VARCHAR"/>
+        <result property="orgGuid" column="org_guid" jdbcType="VARCHAR"/>
+        <result property="orgName" column="org_name" jdbcType="VARCHAR"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
+        <result property="createUser" column="create_user" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateUser" column="update_user" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="enableFlag" column="enable_flag" jdbcType="SMALLINT"/>
+        <result property="version" column="version" jdbcType="BIGINT"/>
+        <result property="sort" column="sort" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="selectPostInfocolumn">
+        select v.guid  , v.name  , v.short_name  , v.task_type  ,  v.org_guid,o.org_name , v.remark  ,
+        v.create_user  , v.create_time  , v.update_user  , v.update_time  , v.enable_flag  , v.version,v.sort
+        from smp_t_post_info v,smp_t_org_info o
+    </sql>
+
+
+    <select id="selectPostInfoList" parameterType="java.util.HashMap" resultMap="postInfoMap">
+        <include refid="selectPostInfocolumn"/>
+        <where>
+            v.org_guid=o.guid
+            <if test="orgGuid != null and orgGuid != ''">
+                <choose>
+                    <when test='isLowerLevel=="0"'>
+                        and  v.org_guid = #{orgGuid}
+                    </when>
+                    <otherwise>
+                        and o.org_identifier like '${orgInLike}%'
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="guid != null  and guid != ''  ">
+                and v.guid like '%${guid}%'
+            </if>
+            <if test="name != null  and name != ''  ">
+                and v.name like '%${name}%'
+            </if>
+            <if test="shortName != null  and shortName != ''  ">
+                and v.short_name like '%${shortName}%'
+            </if>
+            <if test="taskType != null  and taskType != ''  ">
+                and v.task_type like '%${taskType}%'
+            </if>
+            <if test="remark != null  and remark != ''  ">
+                and v.remark like '%${remark}%'
+            </if>
+            <if test="createUser != null  and createUser != ''  ">
+                and v.create_user like '%${createUser}%'
+            </if>
+            <if test="createTime != null  ">
+                and v.create_time = #{createTime}
+            </if>
+            <if test="updateUser != null  and updateUser != ''  ">
+                and v.update_user like '%${updateUser}%'
+            </if>
+            <if test="updateTime != null  ">
+                and v.update_time = #{updateTime}
+            </if>
+            <if test="enableFlag != null  ">
+                and v.enable_flag = #{enableFlag}
+            </if>
+            <if test="version != null  ">
+                and v.version = #{version}
+            </if>
+            <if test="orgGuidList != null" >
+                AND v.org_guid in
+                <foreach item="oldorgGuid" index="index" collection="orgGuidList" open="(" separator="," close=")">
+                    #{oldorgGuid}
+                </foreach>
+            </if>
+        </where>
+        order by v.sort
+    </select>
+
+    <select id="getPostInfoOne" parameterType="java.util.HashMap" resultMap="postInfoMap">
+        <include refid="selectPostInfocolumn"/>
+        <where>
+            v.org_guid=o.guid                            and v.guid = #{guid}
+        </where>
+    </select>
+    <select id="queryPostInfoCount" resultType="java.lang.Integer" parameterType="com.commandcenter.model.smp.PostInfo" >
+        select
+        count(0)
+
+        from  smp_t_post_info
+        <where>
+            enable_flag = '1'
+            <if test="guid != null and guid != ''">
+                and guid != #{guid,jdbcType=VARCHAR}
+            </if>
+            <if test="name != null  and name != '' ">
+                and name = #{name}
+            </if>
+            <if test="shortName != null  and shortName != '' ">
+                and short_name = #{shortName}
+            </if>
+            <if test="taskType != null  and taskType != '' ">
+                and task_type = #{taskType}
+            </if>
+            <if test="orgGuid != null  and orgGuid != '' ">
+                and org_guid = #{orgGuid}
+            </if>
+            <if test="remark != null  and remark != '' ">
+                and remark = #{remark}
+            </if>
+            <if test="createUser != null  and createUser != '' ">
+                and create_user = #{createUser}
+            </if>
+            <if test="createTime != null ">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateUser != null  and updateUser != '' ">
+                and update_user = #{updateUser}
+            </if>
+            <if test="updateTime != null ">
+                and update_time = #{updateTime}
+            </if>
+            <if test="enableFlag != null ">
+                and enable_flag = #{enableFlag}
+            </if>
+            <if test="version != null ">
+                and version = #{version}
+            </if>
+        </where>
+
+    </select>
+    <insert id="insertPostInfo" parameterType="com.commandcenter.model.smp.PostInfo">
+        insert into smp_t_post_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="guid != null">
+                guid,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="shortName != null">
+                short_name,
+            </if>
+            <if test="taskType != null">
+                task_type,
+            </if>
+            <if test="orgGuid != null">
+                org_guid,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="createUser != null">
+                create_user,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateUser != null">
+                update_user,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="enableFlag != null">
+                enable_flag,
+            </if>
+            <if test="version != null">
+                version,
+            </if>
+            <if test="sort != null">
+                sort,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="guid != null">
+                #{guid},
+            </if>
+            <if test="name != null">
+                #{name},
+            </if>
+            <if test="shortName != null">
+                #{shortName},
+            </if>
+            <if test="taskType != null">
+                #{taskType},
+            </if>
+            <if test="orgGuid != null">
+                #{orgGuid},
+            </if>
+            <if test="remark != null">
+                #{remark},
+            </if>
+            <if test="createUser != null">
+                #{createUser},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="updateUser != null">
+                #{updateUser},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime},
+            </if>
+            <if test="enableFlag != null">
+                #{enableFlag},
+            </if>
+            <if test="version != null">
+                #{version},
+            </if>
+            <if test="sort != null">
+                #{sort},
+            </if>
+        </trim>
+    </insert>
+
+
+    <update id="updatePostInfo" parameterType="com.commandcenter.model.smp.PostInfo">
+        update smp_t_post_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="shortName != null">
+                short_name = #{shortName},
+            </if>
+            <if test="taskType != null">
+                task_type = #{taskType},
+            </if>
+            <if test="orgGuid != null">
+                org_guid = #{orgGuid},
+            </if>
+            <if test="remark != null">
+                remark = #{remark},
+            </if>
+            <if test="createUser != null">
+                create_user = #{createUser},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateUser != null">
+                update_user = #{updateUser},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="enableFlag != null">
+                enable_flag = #{enableFlag},
+            </if>
+            <if test="version != null">
+                version = #{version},
+            </if>
+            <if test="sort != null">
+                sort = #{sort},
+            </if>
+        </trim>
+        <where>
+            guid = #{guid}
+        </where>
+    </update>
+    <update id="deletePostInfo" parameterType="java.util.HashMap">
+
+        update smp_t_post_info set enable_flag = #{enableFlag},update_time = now(),version = #{version}
+
+        where guid in
+        <foreach item="guid" index="index" collection="guidList" open="(" separator="," close=")">
+            #{guid}
+        </foreach>
+    </update>
+
+    <delete id="deleteAllSmpPostInfo">
+        delete from smp_t_post_info
+        where 1=1
+    </delete>
+
+    <delete id="deleteSmpPostInfoByGuid">
+        delete from smp_t_post_info
+        where guid = #{guid}
+    </delete>
+
+    <select id="selectSmpPostInfoByGuid" parameterType="java.lang.String" resultType="com.commandcenter.model.smp.PostInfo">
+        select t.* from smp_t_post_info t
+        where guid = #{guid}
+    </select>
+
+</mapper>

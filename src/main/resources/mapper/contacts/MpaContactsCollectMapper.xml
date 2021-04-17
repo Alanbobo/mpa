@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.commandcenter.dao.contactsdao.MpaContactsCollectDao">
+    <!-- MpaContactsCollect的resultMap,column是给数据库列起的别名,它对应property类的属性-->
+    <resultMap id="result_MpaContactsCollect_Map" type="com.commandcenter.model.contacts.MpaContactsCollect">
+        <id column="guid" property="guid" />
+        <result column="user_guid" property="userGuid" />
+        <result column="room_guid" property="roomGuid" />
+        <result column="room_name" property="roomName" />
+        <result column="room_number" property="roomNumber" />
+        <result column="room_number_type" property="roomNumberType" />
+        <result column="room_puc_id" property="roomPucId" />
+        <result column="room_system_id" property="roomSystemId" />
+        <result column="room_content" property="roomContent" />
+        <result column="room_qp" property="roomQp" />
+        <result column="room_jp" property="roomJp" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 数据库中表名为:mpa_contacts_collect的列名,as前是数据库的列明,as后是列的别名用于映射成实体类中的属性,需要注意的是别名必须与resultMap中的column别名一致 -->
+    <sql id="mpa_contacts_collect_Column">
+        mpa_contacts_collect.guid as guid
+        ,mpa_contacts_collect.user_guid as user_guid
+        ,mpa_contacts_collect.room_guid as room_guid
+        ,mpa_contacts_collect.room_name as room_name
+        ,mpa_contacts_collect.room_number as room_number
+        ,mpa_contacts_collect.room_number_type as room_number_type
+        ,mpa_contacts_collect.room_puc_id as room_puc_id
+        ,mpa_contacts_collect.room_system_id as room_system_id
+        ,mpa_contacts_collect.room_content as room_content
+        ,mpa_contacts_collect.room_qp as room_qp
+        ,mpa_contacts_collect.room_jp as room_jp
+        ,mpa_contacts_collect.update_time as update_time
+    </sql>
+
+    <!--获得类名为:MpaContactsCollect对应的数据库表的数据总行数 -->
+    <select id="getMpaContactsCollectRowCount" resultType="java.lang.Long">
+        select count(guid) from mpa_contacts_collect
+    </select>
+    <!-- 获得类名为:MpaContactsCollect对应数据库中表的数据集合 -->
+    <select id="selectMpaContactsCollect" parameterType="java.util.Map" resultMap="result_MpaContactsCollect_Map">
+        select 
+        <include refid="mpa_contacts_collect_Column" /> 
+        from mpa_contacts_collect
+        <where>
+            <if test="updateTime != null "> and mpa_contacts_collect.update_time = #{updateTime}</if>
+            <if test="roomJp != null "> and mpa_contacts_collect.room_jp = #{roomJp}</if>
+            <if test="roomQp != null "> and mpa_contacts_collect.room_qp = #{roomQp}</if>
+            <if test="roomContent != null "> and mpa_contacts_collect.room_content = #{roomContent}</if>
+            <if test="roomSystemId != null "> and mpa_contacts_collect.room_system_id = #{roomSystemId}</if>
+            <if test="roomPucId != null "> and mpa_contacts_collect.room_puc_id = #{roomPucId}</if>
+            <if test="roomNumberType != null "> and mpa_contacts_collect.room_number_type = #{roomNumberType}</if>
+            <if test="roomNumber != null "> and mpa_contacts_collect.room_number = #{roomNumber}</if>
+            <if test="roomName != null "> and mpa_contacts_collect.room_name = #{roomName}</if>
+            <if test="roomGuid != null "> and mpa_contacts_collect.room_guid = #{roomGuid}</if>
+            <if test="userGuid != null "> and mpa_contacts_collect.user_guid = #{userGuid}</if>
+            <if test="guid != null "> and mpa_contacts_collect.guid = #{guid}</if>
+        </where>
+    </select> 
+
+    <!-- 获得一个MpaContactsCollect对象,以参数MpaContactsCollect对象中不为空的属性作为条件进行查询-->
+    <select id="selectMpaContactsCollectByObj" parameterType="com.commandcenter.model.contacts.MpaContactsCollect" resultMap="result_MpaContactsCollect_Map">
+        select 
+            <include refid="mpa_contacts_collect_Column" /> 
+        from mpa_contacts_collect
+        <where>
+            <if test="roomGuid != null "> and mpa_contacts_collect.room_guid = #{roomGuid}</if>
+            <if test="userGuid != null "> and mpa_contacts_collect.user_guid = #{userGuid}</if>
+        </where>
+    </select> 
+
+    <!-- 通过MpaContactsCollect的id获得对应数据库中表的数据对象-->
+    <select id="selectMpaContactsCollectById" parameterType="java.lang.String" resultMap="result_MpaContactsCollect_Map">
+        select 
+            <include refid="mpa_contacts_collect_Column" /> 
+        from mpa_contacts_collect
+        where mpa_contacts_collect.guid = #{id}
+    </select> 
+
+    <!-- 将MpaContactsCollect插入到对应数据库的表中,包括属性值为null的数据-->
+
+    <insert id="insertMpaContactsCollect" parameterType="com.commandcenter.model.contacts.MpaContactsCollect">
+        insert into mpa_contacts_collect(guid,user_guid,room_guid,room_name,room_number,room_number_type,room_puc_id,room_system_id,room_content,room_qp,room_jp,update_time) 
+        values(#{guid},#{userGuid},#{roomGuid},#{roomName},#{roomNumber},#{roomNumberType},#{roomPucId},#{roomSystemId},#{roomContent},#{roomQp},#{roomJp},#{updateTime})
+    </insert>
+
+    <!-- 将MpaContactsCollect中属性值不为null的数据,插入到对应数据库的表中-->
+    <insert id="insertNonEmptyMpaContactsCollect" parameterType="com.commandcenter.model.contacts.MpaContactsCollect">
+        insert into mpa_contacts_collect
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="guid != null">guid,</if>
+            <if test="userGuid != null">user_guid,</if>
+            <if test="roomGuid != null">room_guid,</if>
+            <if test="roomName != null">room_name,</if>
+            <if test="roomNumber != null">room_number,</if>
+            <if test="roomNumberType != null">room_number_type,</if>
+            <if test="roomPucId != null">room_puc_id,</if>
+            <if test="roomSystemId != null">room_system_id,</if>
+            <if test="roomContent != null">room_content,</if>
+            <if test="roomQp != null">room_qp,</if>
+            <if test="roomJp != null">room_jp,</if>
+            <if test="updateTime != null">update_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="guid != null"> #{guid},</if>
+            <if test="userGuid != null"> #{userGuid},</if>
+            <if test="roomGuid != null"> #{roomGuid},</if>
+            <if test="roomName != null"> #{roomName},</if>
+            <if test="roomNumber != null"> #{roomNumber},</if>
+            <if test="roomNumberType != null"> #{roomNumberType},</if>
+            <if test="roomPucId != null"> #{roomPucId},</if>
+            <if test="roomSystemId != null"> #{roomSystemId},</if>
+            <if test="roomContent != null"> #{roomContent},</if>
+            <if test="roomQp != null"> #{roomQp},</if>
+            <if test="roomJp != null"> #{roomJp},</if>
+            <if test="updateTime != null"> #{updateTime},</if>
+        </trim>
+    </insert>
+
+    <!-- 通过MpaContactsCollect的id将数据库表中对应的数据删除-->
+    <delete id="deleteMpaContactsCollectById" parameterType="java.lang.String">
+        delete from mpa_contacts_collect
+        where guid = #{id}
+    </delete>
+
+    <!-- 通过MpaContactsCollect的id将MpaContactsCollect的数据更新到数据库中对应的表,包括值null的数据-->
+    <update id="updateMpaContactsCollectById" parameterType="com.commandcenter.model.contacts.MpaContactsCollect">
+        update mpa_contacts_collect set
+            user_guid=#{userGuid}
+            ,room_guid=#{roomGuid}
+            ,room_name=#{roomName}
+            ,room_number=#{roomNumber}
+            ,room_number_type=#{roomNumberType}
+            ,room_puc_id=#{roomPucId}
+            ,room_system_id=#{roomSystemId}
+            ,room_content=#{roomContent}
+            ,room_qp=#{roomQp}
+            ,room_jp=#{roomJp}
+            ,update_time=#{updateTime}
+        where guid=#{guid}
+    </update>
+
+    <!-- 通过MpaContactsCollect的id将MpaContactsCollect中属性值不为null的数据更新到数据库对应的表中-->
+    <update id="updateNonEmptyMpaContactsCollectByRoomId" parameterType="com.commandcenter.model.contacts.MpaContactsCollect">
+        update mpa_contacts_collect
+        <set>
+            <if test="roomName != null">
+                room_name=#{roomName},
+            </if>
+            <if test="roomNumber != null">
+                room_number=#{roomNumber},
+            </if>
+            <if test="roomNumberType != null">
+                room_number_type=#{roomNumberType},
+            </if>
+            <if test="roomPucId != null">
+                room_puc_id=#{roomPucId},
+            </if>
+            <if test="roomSystemId != null">
+                room_system_id=#{roomSystemId},
+            </if>
+            <if test="roomContent != null">
+                room_content=#{roomContent},
+            </if>
+            <if test="roomQp != null">
+                room_qp=#{roomQp},
+            </if>
+            <if test="roomJp != null">
+                room_jp=#{roomJp},
+            </if>
+            <if test="updateTime != null">
+                update_time=#{updateTime},
+            </if>
+        </set>
+        where room_guid=#{roomGuid}
+    </update>
+
+    <!-- 通过MpaContactsCollect的id将数据库表中对应的数据删除-->
+    <delete id="deleteMpaContactsCollectByMap" parameterType="java.lang.String">
+        delete from mpa_contacts_collect
+        where room_guid = #{roomGuid} and user_guid = #{userGuid}
+    </delete>
+
+    <!-- 通过MpaContactsCollect的id将MpaContactsCollect中属性值不为null的数据更新到数据库对应的表中-->
+    <update id="updateNonEmptyMpaContactsCollectById" parameterType="com.commandcenter.model.contacts.MpaContactsCollect">
+        update mpa_contacts_collect
+        <set>
+            <if test="userGuid != null">
+                user_guid=#{userGuid},
+            </if>
+            <if test="roomGuid != null">
+                room_guid=#{roomGuid},
+            </if>
+            <if test="roomName != null">
+                room_name=#{roomName},
+            </if>
+            <if test="roomNumber != null">
+                room_number=#{roomNumber},
+            </if>
+            <if test="roomNumberType != null">
+                room_number_type=#{roomNumberType},
+            </if>
+            <if test="roomPucId != null">
+                room_puc_id=#{roomPucId},
+            </if>
+            <if test="roomSystemId != null">
+                room_system_id=#{roomSystemId},
+            </if>
+            <if test="roomContent != null">
+                room_content=#{roomContent},
+            </if>
+            <if test="roomQp != null">
+                room_qp=#{roomQp},
+            </if>
+            <if test="roomJp != null">
+                room_jp=#{roomJp},
+            </if>
+            <if test="updateTime != null">
+                update_time=#{updateTime},
+            </if>
+        </set>
+        where guid=#{guid}
+    </update>
+
+</mapper>

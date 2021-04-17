@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.commandcenter.dao.puctomq.PucGpsGpsDataMapper">
+    <resultMap id="BaseResultMap" type="com.commandcenter.model.puctomq.PucGpsGpsData">
+        <id column="guid" property="guid" jdbcType="VARCHAR"/>
+        <result column="device_id" property="deviceId" jdbcType="VARCHAR"/>
+        <result column="parent_guid" property="parentGuid" jdbcType="VARCHAR"/>
+        <result column="latitude" property="latitude" jdbcType="DOUBLE"/>
+        <result column="longitude" property="longitude" jdbcType="DOUBLE"/>
+        <result column="puc_id" property="pucId" jdbcType="VARCHAR"/>
+        <result column="system_id" property="systemId" jdbcType="VARCHAR"/>
+    </resultMap>
+    <resultMap id="MapDevices" type="java.util.Map">
+        <result column="guid" property="guid" jdbcType="VARCHAR"/>
+        <result column="device_id" property="deviceCode" jdbcType="VARCHAR"/>
+        <result column="alias" property="alias" jdbcType="VARCHAR"/>
+        <result column="puc_id" property="pucId" jdbcType="VARCHAR"/>
+        <result column="user_name" property="userName" jdbcType="VARCHAR"/>
+        <result column="user_type" property="userType" jdbcType="VARCHAR"/>
+        <result column="system_id" property="systemId" jdbcType="VARCHAR"/>
+        <result column="org_guid" property="parentGuid" jdbcType="VARCHAR"/>
+        <result column="device_type" property="deviceType" jdbcType="VARCHAR"/>
+        <result column="device_number" property="deviceNumber" jdbcType="VARCHAR"/>
+        <result column="device_name" property="deviceName" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="VARCHAR"/>
+        <result column="device_make" property="deviceMake" jdbcType="VARCHAR"/>
+        <result column="number_type" property="numberType" jdbcType="VARCHAR"/>
+        <result column="has_gps" property="hasGps" jdbcType="BIGINT"/>
+        <result column="enable_gps" property="enableGps" jdbcType="BIGINT"/>
+        <result column="and_or_flag" property="andOrFlag" jdbcType="BIGINT"/>
+        <result column="gps_interval" property="gpsInterval" jdbcType="BIGINT"/>
+        <result column="gps_channel" property="gpsChannel" jdbcType="BIGINT"/>
+        <result column="distance" property="distance" jdbcType="BIGINT"/>
+        <result column="gps_datetime" property="gpsDatetime" jdbcType="TIMESTAMP"/>
+        <result column="longitude" property="longitude" jdbcType="DOUBLE"/>
+        <result column="latitude" property="latitude" jdbcType="DOUBLE"/>
+        <result column="has_screen" property="hasScreen" jdbcType="BIGINT"/>
+        <result column="version_seq" property="versionSeq" jdbcType="BIGINT"/>
+        <result column="org_history" property="orgHistory" jdbcType="VARCHAR"/>
+        <result column="join_group" property="joinGroup" jdbcType="VARCHAR"/>
+        <result column="join_group_info" property="joinGroupInfo" jdbcType="VARCHAR"/>
+        <result column="response_group" property="responseGroup" jdbcType="VARCHAR"/>
+        <result column="response_group_info" property="responseGroupInfo" jdbcType="VARCHAR"/>
+        <result column="implict_group" property="implictGroup" jdbcType="VARCHAR"/>
+        <result column="implict_group_info" property="implictGroupInfo" jdbcType="VARCHAR"/>
+        <result column="createuser" property="createuser" jdbcType="VARCHAR"/>
+        <result column="createtime" property="createtime" jdbcType="TIMESTAMP"/>
+        <result column="updateuser" property="updateuser" jdbcType="VARCHAR"/>
+        <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP"/>
+        <result column="expend" property="expend" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="isvalid" property="isvalid" jdbcType="VARCHAR"/>
+        <result column="org_identifier" property="orgIdentifier" jdbcType="VARCHAR"/>
+        <result column="system_no" property="systemNo" jdbcType="VARCHAR"/>
+        <result column="phone_type" property="phoneType" jdbcType="VARCHAR"/>
+        <result column="user_guid" property="userGuid" jdbcType="VARCHAR"/>
+        <result column="enable_flag" property="enableFlag" jdbcType="SMALLINT"/>
+        <result column="source" property="source" jdbcType="VARCHAR"/>
+        <result column="subsap_guid" property="subsapGuid" jdbcType="VARCHAR"/>
+        <result column="version" property="version" jdbcType="INTEGER"/>
+        <result column="org_name" property="orgName" jdbcType="VARCHAR"/>
+        <result column="is_online" property="isOnline" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    guid, device_id, latitude, longitude, puc_id, system_id
+  </sql>
+    <select id="selectGpsData" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from puc_gps_gpsdata g where device_id=#{deviceId}
+    </select>
+    <select id="selectGpsDataByDeviceId" parameterType="java.lang.String" resultMap="MapDevices">
+    SELECT
+     i.guid,i.puc_id , i.user_name, i.user_type, i.system_id, i.org_guid, i.device_id, i.device_number,
+     i.device_name, i.status, i.device_make, i.number_type, i.has_gps, i.enable_gps, i.and_or_flag, i.gps_interval, i.gps_channel, i.distance, i.gps_datetime, i.has_screen,        i.version_seq, i.org_history,i.join_group, i.join_group_info, i.response_group, i.response_group_info, i.implict_group, i.implict_group_info, i.createuser, i.createtime,      i.updateuser, i.updatetime, i.expend, i.remark, i.isvalid, i.org_identifier, i.system_no, i.phone_type, i.user_guid, i.enable_flag, i.source, i.alias, i.subsap_guid,          i.version,o.org_name,i.device_type,g.latitude,g.longitude,e.is_online
+    from puc_gps_gpsdata g
+    LEFT JOIN smp_t_interphone_info i ON g.device_id=i.device_id
+    LEFT JOIN puc_online_data e on i.device_id = e.device_id and i.puc_id = e.puc_id and i.system_id = e.system_id
+    LEFT JOIN smp_t_org_info o ON i.org_guid=o.guid
+    where i.guid=#{deviceId}
+  </select>
+
+    <insert id="insertPucGpsGpsData" parameterType="com.commandcenter.model.puctomq.PucGpsGpsData">
+        insert into puc_gps_gpsdata
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="guid != null">
+                guid,
+            </if>
+            <if test="deviceId != null">
+                device_id,
+            </if>
+            <if test="latitude != null">
+                latitude,
+            </if>
+            <if test="longitude != null">
+                longitude,
+            </if>
+            <if test="pucId != null">
+                puc_id,
+            </if>
+            <if test="systemId != null">
+                system_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="guid != null">
+                #{guid,jdbcType=VARCHAR},
+            </if>
+            <if test="deviceId != null">
+                #{deviceId,jdbcType=VARCHAR},
+            </if>
+            <if test="latitude != null">
+                #{latitude,jdbcType=DOUBLE},
+            </if>
+            <if test="longitude != null">
+                #{longitude,jdbcType=DOUBLE},
+            </if>
+            <if test="pucId != null">
+                #{pucId,jdbcType=VARCHAR},
+            </if>
+            <if test="systemId != null">
+                #{systemId,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updatePucGpsGpsData" parameterType="com.commandcenter.model.puctomq.PucGpsGpsData">
+        update puc_gps_gpsdata
+        <set>
+            <if test="latitude != null">
+                latitude=#{latitude,jdbcType=DOUBLE},
+            </if>
+            <if test="longitude != null">
+                longitude=#{longitude,jdbcType=DOUBLE},
+            </if>
+            <if test="pucId != null">
+                puc_id=#{pucId,jdbcType=VARCHAR},
+            </if>
+            <if test="systemId != null">
+                system_id=#{systemId,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where device_id=#{deviceId,jdbcType=VARCHAR}
+    </update>
+
+    <delete id="deletePucGpsDataByDeviceId" parameterType="java.lang.String">
+        delete from puc_gps_gpsdata
+        where device_id=#{deviceId,jdbcType=VARCHAR}
+    </delete>
+</mapper>

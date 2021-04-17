@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.commandcenter.dao.smp.SmpAuthInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.commandcenter.model.smp.SmpAuthInfo" >
+    <id column="guid" property="guid" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="isavailable" property="isavailable" jdbcType="VARCHAR" />
+    <result column="system_guid" property="systemGuid" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="if_base_func" property="ifBaseFunc" jdbcType="VARCHAR" />
+    <result column="func_type" property="funcType" jdbcType="VARCHAR" />
+    <result column="parent_code" property="parentCode" jdbcType="VARCHAR" />
+    <result column="func_menu_type" property="funcMenuType" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    guid, create_user, create_time, update_user, update_time, remark, code, name,
+    system_guid, isavailable, status, sort,if_base_func,func_type,parent_code,func_menu_type
+  </sql>
+  <insert id="insert" parameterType="com.commandcenter.model.smp.SmpAuthInfo" >
+    insert into smp_t_authority (guid, name, create_user,
+    create_time, update_user, update_time,
+    remark, isavailable, system_guid,
+    status, sort, code,if_base_func,func_type,parent_code,func_menu_type
+    )
+    values (#{guid,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
+    #{createUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR},
+    #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, #{isavailable,jdbcType=VARCHAR},
+    #{systemGuid,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{sort,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{ifBaseFunc,jdbcType=VARCHAR}, #{funcType,jdbcType=VARCHAR}, #{parentCode,jdbcType=VARCHAR}, #{funcMenuType,jdbcType=VARCHAR}
+    )
+  </insert>
+  <delete id="deleteAllAuthInfo">
+    delete  from  smp_t_authority where 1=1; commit;
+  </delete>
+  <delete id="deleteByAuthGuid" parameterType="com.commandcenter.model.smp.SmpAuthInfo">
+    delete  from  smp_t_authority where guid=#{guid,jdbcType=VARCHAR}
+  </delete>
+  <select id="selectAuthCount" resultType="java.lang.Integer">
+    select COUNT(*) FROM smp_t_authority
+  </select>
+</mapper>

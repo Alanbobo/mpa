@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.commandcenter.dao.dictdao.SmptDictValueDao">
+    <!-- SmptDictValue的resultMap,column是给数据库列起的别名,它对应property类的属性-->
+    <resultMap id="result_SmptDictValue_Map" type="com.commandcenter.model.dictmodel.SmptDictValue">
+        <id column="guid" property="guid" />
+        <result column="value" property="value" />
+        <result column="language_guid" property="languageGuid" />
+        <result column="dict_guid" property="dictGuid" />
+        <result column="create_time" property="createTime" />
+        <result column="sort" property="sort" />
+    </resultMap>
+
+    <!-- 数据库中表名为:smp_t_dict_value的列名,as前是数据库的列明,as后是列的别名用于映射成实体类中的属性,需要注意的是别名必须与resultMap中的column别名一致 -->
+    <sql id="smp_t_dict_value_Column">
+        smp_t_dict_value.guid as guid
+        ,smp_t_dict_value.value as value
+        ,smp_t_dict_value.language_guid as language_guid
+        ,smp_t_dict_value.dict_guid as dict_guid
+        ,smp_t_dict_value.create_time as create_time
+        ,smp_t_dict_value.sort as sort
+    </sql>
+
+    <!--获得类名为:SmptDictValue对应的数据库表的数据总行数 -->
+    <select id="getSmptDictValueRowCount" resultType="java.lang.Long">
+        select count(guid) from smp_t_dict_value
+    </select>
+    <!-- 获得类名为:SmptDictValue对应数据库中表的数据集合 -->
+    <select id="selectSmptDictValue" resultType="com.commandcenter.model.dictmodel.SmptDictValue">
+        select 
+        <include refid="smp_t_dict_value_Column" /> 
+        from smp_t_dict_value
+    </select> 
+
+    <!-- 获得一个SmptDictValue对象,以参数SmptDictValue对象中不为空的属性作为条件进行查询-->
+    <select id="selectSmptDictValueByObj" parameterType="com.commandcenter.model.dictmodel.SmptDictValue" resultMap="result_SmptDictValue_Map">
+        select 
+            <include refid="smp_t_dict_value_Column" /> 
+        from smp_t_dict_value
+        <where>
+            <if test="sort != null "> and smp_t_dict_value.sort = #{sort}</if>
+            <if test="createTime != null "> and smp_t_dict_value.create_time = #{createTime}</if>
+            <if test="dictGuid != null "> and smp_t_dict_value.dict_guid = #{dictGuid}</if>
+            <if test="languageGuid != null "> and smp_t_dict_value.language_guid = #{languageGuid}</if>
+            <if test="value != null "> and smp_t_dict_value.value = #{value}</if>
+            <if test="guid != null "> and smp_t_dict_value.guid = #{guid}</if>
+        </where>
+    </select> 
+
+    <!-- 通过SmptDictValue的id获得对应数据库中表的数据对象-->
+    <select id="selectSmptDictValueById" parameterType="java.lang.String" resultMap="result_SmptDictValue_Map">
+        select 
+            <include refid="smp_t_dict_value_Column" /> 
+        from smp_t_dict_value
+        where smp_t_dict_value.guid = #{id}
+    </select> 
+
+    <!-- 将SmptDictValue插入到对应数据库的表中,包括属性值为null的数据-->
+
+    <insert id="insertSmptDictValue" parameterType="com.commandcenter.model.dictmodel.SmptDictValue">
+        insert into smp_t_dict_value(guid,value,language_guid,dict_guid,create_time,sort) 
+        values(#{guid},#{value},#{languageGuid},#{dictGuid},#{createTime},#{sort})
+    </insert>
+
+    <!-- 将SmptDictValue中属性值不为null的数据,插入到对应数据库的表中-->
+    <insert id="insertNonEmptySmptDictValue" parameterType="com.commandcenter.model.dictmodel.SmptDictValue">
+        insert into smp_t_dict_value
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="guid != null">guid,</if>
+            <if test="value != null">value,</if>
+            <if test="languageGuid != null">language_guid,</if>
+            <if test="dictGuid != null">dict_guid,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="sort != null">sort,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="guid != null"> #{guid},</if>
+            <if test="value != null"> #{value},</if>
+            <if test="languageGuid != null"> #{languageGuid},</if>
+            <if test="dictGuid != null"> #{dictGuid},</if>
+            <if test="createTime != null"> #{createTime},</if>
+            <if test="sort != null"> #{sort},</if>
+        </trim>
+    </insert>
+
+    <!-- 通过SmptDictValue的id将数据库表中对应的数据删除-->
+    <delete id="deleteSmptDictValueById" parameterType="java.lang.String">
+        delete from smp_t_dict_value
+        <if test="id != 'null'">
+        where guid = #{id}
+        </if>
+    </delete>
+
+    <!-- 通过SmptDictValue的id将SmptDictValue的数据更新到数据库中对应的表,包括值null的数据-->
+    <update id="updateSmptDictValueById" parameterType="com.commandcenter.model.dictmodel.SmptDictValue">
+        update smp_t_dict_value set
+            value=#{value}
+            ,language_guid=#{languageGuid}
+            ,dict_guid=#{dictGuid}
+            ,create_time=#{createTime}
+            ,sort=#{sort}
+        where guid=#{guid}
+    </update>
+
+    <!-- 通过SmptDictValue的id将SmptDictValue中属性值不为null的数据更新到数据库对应的表中-->
+    <update id="updateNonEmptySmptDictValueById" parameterType="com.commandcenter.model.dictmodel.SmptDictValue">
+        update smp_t_dict_value
+        <set>
+            <if test="value != null">
+                value=#{value},
+            </if>
+            <if test="languageGuid != null">
+                language_guid=#{languageGuid},
+            </if>
+            <if test="dictGuid != null">
+                dict_guid=#{dictGuid},
+            </if>
+            <if test="createTime != null">
+                create_time=#{createTime},
+            </if>
+            <if test="sort != null">
+                sort=#{sort},
+            </if>
+        </set>
+        where guid=#{guid}
+    </update>
+
+</mapper>

@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.commandcenter.dao.dictdao.SmptSystemInfoDao">
+    <!-- SmptSystemInfo的resultMap,column是给数据库列起的别名,它对应property类的属性-->
+    <resultMap id="result_SmptSystemInfo_Map" type="com.commandcenter.model.dictmodel.SmptSystemInfo">
+        <id column="guid" property="guid" />
+        <result column="system_name" property="systemName" />
+        <result column="system_no" property="systemNo" />
+        <result column="system_code" property="systemCode" />
+        <result column="status" property="status" />
+        <result column="system_type" property="systemType" />
+        <result column="system_path" property="systemPath" />
+        <result column="sort" property="sort" />
+        <result column="create_time" property="createTime" />
+        <result column="create_user" property="createUser" />
+        <result column="update_time" property="updateTime" />
+        <result column="update_user" property="updateUser" />
+        <result column="initialization" property="initialization" />
+        <result column="sys_status" property="sysStatus" />
+    </resultMap>
+
+    <!-- 数据库中表名为:smp_t_system_info的列名,as前是数据库的列明,as后是列的别名用于映射成实体类中的属性,需要注意的是别名必须与resultMap中的column别名一致 -->
+    <sql id="smp_t_system_info_Column">
+        smp_t_system_info.guid as guid
+        ,smp_t_system_info.system_name as system_name
+        ,smp_t_system_info.system_no as system_no
+        ,smp_t_system_info.system_code as system_code
+        ,smp_t_system_info.status as status
+        ,smp_t_system_info.system_type as system_type
+        ,smp_t_system_info.system_path as system_path
+        ,smp_t_system_info.sort as sort
+        ,smp_t_system_info.create_time as create_time
+        ,smp_t_system_info.create_user as create_user
+        ,smp_t_system_info.update_time as update_time
+        ,smp_t_system_info.update_user as update_user
+        ,smp_t_system_info.initialization as initialization
+        ,smp_t_system_info.sys_status as sys_status
+    </sql>
+
+    <!--获得类名为:SmptSystemInfo对应的数据库表的数据总行数 -->
+    <select id="getSmptSystemInfoRowCount" resultType="java.lang.Long">
+        select count(guid) from smp_t_system_info
+    </select>
+    <!-- 获得类名为:SmptSystemInfo对应数据库中表的数据集合 -->
+    <select id="selectSmptSystemInfo" resultType="com.commandcenter.model.dictmodel.SmptSystemInfo">
+        select 
+        <include refid="smp_t_system_info_Column" /> 
+        from smp_t_system_info
+    </select> 
+
+    <!-- 获得一个SmptSystemInfo对象,以参数SmptSystemInfo对象中不为空的属性作为条件进行查询-->
+    <select id="selectSmptSystemInfoByObj" parameterType="com.commandcenter.model.dictmodel.SmptSystemInfo" resultMap="result_SmptSystemInfo_Map">
+        select 
+            <include refid="smp_t_system_info_Column" /> 
+        from smp_t_system_info
+        <where>
+            <if test="sysStatus != null "> and smp_t_system_info.sys_status = #{sysStatus}</if>
+            <if test="initialization != null "> and smp_t_system_info.initialization = #{initialization}</if>
+            <if test="updateUser != null "> and smp_t_system_info.update_user = #{updateUser}</if>
+            <if test="updateTime != null "> and smp_t_system_info.update_time = #{updateTime}</if>
+            <if test="createUser != null "> and smp_t_system_info.create_user = #{createUser}</if>
+            <if test="createTime != null "> and smp_t_system_info.create_time = #{createTime}</if>
+            <if test="sort != null "> and smp_t_system_info.sort = #{sort}</if>
+            <if test="systemPath != null "> and smp_t_system_info.system_path = #{systemPath}</if>
+            <if test="systemType != null "> and smp_t_system_info.system_type = #{systemType}</if>
+            <if test="status != null "> and smp_t_system_info.status = #{status}</if>
+            <if test="systemCode != null "> and smp_t_system_info.system_code = #{systemCode}</if>
+            <if test="systemNo != null "> and smp_t_system_info.system_no = #{systemNo}</if>
+            <if test="systemName != null "> and smp_t_system_info.system_name = #{systemName}</if>
+            <if test="guid != null "> and smp_t_system_info.guid = #{guid}</if>
+        </where>
+    </select> 
+
+    <!-- 通过SmptSystemInfo的id获得对应数据库中表的数据对象-->
+    <select id="selectSmptSystemInfoById" parameterType="java.lang.String" resultMap="result_SmptSystemInfo_Map">
+        select 
+            <include refid="smp_t_system_info_Column" /> 
+        from smp_t_system_info
+        where smp_t_system_info.guid = #{id}
+    </select> 
+
+    <!-- 将SmptSystemInfo插入到对应数据库的表中,包括属性值为null的数据-->
+
+    <insert id="insertSmptSystemInfo" parameterType="com.commandcenter.model.dictmodel.SmptSystemInfo">
+        insert into smp_t_system_info(guid,system_name,system_no,system_code,status,system_type,system_path,sort,create_time,create_user,update_time,update_user,initialization,sys_status) 
+        values(#{guid},#{systemName},#{systemNo},#{systemCode},#{status},#{systemType},#{systemPath},#{sort},#{createTime},#{createUser},#{updateTime},#{updateUser},#{initialization},#{sysStatus})
+    </insert>
+
+    <!-- 将SmptSystemInfo中属性值不为null的数据,插入到对应数据库的表中-->
+    <insert id="insertNonEmptySmptSystemInfo" parameterType="com.commandcenter.model.dictmodel.SmptSystemInfo">
+        insert into smp_t_system_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="guid != null">guid,</if>
+            <if test="systemName != null">system_name,</if>
+            <if test="systemNo != null">system_no,</if>
+            <if test="systemCode != null">system_code,</if>
+            <if test="status != null">status,</if>
+            <if test="systemType != null">system_type,</if>
+            <if test="systemPath != null">system_path,</if>
+            <if test="sort != null">sort,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createUser != null">create_user,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateUser != null">update_user,</if>
+            <if test="initialization != null">initialization,</if>
+            <if test="sysStatus != null">sys_status,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="guid != null"> #{guid},</if>
+            <if test="systemName != null"> #{systemName},</if>
+            <if test="systemNo != null"> #{systemNo},</if>
+            <if test="systemCode != null"> #{systemCode},</if>
+            <if test="status != null"> #{status},</if>
+            <if test="systemType != null"> #{systemType},</if>
+            <if test="systemPath != null"> #{systemPath},</if>
+            <if test="sort != null"> #{sort},</if>
+            <if test="createTime != null"> #{createTime},</if>
+            <if test="createUser != null"> #{createUser},</if>
+            <if test="updateTime != null"> #{updateTime},</if>
+            <if test="updateUser != null"> #{updateUser},</if>
+            <if test="initialization != null"> #{initialization},</if>
+            <if test="sysStatus != null"> #{sysStatus},</if>
+        </trim>
+    </insert>
+
+    <!-- 通过SmptSystemInfo的id将数据库表中对应的数据删除-->
+    <delete id="deleteSmptSystemInfoById" parameterType="java.lang.String">
+        delete from smp_t_system_info
+        where guid = #{id}
+    </delete>
+
+    <!-- 通过SmptSystemInfo的id将SmptSystemInfo的数据更新到数据库中对应的表,包括值null的数据-->
+    <update id="updateSmptSystemInfoById" parameterType="com.commandcenter.model.dictmodel.SmptSystemInfo">
+        update smp_t_system_info set
+            system_name=#{systemName}
+            ,system_no=#{systemNo}
+            ,system_code=#{systemCode}
+            ,status=#{status}
+            ,system_type=#{systemType}
+            ,system_path=#{systemPath}
+            ,sort=#{sort}
+            ,create_time=#{createTime}
+            ,create_user=#{createUser}
+            ,update_time=#{updateTime}
+            ,update_user=#{updateUser}
+            ,initialization=#{initialization}
+            ,sys_status=#{sysStatus}
+        where guid=#{guid}
+    </update>
+
+    <!-- 通过SmptSystemInfo的id将SmptSystemInfo中属性值不为null的数据更新到数据库对应的表中-->
+    <update id="updateNonEmptySmptSystemInfoById" parameterType="com.commandcenter.model.dictmodel.SmptSystemInfo">
+        update smp_t_system_info
+        <set>
+            <if test="systemName != null">
+                system_name=#{systemName},
+            </if>
+            <if test="systemNo != null">
+                system_no=#{systemNo},
+            </if>
+            <if test="systemCode != null">
+                system_code=#{systemCode},
+            </if>
+            <if test="status != null">
+                status=#{status},
+            </if>
+            <if test="systemType != null">
+                system_type=#{systemType},
+            </if>
+            <if test="systemPath != null">
+                system_path=#{systemPath},
+            </if>
+            <if test="sort != null">
+                sort=#{sort},
+            </if>
+            <if test="createTime != null">
+                create_time=#{createTime},
+            </if>
+            <if test="createUser != null">
+                create_user=#{createUser},
+            </if>
+            <if test="updateTime != null">
+                update_time=#{updateTime},
+            </if>
+            <if test="updateUser != null">
+                update_user=#{updateUser},
+            </if>
+            <if test="initialization != null">
+                initialization=#{initialization},
+            </if>
+            <if test="sysStatus != null">
+                sys_status=#{sysStatus},
+            </if>
+        </set>
+        where guid=#{guid}
+    </update>
+
+</mapper>

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+
+<html>
+<head lang="en"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="format-detection" content="telephone=no">
+    <link href="../css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="../css/zTreeStyle/zTreeStyle.css">
+    <script type="text/javascript" src="../js/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.ztree.core.js"></script>
+    <script language="javascript"  src="../js/WdatePicker.js"></script>
+    <script src="../js/highcharts/code/highcharts.js"></script>
+    <script src="../js/highcharts/code/modules/exporting.js"></script>
+    <script src="../js/highcharts/code/modules/export-data.js"></script>
+    <style type="text/css">
+        .timespan{
+            margin-left: 10px;
+        }
+        .header{
+            padding-top: 20px;
+            min-width: 1900px;
+            min-height:1000px;
+        }
+        .input-group{
+            float: left;
+        }
+        .orgcontain{
+            float: left;
+            position: absolute;
+            right: 375px;
+            z-index: 1000;
+        }
+        .treeContain{
+            border: 1px solid #01ff70;
+            height: auto;
+            width: 300px;
+            position: relative;
+            left: 84px;
+            display: none;
+            background-color: #fff;
+        }
+        .orginput{
+            width: 300px;
+        }
+        .functioncontain{
+            float: left;
+        }
+        .functionContain{
+            border: 1px solid #01ff70;
+            height: auto;
+            width: 300px;
+            position: relative;
+            left: 84px;
+            display: none;
+        }
+        .functioninput{
+            width: 300px;
+        }
+        .functionContain li{
+            list-style-type: none;
+        }
+        .functionContain li:hover{
+            background-color: #7d8492;
+        }
+        .contentdiv{
+            position: absolute;
+            top: 100px;
+        }
+        .countNumText{
+            margin-left: 10px;
+            font-size: 45px;
+        }
+        .countNumInt{
+            font-size: 30px;
+            color: red;
+        }
+        .btn-info{
+            height: 28px;
+            width: 92px;
+            position: absolute;
+            right: 100px;
+        }
+        .Wdate{
+            width: 300px;
+            height: 26px;
+        }
+        .contentdiv{
+            width: 100%;
+            border-top: 5px dotted #7d8492;
+            border-bottom: 5px dotted #7d8492;
+            position: absolute;
+            z-index: -1;
+        }
+        #pictureContainer{
+            margin-left: 20px;
+            width: 1800px;
+            min-width:400px;
+            height:580px;
+            position: absolute;
+            top: 300px;
+        }
+        .logBody{
+            min-width: 1900px;
+            min-height:1000px;
+        }
+    </style>
+</head>
+<body class="logBody">
+<form action="" name="form1" id="dataform" method="post" method="post" enctype="multipart/form-data">
+    <div class="header">
+        <div class="input-group input-group-lg">
+            <span class="timespan">开始时间：</span>
+            <input id="startTime" class="Wdate" type="text" onClick="WdatePicker()" name="startTime"/>
+            <span class="timespan">结束时间：</span>
+            <input id="endtTime" class="Wdate" type="text" onClick="WdatePicker()" name="endTime"/>
+        </div>
+        <div class="orgcontain">
+            <span class="timespan">组织架构：</span>
+            <input class="orginput" readonly="readonly" type="text" onClick="showOrg()"/>
+            <input class="orgCode" type="hidden" name="orgCode"/>
+            <div class="treeContain">
+                <ul id="orgtree" class="ztree"></ul>
+            </div>
+        </div>
+        <div class="functioncontain">
+            <span class="timespan">方法名称：</span>
+            <input id="functiontext" class="functioninput" readonly="readonly" type="text" onClick="showFunc()"/>
+            <input id="functionName" type="hidden" name="functionName"/>
+            <div class="functionContain">
+                <li funcname="/mpa/sys/login" onClick="hideFunction(this)" value="/mpa/sys/login">用户登录</li>
+                <li funcname="/mpa/case/caseDetail"onClick="hideFunction(this)" value="/mpa/case/caseDetail">查询警情详情</li>
+                <li funcname="/mpa/case/icc/feedbackList" onClick="hideFunction(this)" value="/mpa/case/icc/feedbackList">查询警情反馈</li>
+                <li funcname="/mpa/case/icc/feedbackToIcc" onClick="hideFunction(this)" value="/mpa/case/icc/feedbackToIcc">综合反馈</li>
+                <li funcname="/mpa/sys/logout" onClick="hideFunction(this)" value="/mpa/sys/logout">退出登录</li>
+                <li funcname="/mpa/case/feedBack" onClick="hideFunction(this)" value="/mpa/case/feedBack">反馈</li>
+                <li funcname="/mpa/case/caseList" onClick="hideFunction(this)" value="/mpa/case/caseList">查询警情列表</li>
+                <li funcname="/mpa/comm/appUpdate" onClick="hideFunction(this)" value="/mpa/comm/appUpdate">更新</li>
+                <li funcname="/mpa/ppcs/dutyListAndDetail" onClick="hideFunction(this)" value="/mpa/ppcs/dutyListAndDetail">按月查询排班信息</li>
+                <li funcname="/mpa/ppcs/getDutyDetail" onClick="hideFunction(this)" value="/mpa/ppcs/getDutyDetail">查询排班详情</li>
+                <li funcname="" onClick="hideFunction(this)" value="">所有操作</li>
+            </div>
+        </div>
+        <button type="button" class="btn btn-info" onClick="createPictrue()">统计</button>
+    </div>
+</form>
+<div class="contentdiv">
+    <div class="input-group input-group-lg">
+        <span class="countNumText">日志总数：</span>
+        <span id="countNumInt" class="countNumInt"></span>
+    </div>
+</div>
+<div id="pictureContainer"></div>
+<script language="javascript">
+    //方法列表点击
+    function hideFunction(obj){
+        $("#functiontext").val($(obj).text());
+        $(".functionContain").hide();
+        $("#functionName").val($(obj).attr("funcname"));
+    }
+    //显示方法列表
+    function showFunc(){
+        var index = $(".functionContain").attr("index");
+        if(index==0||index==undefined){
+            $(".functionContain").attr("index","1");
+            $(".functionContain").show();
+        }else{
+            $(".functionContain").attr("index","0");
+            $(".functionContain").hide();
+        }
+    }
+
+    //显示组织架构树
+    function showOrg(){
+        var index = $(".treeContain").attr("index");
+        if(index==0||index==undefined){
+            $(".treeContain").attr("index","1");
+            $(".treeContain").show();
+            var setting = {
+                data: {
+                    simpleData: {
+                        enable: true
+                    }
+                },
+                callback: {
+                    onClick: onClick
+                }
+            };
+            var zNodes;
+            $.ajax({
+                type: 'POST',
+                url: '../webController/log/orgList',
+                dataType: 'json',
+                success: function(data){
+                    console.log(data);
+                    zNodes = data.allOrg;
+                    $.fn.zTree.init($("#orgtree"), setting, zNodes);
+                }
+            })
+        }else{
+            $(".treeContain").attr("index","0");
+            $(".treeContain").hide();
+        }
+
+
+
+    }
+    //点击树
+    function onClick(event, treeId, treeNode, clickFlag) {
+        $(".treeContain").hide();
+        $(".orginput").val(treeNode.name);
+        $(".orgCode").val(treeNode.id);
+    }
+    //绘制统计图
+    function createPictrue() {
+        var startTime=dataform.startTime.value;
+        $.ajax({
+            type: 'POST',
+            data: $("#dataform").serialize(),
+            url: '../webController/log/selectNumber',
+            dataType: 'json',
+            success: function (data) {
+                $("#countNumInt").html(data.allNumber);
+                var times = eval(data.times);
+                var datas = eval(data.datas);
+                var chart = Highcharts.chart('pictureContainer', {
+                    chart: {
+                        type: 'line'
+                    },
+                    title: {
+                        text: '所选条件下操作次数分析'
+                    },
+                    subtitle: {
+                        text: '数据来源: 日志监控'
+                    },
+                    xAxis: {
+                        categories: times
+                    },
+                    yAxis: {
+                        title: {
+                            text: '次数'
+                        }
+                    },
+                    plotOptions: {
+                        line: {
+                            dataLabels: {
+                                // 开启数据标签
+                                enabled: true
+                            },
+                            // 关闭鼠标跟踪，对应的提示框、点击事件会失效
+                            enableMouseTracking: false
+                        }
+                    },
+                    series: [{
+                        name: '操作情况',
+                        data: datas
+                    }]
+                });
+            }
+
+        })
+    }
+</script>
+</body>
+</html>

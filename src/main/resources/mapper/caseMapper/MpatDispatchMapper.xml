@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.commandcenter.dao.casedao.MpatDispatchDao">
+    <!-- MpatDispatch的resultMap,column是给数据库列起的别名,它对应property类的属性-->
+    <resultMap id="result_MpatDispatch_Map" type="com.commandcenter.model.casemodel.MpatDispatch">
+        <result column="id" property="id" />
+        <result column="case_id" property="caseId" />
+        <result column="user_guid" property="userGuid" />
+        <result column="type" property="type" />
+        <result column="dispatch_desc" property="dispatchDesc" />
+        <result column="creator" property="creator" />
+        <result column="create_time" property="createTime" />
+        <result column="remark" property="remark" />
+        <result column="org_guid" property="orgGuid" />
+        <result column="status" property="status" />
+        <result column="staff_guid" property="staffGuid" />
+        <result column="iscancel" property="iscancel" />
+        <result column="staffName" property="staff_name" />
+        <result column="telephone" property="telephone" />
+        <result column="mobile" property="mobile" />
+    </resultMap>
+
+    <resultMap id="result_DispatchSmart_Map" type="com.commandcenter.model.casemodel.MpatDispatch">
+        <result column="id" property="id" />
+        <result column="case_id" property="caseId" />
+        <result column="user_guid" property="userGuid" />
+        <result column="type" property="type" />
+        <result column="dispatch_desc" property="dispatchDesc" />
+        <result column="creator" property="creator" />
+        <result column="create_time" property="createTime" />
+        <result column="remark" property="remark" />
+        <result column="org_guid" property="orgGuid" />
+        <result column="status" property="status" />
+        <result column="staff_guid" property="staffGuid" />
+        <result column="iscancel" property="iscancel" />
+        <result column="staffName" property="staff_name" />
+        <result column="telephone" property="telephone" />
+        <result column="mobile" property="mobile" />
+
+        <association property="smptSmartappInfo" column="staff_guid" select="com.commandcenter.dao.smp.SmptSmartappInfoDao.selectSmptSmartappInfoByStaffGuid"/>
+    </resultMap>
+
+    <!-- 数据库中表名为:mpa_t_dispatch的列名,as前是数据库的列明,as后是列的别名用于映射成实体类中的属性,需要注意的是别名必须与resultMap中的column别名一致 -->
+    <sql id="mpa_t_dispatch_Column">
+        mpa_t_dispatch.id as id
+        ,mpa_t_dispatch.case_id as case_id
+        ,mpa_t_dispatch.user_guid as user_guid
+        ,mpa_t_dispatch.type as type
+        ,mpa_t_dispatch.dispatch_desc as dispatch_desc
+        ,mpa_t_dispatch.creator as creator
+        ,mpa_t_dispatch.create_time as create_time
+        ,mpa_t_dispatch.remark as remark
+        ,mpa_t_dispatch.org_guid as org_guid
+        ,mpa_t_dispatch.status as status
+        ,mpa_t_dispatch.staff_guid as staff_guid
+        ,mpa_t_dispatch.iscancel as iscancel
+        ,smp_t_staff_info.staff_name as staff_name
+        ,smp_t_staff_info.telephone as telephone
+        ,smp_t_staff_info.mobile as mobile
+    </sql>
+
+    <!--获得类名为:MpatDispatch对应的数据库表的数据总行数 -->
+    <select id="getMpatDispatchRowCount" resultType="java.lang.Long">
+        select count(*) from mpa_t_dispatch
+    </select>
+    <!-- 获得类名为:MpatDispatch对应数据库中表的数据集合 -->
+    <select id="selectMpatDispatch" resultMap="result_MpatDispatch_Map">
+        select 
+        <include refid="mpa_t_dispatch_Column" /> 
+        from mpa_t_dispatch mpa_t_dispatch
+        LEFT JOIN smp_t_staff_info smp_t_staff_info ON mpa_t_dispatch.staff_guid = smp_t_staff_info.guid
+    </select>
+
+    <insert id="insertOrUpdate" parameterType="java.util.List">
+        merge into MPA_T_DISPATCH d
+        USING (
+        <foreach collection="list" item="dispatchModel" separator="union all">
+            select #{dispatchModel.caseId,jdbcType=VARCHAR} as case_Id,#{dispatchModel.type,jdbcType=VARCHAR} as type,
+            #{dispatchModel.dispatchDesc,jdbcType=VARCHAR} as
+            dispatch_Desc,#{dispatchModel.createTime,jdbcType=TIMESTAMP} as create_Time,
+            #{dispatchModel.staffGuid,jdbcType=VARCHAR} as staff_Guid,#{dispatchModel.orgGuid,jdbcType=VARCHAR} as
+            org_guid,
+            #{dispatchModel.iscancel,jdbcType=VARCHAR} as isCancelString,
+
+            #{dispatchModel.status,jdbcType=VARCHAR} as status
+            from dual
+        </foreach>
+
+        ) n
+        on (d.case_Id = n.case_Id and d.staff_Guid = n.staff_Guid and (d.iscancel != '1' or (d.iscancel is null) or
+        (d.iscancel = '1' and ((n.iscancelstring is not null) and n.iscancelstring = '1' )) ))
+        when matched then
+        update set d.TYPE =n.type,d.create_Time = n.create_Time,d.status = n.status,d.iscancel = n.isCancelString
+        when not matched THEN
+        insert (case_Id,type,dispatch_Desc,create_Time,staff_Guid,org_Guid,
+        iscancel,
+        status) values(n.case_Id,n.type,n.dispatch_Desc,n.create_Time,n.staff_guid,n.org_guid,
+
+        n.isCancelString,
+
+        n.status)
+
+
+    </insert>
+    <!-- 获得类名为:MpatDispatch对应数据库中表的数据集合 -->
+    <select id="selectMpatDispatchIsExist" parameterType="com.commandcenter.model.casemodel.MpatDispatch" resultMap="result_MpatDispatch_Map">
+        select
+        <include refid="mpa_t_dispatch_Column" />
+        from mpa_t_dispatch mpa_t_dispatch
+        LEFT JOIN smp_t_staff_info smp_t_staff_info ON mpa_t_dispatch.staff_guid = smp_t_staff_info.guid
+        where case_id = #{caseId}
+        <if test="staffGuid != null">
+            and mpa_t_dispatch.staff_Guid = #{staffGuid}
+        </if>
+        <if test="orgGuid != null">
+            and mpa_t_dispatch.org_guid = #{orgGuid}
+        </if>
+    </select>
+    <!-- 获得类名为:MpatDispatch对应数据库中表的数据集合 -->
+    <select id="selectMpatDispatchListByCaseId" parameterType="java.util.Map" resultMap="result_DispatchSmart_Map">
+        select
+        <include refid="mpa_t_dispatch_Column" />
+        from mpa_t_dispatch mpa_t_dispatch
+        LEFT JOIN smp_t_staff_info smp_t_staff_info ON mpa_t_dispatch.staff_guid = smp_t_staff_info.guid
+        where case_id = #{alarmId} and (iscancel != '1' or (iscancel is null) ) and mpa_t_dispatch.staff_guid is not null and mpa_t_dispatch.staff_guid!=''
+    </select>
+    <!-- 获得类名为:MpatDispatch对应数据库中表的数据集合 -->
+    <select id="selectMpatDispatchCountByCaseId" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(*)
+        from mpa_t_dispatch
+        where case_id = #{caseId}
+    </select>
+    <select id="selectMpatDispatchByCaseId" parameterType="java.lang.String" resultMap="result_MpatDispatch_Map">
+        select
+        <include refid="mpa_t_dispatch_Column" />
+        from mpa_t_dispatch mpa_t_dispatch
+        LEFT JOIN smp_t_staff_info smp_t_staff_info ON mpa_t_dispatch.staff_guid = smp_t_staff_info.guid
+        where case_id = #{caseId}
+    </select>
+    <!-- 将MpatDispatch插入到对应数据库的表中,包括属性值为null的数据-->
+
+    <insert id="insertMpatDispatch" parameterType="com.commandcenter.model.casemodel.MpatDispatch">
+        insert into mpa_t_dispatch(id,case_id,user_guid,type,dispatch_desc,creator,create_time,remark,org_guid,status,staff_guid,iscancel) 
+        values(#{id},#{caseId},#{userGuid},#{type},#{dispatchDesc},#{creator},#{createTime},#{remark},#{orgGuid},#{status},#{staffGuid},#{iscancel})
+    </insert>
+
+    <!-- 将MpatDispatch中属性值不为null的数据,插入到对应数据库的表中-->
+    <insert id="insertNonEmptyMpatDispatch" parameterType="com.commandcenter.model.casemodel.MpatDispatch">
+        insert into mpa_t_dispatch
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="caseId != null">case_id,</if>
+            <if test="userGuid != null">user_guid,</if>
+            <if test="type != null">type,</if>
+            <if test="dispatchDesc != null">dispatch_desc,</if>
+            <if test="creator != null">creator,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="orgGuid != null">org_guid,</if>
+            <if test="status != null">status,</if>
+            <if test="staffGuid != null">staff_guid,</if>
+            <if test="iscancel != null">iscancel,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null"> #{id},</if>
+            <if test="caseId != null"> #{caseId},</if>
+            <if test="userGuid != null"> #{userGuid},</if>
+            <if test="type != null"> #{type},</if>
+            <if test="dispatchDesc != null"> #{dispatchDesc},</if>
+            <if test="creator != null"> #{creator},</if>
+            <if test="createTime != null"> #{createTime},</if>
+            <if test="remark != null"> #{remark},</if>
+            <if test="orgGuid != null"> #{orgGuid},</if>
+            <if test="status != null"> #{status},</if>
+            <if test="staffGuid != null"> #{staffGuid},</if>
+            <if test="iscancel != null"> #{iscancel},</if>
+        </trim>
+    </insert>
+
+    <!-- 修改MpatDispatch中属性值不为null的数据-->
+    <insert id="updateNonEmptyMpatDispatchById" parameterType="com.commandcenter.model.casemodel.MpatDispatch">
+        UPDATE mpa_t_dispatch
+        <set>
+            <if test="caseId != null">case_id=#{caseId},</if>
+            <if test="userGuid != null">user_guid=#{userGuid},</if>
+            <if test="type != null">type=#{type},</if>
+            <if test="dispatchDesc != null">dispatch_desc=#{dispatchDesc},</if>
+            <if test="creator != null">creator=#{creator},</if>
+            <if test="createTime != null">create_time=#{createTime},</if>
+            <if test="remark != null">remark=#{remark},</if>
+            <if test="orgGuid != null">org_guid=#{orgGuid},</if>
+            <if test="status != null">status=#{status},</if>
+            <if test="staffGuid != null">staff_guid=#{staffGuid},</if>
+            <if test="iscancel != null">iscancel=#{iscancel},</if>
+        </set>
+        WHERE id = #{id}
+    </insert>
+
+    <!-- 通过VcstCaseInfo的id将VcstCaseInfo中属性值不为null的数据更新到数据库对应的表中-->
+    <update id="updateNonEmptyMpatDispatchByCaseAndStaff" parameterType="com.commandcenter.model.casemodel.MpatDispatch">
+        update mpa_t_dispatch
+        <set>
+            <if test="userGuid != null">user_guid=#{},</if>
+            <if test="type != null">type=#{type},</if>
+            <if test="dispatchDesc != null">dispatch_desc=#{dispatchDesc},</if>
+            <if test="creator != null">creator=#{creator},</if>
+            <if test="createTime != null">create_time=#{createTime},</if>
+            <if test="remark != null">remark=#{remark},</if>
+            <if test="orgGuid != null">org_guid=#{orgGuid},</if>
+            <if test="status != null">status=#{status},</if>
+            <if test="iscancel != null and iscancel != '0'">iscancel = #{iscancel},</if>
+            <if test="iscancel != null and iscancel == '0'">iscancel = null,</if>
+        </set>
+        where case_id=#{caseId} and staff_guid = #{staffGuid}
+    </update>
+</mapper>

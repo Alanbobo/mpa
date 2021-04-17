@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.commandcenter.dao.casedao.VcstCaseFeedbackDao">
+    <!-- VcstCaseFeedback的resultMap,column是给数据库列起的别名,它对应property类的属性-->
+    <resultMap id="result_VcstCaseFeedback_Map" type="com.commandcenter.model.casemodel.VcstCaseFeedback">
+        <id column="id" property="id"/>
+        <result column="case_id" property="caseId"/>
+        <result column="disposal_id" property="disposalId"/>
+        <result column="case_dispatch_status" property="caseDispatchStatus"/>
+        <result column="interphone_id" property="interphoneId"/>
+        <result column="fb_way" property="fbWay"/>
+        <result column="fb_content" property="fbContent"/>
+        <result column="feedbacker" property="feedbacker"/>
+        <result column="fb_time" property="fbTime"/>
+        <result column="longitude" property="longitude"/>
+        <result column="latitude" property="latitude"/>
+        <result column="case_type" property="caseType"/>
+        <result column="case_sub_type" property="caseSubType"/>
+        <result column="case_three_type" property="caseThreeType"/>
+        <result column="case_processor" property="caseProcessor"/>
+        <result column="createuser" property="createuser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="del_flag" property="delFlag"/>
+        <result column="dispatch_id" property="dispatchId"/>
+        <result column="case_level" property="caseLevel"/>
+    </resultMap>
+
+    <resultMap id="ModelMap" type="com.commandcenter.model.wcf.FeedbackModel">
+        <id column="ID" jdbcType="VARCHAR" property="id"/>
+        <result column="CASE_ID" jdbcType="VARCHAR" property="caseId"/>
+        <result column="DISPOSAL_ID" jdbcType="VARCHAR" property="disposalId"/>
+        <result column="CASE_DISPATCH_STATUS" jdbcType="VARCHAR" property="caseDispatchStatus"/>
+        <result column="INTERPHONE_ID" jdbcType="VARCHAR" property="interphoneId"/>
+        <result column="FB_WAY" jdbcType="VARCHAR" property="fbWay"/>
+        <result column="FB_CONTENT" jdbcType="VARCHAR" property="fbContent"/>
+        <result column="FEEDBACKER" jdbcType="VARCHAR" property="feedbacker"/>
+        <result column="FB_TIME" jdbcType="TIMESTAMP" property="fbTime"/>
+        <result column="LONGITUDE" jdbcType="DECIMAL" property="longitude"/>
+        <result column="LATITUDE" jdbcType="DECIMAL" property="latitude"/>
+        <result column="CASE_TYPE" jdbcType="VARCHAR" property="caseType"/>
+        <result column="CASE_SUB_TYPE" jdbcType="VARCHAR" property="caseSubType"/>
+        <result column="CASE_THREE_TYPE" jdbcType="VARCHAR" property="caseThreeType"/>
+        <result column="CASE_PROCESSOR" jdbcType="VARCHAR" property="caseProcessor"/>
+        <result column="CREATEUSER" jdbcType="VARCHAR" property="createuser"/>
+        <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="UPDATE_USER" jdbcType="VARCHAR" property="updateUser"/>
+        <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="DEL_FLAG" jdbcType="DECIMAL" property="delFlag"/>
+        <result column="DISPATCH_ID" jdbcType="VARCHAR" property="dispatchId"/>
+        <result column="CASE_LEVEL" jdbcType="VARCHAR" property="caseLevel"/>
+        <result column="apply_approval_feed_back" jdbcType="VARCHAR" property="applyApprovalFeedBack"/>
+    </resultMap>
+
+    <!-- 数据库中表名为:vcs_t_case_feedback的列名,as前是数据库的列明,as后是列的别名用于映射成实体类中的属性,需要注意的是别名必须与resultMap中的column别名一致 -->
+    <sql id="vcs_t_case_feedback_Column">
+        vcs_t_case_feedback.id as id
+        ,vcs_t_case_feedback.case_id as case_id
+        ,vcs_t_case_feedback.disposal_id as disposal_id
+        ,vcs_t_case_feedback.case_dispatch_status as case_dispatch_status
+        ,vcs_t_case_feedback.interphone_id as interphone_id
+        ,vcs_t_case_feedback.fb_way as fb_way
+        ,vcs_t_case_feedback.fb_content as fb_content
+        ,vcs_t_case_feedback.feedbacker as feedbacker
+        ,vcs_t_case_feedback.fb_time as fb_time
+        ,vcs_t_case_feedback.longitude as longitude
+        ,vcs_t_case_feedback.latitude as latitude
+        ,vcs_t_case_feedback.case_type as case_type
+        ,vcs_t_case_feedback.case_sub_type as case_sub_type
+        ,vcs_t_case_feedback.case_three_type as case_three_type
+        ,vcs_t_case_feedback.case_processor as case_processor
+        ,vcs_t_case_feedback.createuser as createuser
+        ,vcs_t_case_feedback.create_time as create_time
+        ,vcs_t_case_feedback.update_user as update_user
+        ,vcs_t_case_feedback.update_time as update_time
+        ,vcs_t_case_feedback.del_flag as del_flag
+        ,vcs_t_case_feedback.dispatch_id as dispatch_id
+        ,vcs_t_case_feedback.case_level as case_level
+    </sql>
+
+    <select id="selectFBByCaseId" resultMap="ModelMap" parameterType="java.lang.String">
+        SELECT
+        t.ID, t.CASE_ID, t.DISPOSAL_ID, CASE_DISPATCH_STATUS, t.INTERPHONE_ID, t.FB_WAY, t.FB_CONTENT,
+        t.feedbacker, t.FB_TIME, t.LONGITUDE, t.LATITUDE, t.CASE_TYPE, t.CASE_SUB_TYPE, t.CASE_THREE_TYPE,
+        t.CASE_PROCESSOR, t.CREATEUSER, t.CREATE_TIME, t.UPDATE_USER, t.UPDATE_TIME, t.DEL_FLAG, t.DISPATCH_ID,t.CASE_LEVEL,t.apply_approval_feed_back
+        FROM VCS_T_CASE_FEEDBACK t
+        left join smp_t_staff_info s
+        on s.guid = t.feedbacker
+        where t.case_id=#{caseId}
+        order by t.fb_time desc
+    </select>
+
+    <!--获得类名为:VcstCaseFeedback对应的数据库表的数据总行数 -->
+    <select id="getVcstCaseFeedbackRowCount" resultType="java.lang.Long">
+        select count(id) from vcs_t_case_feedback
+    </select>
+    <!-- 获得类名为:VcstCaseFeedback对应数据库中表的数据集合 -->
+    <select id="selectVcstCaseFeedback" resultMap="result_VcstCaseFeedback_Map">
+        select
+        <include refid="vcs_t_case_feedback_Column"/>
+        from vcs_t_case_feedback
+    </select>
+
+    <!-- 获得一个VcstCaseFeedback对象,以参数VcstCaseFeedback对象中不为空的属性作为条件进行查询-->
+    <select id="selectVcstCaseFeedbackByObj" parameterType="com.commandcenter.model.casemodel.VcstCaseFeedback"
+            resultMap="result_VcstCaseFeedback_Map">
+        select
+        <include refid="vcs_t_case_feedback_Column"/>
+        from vcs_t_case_feedback
+        <where>
+            <if test="caseLevel != null ">and vcs_t_case_feedback.case_level = #{caseLevel}</if>
+            <if test="dispatchId != null ">and vcs_t_case_feedback.dispatch_id = #{dispatchId}</if>
+            <if test="delFlag != null ">and vcs_t_case_feedback.del_flag = #{delFlag}</if>
+            <if test="updateTime != null ">and vcs_t_case_feedback.update_time = #{updateTime}</if>
+            <if test="updateUser != null ">and vcs_t_case_feedback.update_user = #{updateUser}</if>
+            <if test="createTime != null ">and vcs_t_case_feedback.create_time = #{createTime}</if>
+            <if test="createuser != null ">and vcs_t_case_feedback.createuser = #{createuser}</if>
+            <if test="caseProcessor != null ">and vcs_t_case_feedback.case_processor = #{caseProcessor}</if>
+            <if test="caseThreeType != null ">and vcs_t_case_feedback.case_three_type = #{caseThreeType}</if>
+            <if test="caseSubType != null ">and vcs_t_case_feedback.case_sub_type = #{caseSubType}</if>
+            <if test="caseType != null ">and vcs_t_case_feedback.case_type = #{caseType}</if>
+            <if test="latitude != null ">and vcs_t_case_feedback.latitude = #{latitude}</if>
+            <if test="longitude != null ">and vcs_t_case_feedback.longitude = #{longitude}</if>
+            <if test="fbTime != null ">and vcs_t_case_feedback.fb_time = #{fbTime}</if>
+            <if test="feedbacker != null ">and vcs_t_case_feedback.feedbacker = #{feedbacker}</if>
+            <if test="fbContent != null ">and vcs_t_case_feedback.fb_content = #{fbContent}</if>
+            <if test="fbWay != null ">and vcs_t_case_feedback.fb_way = #{fbWay}</if>
+            <if test="interphoneId != null ">and vcs_t_case_feedback.interphone_id = #{interphoneId}</if>
+            <if test="caseDispatchStatus != null ">and vcs_t_case_feedback.case_dispatch_status =
+                #{caseDispatchStatus}
+            </if>
+            <if test="disposalId != null ">and vcs_t_case_feedback.disposal_id = #{disposalId}</if>
+            <if test="caseId != null ">and vcs_t_case_feedback.case_id = #{caseId}</if>
+            <if test="id != null ">and vcs_t_case_feedback.id = #{id}</if>
+        </where>
+    </select>
+
+    <!-- 通过VcstCaseFeedback的id获得对应数据库中表的数据对象-->
+    <select id="selectVcstCaseFeedbackById" parameterType="java.lang.String" resultMap="result_VcstCaseFeedback_Map">
+        select
+        <include refid="vcs_t_case_feedback_Column"/>
+        from vcs_t_case_feedback
+        where vcs_t_case_feedback.id = #{id}
+    </select>
+
+    <!-- 将VcstCaseFeedback插入到对应数据库的表中,包括属性值为null的数据-->
+
+    <insert id="insertVcstCaseFeedback" parameterType="com.commandcenter.model.casemodel.VcstCaseFeedback">
+        insert into vcs_t_case_feedback(id,case_id,disposal_id,case_dispatch_status,interphone_id,fb_way,fb_content,feedbacker,fb_time,longitude,latitude,case_type,case_sub_type,case_three_type,case_processor,createuser,create_time,update_user,update_time,del_flag,dispatch_id,case_level) 
+        values(#{id},#{caseId},#{disposalId},#{caseDispatchStatus},#{interphoneId},#{fbWay},#{fbContent},#{feedbacker},#{fbTime},#{longitude},#{latitude},#{caseType},#{caseSubType},#{caseThreeType},#{caseProcessor},#{createuser},#{createTime},#{updateUser},#{updateTime},#{delFlag},#{dispatchId},#{caseLevel})
+    </insert>
+
+    <!-- 将VcstCaseFeedback中属性值不为null的数据,插入到对应数据库的表中-->
+    <insert id="insertNonEmptyVcstCaseFeedback" parameterType="com.commandcenter.model.casemodel.VcstCaseFeedback">
+        insert into vcs_t_case_feedback
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="caseId != null">case_id,</if>
+            <if test="disposalId != null">disposal_id,</if>
+            <if test="caseDispatchStatus != null">case_dispatch_status,</if>
+            <if test="interphoneId != null">interphone_id,</if>
+            <if test="fbWay != null">fb_way,</if>
+            <if test="fbContent != null">fb_content,</if>
+            <if test="feedbacker != null">feedbacker,</if>
+            <if test="fbTime != null">fb_time,</if>
+            <if test="longitude != null">longitude,</if>
+            <if test="latitude != null">latitude,</if>
+            <if test="caseType != null">case_type,</if>
+            <if test="caseSubType != null">case_sub_type,</if>
+            <if test="caseThreeType != null">case_three_type,</if>
+            <if test="caseProcessor != null">case_processor,</if>
+            <if test="createuser != null">createuser,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateUser != null">update_user,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="dispatchId != null">dispatch_id,</if>
+            <if test="caseLevel != null">case_level,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="caseId != null">#{caseId},</if>
+            <if test="disposalId != null">#{disposalId},</if>
+            <if test="caseDispatchStatus != null">#{caseDispatchStatus},</if>
+            <if test="interphoneId != null">#{interphoneId},</if>
+            <if test="fbWay != null">#{fbWay},</if>
+            <if test="fbContent != null">#{fbContent},</if>
+            <if test="feedbacker != null">#{feedbacker},</if>
+            <if test="fbTime != null">#{fbTime},</if>
+            <if test="longitude != null">#{longitude},</if>
+            <if test="latitude != null">#{latitude},</if>
+            <if test="caseType != null">#{caseType},</if>
+            <if test="caseSubType != null">#{caseSubType},</if>
+            <if test="caseThreeType != null">#{caseThreeType},</if>
+            <if test="caseProcessor != null">#{caseProcessor},</if>
+            <if test="createuser != null">#{createuser},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateUser != null">#{updateUser},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="dispatchId != null">#{dispatchId},</if>
+            <if test="caseLevel != null">#{caseLevel},</if>
+        </trim>
+    </insert>
+
+    <!-- 通过VcstCaseFeedback的id将数据库表中对应的数据删除-->
+    <delete id="deleteVcstCaseFeedbackById" parameterType="java.lang.String">
+        delete from vcs_t_case_feedback
+        where id = #{id}
+    </delete>
+
+    <!-- 通过VcstCaseFeedback的id将VcstCaseFeedback的数据更新到数据库中对应的表,包括值null的数据-->
+    <update id="updateVcstCaseFeedbackById" parameterType="com.commandcenter.model.casemodel.VcstCaseFeedback">
+        update vcs_t_case_feedback set
+            case_id=#{caseId}
+            ,disposal_id=#{disposalId}
+            ,case_dispatch_status=#{caseDispatchStatus}
+            ,interphone_id=#{interphoneId}
+            ,fb_way=#{fbWay}
+            ,fb_content=#{fbContent}
+            ,feedbacker=#{feedbacker}
+            ,fb_time=#{fbTime}
+            ,longitude=#{longitude}
+            ,latitude=#{latitude}
+            ,case_type=#{caseType}
+            ,case_sub_type=#{caseSubType}
+            ,case_three_type=#{caseThreeType}
+            ,case_processor=#{caseProcessor}
+            ,createuser=#{createuser}
+            ,create_time=#{createTime}
+            ,update_user=#{updateUser}
+            ,update_time=#{updateTime}
+            ,del_flag=#{delFlag}
+            ,dispatch_id=#{dispatchId}
+            ,case_level=#{caseLevel}
+        where id=#{id}
+    </update>
+
+    <!-- 通过VcstCaseFeedback的id将VcstCaseFeedback中属性值不为null的数据更新到数据库对应的表中-->
+    <update id="updateNonEmptyVcstCaseFeedbackById" parameterType="com.commandcenter.model.casemodel.VcstCaseFeedback">
+        update vcs_t_case_feedback
+        <set>
+            <if test="caseId != null">
+                case_id=#{caseId},
+            </if>
+            <if test="disposalId != null">
+                disposal_id=#{disposalId},
+            </if>
+            <if test="caseDispatchStatus != null">
+                case_dispatch_status=#{caseDispatchStatus},
+            </if>
+            <if test="interphoneId != null">
+                interphone_id=#{interphoneId},
+            </if>
+            <if test="fbWay != null">
+                fb_way=#{fbWay},
+            </if>
+            <if test="fbContent != null">
+                fb_content=#{fbContent},
+            </if>
+            <if test="feedbacker != null">
+                feedbacker=#{feedbacker},
+            </if>
+            <if test="fbTime != null">
+                fb_time=#{fbTime},
+            </if>
+            <if test="longitude != null">
+                longitude=#{longitude},
+            </if>
+            <if test="latitude != null">
+                latitude=#{latitude},
+            </if>
+            <if test="caseType != null">
+                case_type=#{caseType},
+            </if>
+            <if test="caseSubType != null">
+                case_sub_type=#{caseSubType},
+            </if>
+            <if test="caseThreeType != null">
+                case_three_type=#{caseThreeType},
+            </if>
+            <if test="caseProcessor != null">
+                case_processor=#{caseProcessor},
+            </if>
+            <if test="createuser != null">
+                createuser=#{createuser},
+            </if>
+            <if test="createTime != null">
+                create_time=#{createTime},
+            </if>
+            <if test="updateUser != null">
+                update_user=#{updateUser},
+            </if>
+            <if test="updateTime != null">
+                update_time=#{updateTime},
+            </if>
+            <if test="delFlag != null">
+                del_flag=#{delFlag},
+            </if>
+            <if test="dispatchId != null">
+                dispatch_id=#{dispatchId},
+            </if>
+            <if test="caseLevel != null">
+                case_level=#{caseLevel},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <insert id="batchInsertFeedback" parameterType="java.util.List">
+        insert into
+        vcs_t_case_feedback(id,case_id,disposal_id,case_dispatch_status,interphone_id,fb_way,fb_content,feedbacker,
+        fb_time,longitude,latitude,case_type,case_sub_type,case_three_type,case_processor,createuser,create_time,update_user,
+        update_time,del_flag,dispatch_id,case_level,apply_approval_feed_back)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.id},#{item.caseId},#{item.disposalId},#{item.caseDispatchStatus},#{item.interphoneId},#{item.fbWay},#{item.fbContent},#{item.feedbacker},
+            #{item.fbTime},#{item.longitude},#{item.latitude},#{item.caseType},#{item.caseSubType},#{item.caseThreeType},#{item.caseProcessor},#{item.createuser},
+            #{item.createTime},#{item.updateUser},#{item.updateTime},#{item.delFlag},#{item.dispatchId},#{item.caseLevel},#{item.applyApprovalFeedBack}
+            )
+        </foreach>
+    </insert>
+
+    <delete id="deleteVcstCaseFeedbackByIds" parameterType="java.util.List">
+        delete from vcs_t_case_feedback
+        where id IN
+        <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <!-- 到达现场警员的staffGuid-->
+    <select id="getArrivedStaffList" parameterType="java.util.Map" resultType="java.lang.String">
+        SELECT DISTINCT(staff_guid) as "staffGuid" FROM vcs_t_case_feedback v,mpa_t_dispatch d
+        where v.case_id = d.case_id
+        and d.staff_guid is not null
+        and v.case_dispatch_status = 'JQZT004'
+        and d.case_id = #{caseId}
+    </select>
+</mapper>

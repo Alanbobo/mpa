@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.commandcenter.dao.smp.SmpPucidInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.commandcenter.model.smp.SmpPucidInfo" >
+    <result column="puc_id" property="pucId" jdbcType="VARCHAR" />
+    <result column="puc_name" property="pucName" jdbcType="VARCHAR" />
+    <result column="puc_parentid" property="pucParentid" jdbcType="VARCHAR" />
+    <result column="puc_sysid" property="pucSysid" jdbcType="VARCHAR" />
+    <result column="guid" property="guid" jdbcType="VARCHAR" />
+  </resultMap>
+  <insert id="insert" parameterType="com.commandcenter.model.smp.SmpPucidInfo" >
+    insert into smp_t_pucid_info (puc_id, puc_name, puc_parentid, 
+      puc_sysid, guid)
+    values (#{pucId,jdbcType=VARCHAR}, #{pucName,jdbcType=VARCHAR}, #{pucParentid,jdbcType=VARCHAR}, 
+      #{pucSysid,jdbcType=VARCHAR}, #{guid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.commandcenter.model.smp.SmpPucidInfo" >
+    insert into smp_t_pucid_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pucId != null" >
+        puc_id,
+      </if>
+      <if test="pucName != null" >
+        puc_name,
+      </if>
+      <if test="pucParentid != null" >
+        puc_parentid,
+      </if>
+      <if test="pucSysid != null" >
+        puc_sysid,
+      </if>
+      <if test="guid != null" >
+        guid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pucId != null" >
+        #{pucId,jdbcType=VARCHAR},
+      </if>
+      <if test="pucName != null" >
+        #{pucName,jdbcType=VARCHAR},
+      </if>
+      <if test="pucParentid != null" >
+        #{pucParentid,jdbcType=VARCHAR},
+      </if>
+      <if test="pucSysid != null" >
+        #{pucSysid,jdbcType=VARCHAR},
+      </if>
+      <if test="guid != null" >
+        #{guid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

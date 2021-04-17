@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.commandcenter.dao.dictdao.SmptLanguageDao">
+    <!-- SmptLanguage的resultMap,column是给数据库列起的别名,它对应property类的属性-->
+    <resultMap id="result_SmptLanguage_Map" type="com.commandcenter.model.dictmodel.SmptLanguage">
+        <id column="guid" property="guid" />
+        <result column="language_code" property="languageCode" />
+        <result column="describe_name" property="describeName" />
+        <result column="sort" property="sort" />
+        <result column="icon_path" property="iconPath" />
+        <result column="status" property="status" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 数据库中表名为:smp_t_language的列名,as前是数据库的列明,as后是列的别名用于映射成实体类中的属性,需要注意的是别名必须与resultMap中的column别名一致 -->
+    <sql id="smp_t_language_Column">
+        smp_t_language.guid as guid
+        ,smp_t_language.language_code as language_code
+        ,smp_t_language.describe_name as describe_name
+        ,smp_t_language.sort as sort
+        ,smp_t_language.icon_path as icon_path
+        ,smp_t_language.status as status
+        ,smp_t_language.create_time as create_time
+        ,smp_t_language.update_time as update_time
+    </sql>
+
+    <!--获得类名为:SmptLanguage对应的数据库表的数据总行数 -->
+    <select id="getSmptLanguageRowCount" resultType="java.lang.Long">
+        select count(guid) from smp_t_language
+    </select>
+    <!-- 获得类名为:SmptLanguage对应数据库中表的数据集合 -->
+    <select id="selectSmptLanguage" resultType="com.commandcenter.model.dictmodel.SmptLanguage">
+        select 
+        <include refid="smp_t_language_Column" /> 
+        from smp_t_language
+    </select> 
+
+    <!-- 获得一个SmptLanguage对象,以参数SmptLanguage对象中不为空的属性作为条件进行查询-->
+    <select id="selectSmptLanguageByObj" parameterType="com.commandcenter.model.dictmodel.SmptLanguage" resultMap="result_SmptLanguage_Map">
+        select 
+            <include refid="smp_t_language_Column" /> 
+        from smp_t_language
+        <where>
+            <if test="updateTime != null "> and smp_t_language.update_time = #{updateTime}</if>
+            <if test="createTime != null "> and smp_t_language.create_time = #{createTime}</if>
+            <if test="status != null "> and smp_t_language.status = #{status}</if>
+            <if test="iconPath != null "> and smp_t_language.icon_path = #{iconPath}</if>
+            <if test="sort != null "> and smp_t_language.sort = #{sort}</if>
+            <if test="describeName != null "> and smp_t_language.describe_name = #{describeName}</if>
+            <if test="languageCode != null "> and smp_t_language.language_code = #{languageCode}</if>
+            <if test="guid != null "> and smp_t_language.guid = #{guid}</if>
+        </where>
+    </select> 
+
+    <!-- 通过SmptLanguage的id获得对应数据库中表的数据对象-->
+    <select id="selectSmptLanguageById" parameterType="java.lang.String" resultMap="result_SmptLanguage_Map">
+        select 
+            <include refid="smp_t_language_Column" /> 
+        from smp_t_language
+        where smp_t_language.guid = #{id}
+    </select> 
+
+    <!-- 将SmptLanguage插入到对应数据库的表中,包括属性值为null的数据-->
+
+    <insert id="insertSmptLanguage" parameterType="com.commandcenter.model.dictmodel.SmptLanguage">
+        insert into smp_t_language(guid,language_code,describe_name,sort,icon_path,status,create_time,update_time) 
+        values(#{guid},#{languageCode},#{describeName},#{sort},#{iconPath},#{status},#{createTime},#{updateTime})
+    </insert>
+
+    <!-- 将SmptLanguage中属性值不为null的数据,插入到对应数据库的表中-->
+    <insert id="insertNonEmptySmptLanguage" parameterType="com.commandcenter.model.dictmodel.SmptLanguage">
+        insert into smp_t_language
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="guid != null">guid,</if>
+            <if test="languageCode != null">language_code,</if>
+            <if test="describeName != null">describe_name,</if>
+            <if test="sort != null">sort,</if>
+            <if test="iconPath != null">icon_path,</if>
+            <if test="status != null">status,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="guid != null"> #{guid},</if>
+            <if test="languageCode != null"> #{languageCode},</if>
+            <if test="describeName != null"> #{describeName},</if>
+            <if test="sort != null"> #{sort},</if>
+            <if test="iconPath != null"> #{iconPath},</if>
+            <if test="status != null"> #{status},</if>
+            <if test="createTime != null"> #{createTime},</if>
+            <if test="updateTime != null"> #{updateTime},</if>
+        </trim>
+    </insert>
+
+    <!-- 通过SmptLanguage的id将数据库表中对应的数据删除-->
+    <delete id="deleteSmptLanguageById" parameterType="java.lang.String">
+        delete from smp_t_language
+        where guid = #{id}
+    </delete>
+
+    <!-- 通过SmptLanguage的id将SmptLanguage的数据更新到数据库中对应的表,包括值null的数据-->
+    <update id="updateSmptLanguageById" parameterType="com.commandcenter.model.dictmodel.SmptLanguage">
+        update smp_t_language set
+            language_code=#{languageCode}
+            ,describe_name=#{describeName}
+            ,sort=#{sort}
+            ,icon_path=#{iconPath}
+            ,status=#{status}
+            ,create_time=#{createTime}
+            ,update_time=#{updateTime}
+        where guid=#{guid}
+    </update>
+
+    <!-- 通过SmptLanguage的id将SmptLanguage中属性值不为null的数据更新到数据库对应的表中-->
+    <update id="updateNonEmptySmptLanguageById" parameterType="com.commandcenter.model.dictmodel.SmptLanguage">
+        update smp_t_language
+        <set>
+            <if test="languageCode != null">
+                language_code=#{languageCode},
+            </if>
+            <if test="describeName != null">
+                describe_name=#{describeName},
+            </if>
+            <if test="sort != null">
+                sort=#{sort},
+            </if>
+            <if test="iconPath != null">
+                icon_path=#{iconPath},
+            </if>
+            <if test="status != null">
+                status=#{status},
+            </if>
+            <if test="createTime != null">
+                create_time=#{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time=#{updateTime},
+            </if>
+        </set>
+        where guid=#{guid}
+    </update>
+
+</mapper>

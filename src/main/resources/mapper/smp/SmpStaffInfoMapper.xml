@@ -1,0 +1,967 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.commandcenter.dao.smp.SmpStaffInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.commandcenter.model.smp.SmpStaffInfo" >
+    <id column="guid" property="guid" jdbcType="VARCHAR" />
+    <result column="staff_code" property="staffCode" jdbcType="VARCHAR" />
+    <result column="staff_name" property="staffName" jdbcType="VARCHAR" />
+    <result column="staff_type" property="staffType" jdbcType="VARCHAR" />
+    <result column="category" property="category" jdbcType="VARCHAR" />
+    <result column="staff_status" property="staffStatus" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="VARCHAR" />
+    <result column="id_no" property="idNo" jdbcType="VARCHAR" />
+    <result column="telephone" property="telephone" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="xj_type" property="xjType" jdbcType="VARCHAR" />
+    <result column="isleader" property="isleader" jdbcType="VARCHAR" />
+    <result column="isvalid" property="isvalid" jdbcType="VARCHAR" />
+    <result column="image_path" property="imagePath" jdbcType="VARCHAR" />
+    <result column="org_guid" property="orgGuid" jdbcType="VARCHAR" />
+    <result column="org_identifier" property="orgIdentifier" jdbcType="VARCHAR" />
+    <result column="seq" property="seq" jdbcType="BIGINT" />
+    <result column="position" property="position" jdbcType="VARCHAR" />
+    <result column="system_no" property="systemNo" jdbcType="VARCHAR" />
+    <result column="from_org_guid" property="fromOrgGuid" jdbcType="VARCHAR" />
+    <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="interphone_guid" property="interphoneGuid" jdbcType="VARCHAR" />
+    <result column="device_id" property="deviceId" jdbcType="VARCHAR" />
+    <result column="bind_type" property="bindType" jdbcType="VARCHAR" />
+    <result column="bind_confirm" property="bindConfirm" jdbcType="VARCHAR" />
+    <result column="loan_reason" property="loanReason" jdbcType="VARCHAR" />
+    <result column="loan_remark" property="loanRemark" jdbcType="VARCHAR" />
+    <result column="car_guid" property="carGuid" jdbcType="VARCHAR" />
+    <result column="vc_gps_guid" property="vcGpsGuid" jdbcType="VARCHAR" />
+    <result column="enable_flag" property="enableFlag" jdbcType="SMALLINT" />
+    <result column="source" property="source" jdbcType="VARCHAR" />
+    <result column="puc_id" property="pucId" jdbcType="VARCHAR" />
+    <result column="system_id" property="systemId" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="image_guid" property="imageGuid" jdbcType="VARCHAR" />
+    <result column="version_seq" property="versionSeq" jdbcType="VARCHAR" />
+    <result column="org_history" property="orgHistory" jdbcType="VARCHAR" />
+    <result column="version" property="version" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ModelMap" type="com.commandcenter.model.smp.vo.StaffModel">
+    <id column="GUID" jdbcType="VARCHAR" property="guid"/>
+    <result column="STAFF_CODE" jdbcType="VARCHAR" property="staffCode"/>
+    <result column="STAFF_NAME" jdbcType="VARCHAR" property="staffName"/>
+    <result column="STAFF_TYPE" jdbcType="VARCHAR" property="staffType"/>
+    <result column="CATEGORY" jdbcType="VARCHAR" property="category"/>
+    <result column="STAFF_STATUS" jdbcType="VARCHAR" property="staffStatus"/>
+    <result column="ORG_IDENTIFIER" jdbcType="VARCHAR" property="orgIdentifier"/>
+    <result column="FROM_ORG_IDENTIFIER" jdbcType="VARCHAR" property="fromOrgIdentifier"/>
+    <result column="ORG_NAME" jdbcType="VARCHAR" property="orgName"/>
+    <result column="FROM_ORG_GUID" jdbcType="VARCHAR" property="fromOrgGuid"/>
+    <result column="START_TIME" jdbcType="TIMESTAMP" property="startTime"/>
+    <result column="END_TIME" jdbcType="TIMESTAMP" property="endTime"/>
+    <result column="INTERPHONE_GUID" jdbcType="VARCHAR" property="interphoneGuid"/>
+    <result column="BIND_TYPE" jdbcType="VARCHAR" property="bindType"/>
+    <result column="BIND_CONFIRM" jdbcType="VARCHAR" property="bindConfirm"/>
+    <result column="SEQ" jdbcType="DECIMAL" property="seq"/>
+    <result column="POSITION" jdbcType="VARCHAR" property="position"/>
+    <result column="SEX" jdbcType="VARCHAR" property="sex"/>
+    <result column="ID_NO" jdbcType="VARCHAR" property="idNo"/>
+    <result column="TELEPHONE" jdbcType="VARCHAR" property="telephone"/>
+    <result column="MOBILE" jdbcType="VARCHAR" property="mobile"/>
+    <result column="ADDRESS" jdbcType="VARCHAR" property="address"/>
+    <result column="CREATE_USER" jdbcType="VARCHAR" property="createUser"/>
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime"/>
+    <result column="UPDATE_USER" jdbcType="VARCHAR" property="updateUser"/>
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime"/>
+    <result column="REMARK" jdbcType="VARCHAR" property="remark"/>
+    <result column="XJ_TYPE" jdbcType="VARCHAR" property="xjType"/>
+    <result column="ISLEADER" jdbcType="VARCHAR" property="isleader"/>
+  </resultMap>
+  <resultMap id="ForAppModel" type="com.commandcenter.model.smp.vo.StaffForAppModel">
+    <id column="GUID" jdbcType="VARCHAR" property="staffGuid"/>
+    <result column="STAFF_CODE" jdbcType="VARCHAR" property="staffCode"/>
+    <result column="STAFF_NAME" jdbcType="VARCHAR" property="realName"/>
+    <result column="ORGANIZATION" jdbcType="VARCHAR" property="organization"/>
+    <result column="ROLE" jdbcType="VARCHAR" property="role"/>
+    <result column="MOBILE" jdbcType="VARCHAR" property="phoneNumber"/>
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.commandcenter.model.smp.SmpStaffInfo" extends="BaseResultMap" >
+    <result column="image" property="image" jdbcType="BINARY" />
+  </resultMap>
+  <resultMap id="ContactsStaff" type="com.commandcenter.model.contacts.StaffForApp">
+    <result column="staff_code" property="staffCode" jdbcType="VARCHAR"/>
+    <result column="staff_name" property="staffName" jdbcType="VARCHAR"/>
+    <result column="org_identifier" property="orgIdentifier"/>
+    <result column="staff_guid" property="staffGuid" jdbcType="VARCHAR"/>
+    <result column="mobile" property="phoneNum" jdbcType="VARCHAR"/>
+    <result column="org_guid" property="parentOrgGuid"/>
+    <result column="version" property="version"/>
+    <result column="mobile" property="phoneNum"/>
+    <result column="position" property="position"/>
+    <result column="org_guid" property="orgGuid"/>
+  </resultMap>
+
+  <resultMap id="MapStaff" type="java.util.Map">
+    <result column="staff_guid" property="staffGuid" jdbcType="VARCHAR"/>
+    <result column="staff_code" property="staffCode" jdbcType="VARCHAR"/>
+    <result column="staff_name" property="staffName" jdbcType="VARCHAR"/>
+    <result column="guid" property="guid" jdbcType="VARCHAR"/>
+    <result column="mobile" property="phoneNum" jdbcType="VARCHAR"/>
+    <result column="create_user" property="createUser"/>
+    <result column="create_time" property="createTime"/>
+    <result column="update_user" property="updateUser"/>
+    <result column="update_time" property="updateTime"/>
+    <result column="org_identifier" property="orgIdentifier"/>
+    <result column="puc_id" property="pucId"/>
+    <result column="dispatcher_account" property="dispatcherAccount"/>
+    <result column="dispatcher_pwd" property="dispatcherPwd"/>
+    <result column="dispatcher_name" property="dispatcherName"/>
+    <result column="dispatcher_num" property="dispatcherNum"/>
+    <result column="role" property="role"/>
+    <result column="online_status" property="onlineStatus"/>
+    <result column="enable_flag" property="enableFlag"/>
+    <result column="org_guid" property="parentGuid"/>
+    <result column="version" property="version"/>
+    <result column="org_name" property="orgName"/>
+    <result column="longitude" property="longitude"/>
+    <result column="latitude" property="latitude"/>
+    <result column="latitude" property="latitude"/>
+    <result column="mobile" property="mobile"/>
+    <result column="is_online" property="isOnline"/>
+    <result column="busess_type" property="busessType" jdbcType="VARCHAR"/>
+  </resultMap>
+
+  <resultMap id="MapStaffDevices" type="java.util.Map">
+    <result column="staff_guid" property="staffGuid" jdbcType="VARCHAR"/>
+    <result column="staff_code" property="staffCode" jdbcType="VARCHAR"/>
+    <result column="staff_name" property="staffName" jdbcType="VARCHAR"/>
+    <result column="mobile" property="phoneNum" jdbcType="VARCHAR"/>
+    <result column="guid" property="guid" jdbcType="VARCHAR"/>
+    <result column="device_id" property="deviceCode" jdbcType="VARCHAR"/>
+    <result column="alias" property="alias" jdbcType="VARCHAR"/>
+    <result column="puc_id" property="pucId" jdbcType="VARCHAR"/>
+    <result column="user_name" property="userName" jdbcType="VARCHAR"/>
+    <result column="user_type" property="userType" jdbcType="VARCHAR"/>
+    <result column="system_id" property="systemId" jdbcType="VARCHAR"/>
+    <result column="org_guid" property="parentGuid" jdbcType="VARCHAR"/>
+    <result column="device_type" property="deviceType" jdbcType="VARCHAR"/>
+    <result column="device_number" property="deviceNumber" jdbcType="VARCHAR"/>
+    <result column="device_name" property="deviceName" jdbcType="VARCHAR"/>
+    <result column="status" property="status" jdbcType="VARCHAR"/>
+    <result column="device_make" property="deviceMake" jdbcType="VARCHAR"/>
+    <result column="number_type" property="numberType" jdbcType="VARCHAR"/>
+    <result column="has_gps" property="hasGps" jdbcType="BIGINT"/>
+    <result column="enable_gps" property="enableGps" jdbcType="BIGINT"/>
+    <result column="and_or_flag" property="andOrFlag" jdbcType="BIGINT"/>
+    <result column="gps_interval" property="gpsInterval" jdbcType="BIGINT"/>
+    <result column="gps_channel" property="gpsChannel" jdbcType="BIGINT"/>
+    <result column="distance" property="distance" jdbcType="BIGINT"/>
+    <result column="gps_datetime" property="gpsDatetime" jdbcType="TIMESTAMP"/>
+    <result column="longitude" property="longitude" jdbcType="DOUBLE"/>
+    <result column="latitude" property="latitude" jdbcType="DOUBLE"/>
+    <result column="has_screen" property="hasScreen" jdbcType="BIGINT"/>
+    <result column="version_seq" property="versionSeq" jdbcType="BIGINT"/>
+    <result column="org_history" property="orgHistory" jdbcType="VARCHAR"/>
+    <result column="join_group" property="joinGroup" jdbcType="VARCHAR"/>
+    <result column="join_group_info" property="joinGroupInfo" jdbcType="VARCHAR"/>
+    <result column="response_group" property="responseGroup" jdbcType="VARCHAR"/>
+    <result column="response_group_info" property="responseGroupInfo" jdbcType="VARCHAR"/>
+    <result column="implict_group" property="implictGroup" jdbcType="VARCHAR"/>
+    <result column="implict_group_info" property="implictGroupInfo" jdbcType="VARCHAR"/>
+    <result column="createuser" property="createuser" jdbcType="VARCHAR"/>
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP"/>
+    <result column="updateuser" property="updateuser" jdbcType="VARCHAR"/>
+    <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP"/>
+    <result column="expend" property="expend" jdbcType="VARCHAR"/>
+    <result column="remark" property="remark" jdbcType="VARCHAR"/>
+    <result column="isvalid" property="isvalid" jdbcType="VARCHAR"/>
+    <result column="org_identifier" property="orgIdentifier" jdbcType="VARCHAR"/>
+    <result column="system_no" property="systemNo" jdbcType="VARCHAR"/>
+    <result column="phone_type" property="phoneType" jdbcType="VARCHAR"/>
+    <result column="user_guid" property="userGuid" jdbcType="VARCHAR"/>
+    <result column="enable_flag" property="enableFlag" jdbcType="SMALLINT"/>
+    <result column="source" property="source" jdbcType="VARCHAR"/>
+    <result column="subsap_guid" property="subsapGuid" jdbcType="VARCHAR"/>
+    <result column="version" property="version" jdbcType="INTEGER"/>
+    <result column="org_name" property="orgName" jdbcType="VARCHAR"/>
+    <result column="is_online" property="isOnline" jdbcType="VARCHAR"/>
+    <result column="busess_type" property="busessType" jdbcType="VARCHAR"/>
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    guid, staff_code, staff_name, staff_type, category, staff_status, sex, id_no, telephone, 
+    mobile, address, create_user, create_time, update_user, update_time, remark, xj_type, 
+    isleader, isvalid, image_path, org_guid, org_identifier, seq, position, system_no, 
+    from_org_guid, start_time, end_time, interphone_guid, device_id, bind_type, bind_confirm, 
+    loan_reason, loan_remark, car_guid, vc_gps_guid, enable_flag, source, puc_id, system_id, 
+    email, image_guid, version_seq, org_history,version
+  </sql>
+  <sql id="Blob_Column_List" >
+    image
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from smp_t_staff_info
+    where guid = #{guid,jdbcType=VARCHAR}
+  </select>
+  <select id="selectStaffByUserCode" resultMap="ModelMap" parameterType="java.lang.String">
+    select
+    t.guid,
+    t.staff_code,
+    t.staff_name,
+    o.org_name as org_name,
+    t.mobile,
+    t.position as position,
+    t.isleader as isleader
+    from SMP_T_STAFF_INFO t
+    LEFT join SMP_T_STAFF_USER su
+    on t.guid=su.staff_guid
+    left join SMP_T_USER_INFO ui
+    on su.user_guid=ui.guid
+    left join SMP_T_ORG_INFO o
+    on t.org_guid=o.guid
+    left join SMP_T_DICT d
+    on t.position=d.key_value
+    WHERE
+    ui.isvalid = 'Y' and t.enable_flag = 1  and o.enable_flag=1  and ui.user_code=#{userCode,jdbcType=VARCHAR}
+
+  </select>
+    <delete id="deleteAllSmpStaffInfo" parameterType="java.lang.String" >
+    delete from  smp_t_staff_info where 1=1; commit;
+  </delete>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from smp_t_staff_info
+    where guid = #{guid,jdbcType=VARCHAR}
+  </delete>
+
+  <delete id="deleteByPrimaryKeyLogic" parameterType="com.commandcenter.model.smp.SmpStaffInfo">
+    UPDATE smp_t_staff_info SET enable_flag=0,version=#{version,jdbcType=INTEGER}
+    where guid = #{guid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.commandcenter.model.smp.SmpStaffInfo" >
+    insert into smp_t_staff_info (guid, staff_code, staff_name, 
+      staff_type, category, staff_status, 
+      sex, id_no, telephone, 
+      mobile, address, create_user, 
+      create_time, update_user, update_time, 
+      remark, xj_type, isleader, 
+      isvalid, image_path, org_guid, 
+      org_identifier, seq, position, 
+      system_no, from_org_guid, start_time, 
+      end_time, interphone_guid, device_id, 
+      bind_type, bind_confirm, loan_reason, 
+      loan_remark, car_guid, vc_gps_guid, 
+      enable_flag, source, puc_id, 
+      system_id, email, image_guid, 
+      version_seq, org_history, image,version
+      )
+    values (#{guid,jdbcType=VARCHAR}, #{staffCode,jdbcType=VARCHAR}, #{staffName,jdbcType=VARCHAR}, 
+      #{staffType,jdbcType=VARCHAR}, #{category,jdbcType=VARCHAR}, #{staffStatus,jdbcType=VARCHAR}, 
+      #{sex,jdbcType=VARCHAR}, #{idNo,jdbcType=VARCHAR}, #{telephone,jdbcType=VARCHAR}, 
+      #{mobile,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{createUser,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{remark,jdbcType=VARCHAR}, #{xjType,jdbcType=VARCHAR}, #{isleader,jdbcType=VARCHAR}, 
+      #{isvalid,jdbcType=VARCHAR}, #{imagePath,jdbcType=VARCHAR}, #{orgGuid,jdbcType=VARCHAR}, 
+      #{orgIdentifier,jdbcType=VARCHAR}, #{seq,jdbcType=BIGINT}, #{position,jdbcType=VARCHAR}, 
+      #{systemNo,jdbcType=VARCHAR}, #{fromOrgGuid,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, 
+      #{endTime,jdbcType=TIMESTAMP}, #{interphoneGuid,jdbcType=VARCHAR}, #{deviceId,jdbcType=VARCHAR}, 
+      #{bindType,jdbcType=VARCHAR}, #{bindConfirm,jdbcType=VARCHAR}, #{loanReason,jdbcType=VARCHAR}, 
+      #{loanRemark,jdbcType=VARCHAR}, #{carGuid,jdbcType=VARCHAR}, #{vcGpsGuid,jdbcType=VARCHAR}, 
+      #{enableFlag,jdbcType=SMALLINT}, #{source,jdbcType=VARCHAR}, #{pucId,jdbcType=VARCHAR}, 
+      #{systemId,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{imageGuid,jdbcType=VARCHAR}, 
+      #{versionSeq,jdbcType=VARCHAR}, #{orgHistory,jdbcType=VARCHAR}, #{image,jdbcType=BINARY},#{version,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.commandcenter.model.smp.SmpStaffInfo" >
+    insert into smp_t_staff_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="guid != null" >
+        guid,
+      </if>
+      <if test="staffCode != null" >
+        staff_code,
+      </if>
+      <if test="staffName != null" >
+        staff_name,
+      </if>
+      <if test="staffType != null" >
+        staff_type,
+      </if>
+      <if test="category != null" >
+        category,
+      </if>
+      <if test="staffStatus != null" >
+        staff_status,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="idNo != null" >
+        id_no,
+      </if>
+      <if test="telephone != null" >
+        telephone,
+      </if>
+      <if test="mobile != null" >
+        mobile,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="createUser != null" >
+        create_user,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateUser != null" >
+        update_user,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="xjType != null" >
+        xj_type,
+      </if>
+      <if test="isleader != null" >
+        isleader,
+      </if>
+      <if test="isvalid != null" >
+        isvalid,
+      </if>
+      <if test="imagePath != null" >
+        image_path,
+      </if>
+      <if test="orgGuid != null" >
+        org_guid,
+      </if>
+      <if test="orgIdentifier != null" >
+        org_identifier,
+      </if>
+      <if test="seq != null" >
+        seq,
+      </if>
+      <if test="position != null" >
+        position,
+      </if>
+      <if test="systemNo != null" >
+        system_no,
+      </if>
+      <if test="fromOrgGuid != null" >
+        from_org_guid,
+      </if>
+      <if test="startTime != null" >
+        start_time,
+      </if>
+      <if test="endTime != null" >
+        end_time,
+      </if>
+      <if test="interphoneGuid != null" >
+        interphone_guid,
+      </if>
+      <if test="deviceId != null" >
+        device_id,
+      </if>
+      <if test="bindType != null" >
+        bind_type,
+      </if>
+      <if test="bindConfirm != null" >
+        bind_confirm,
+      </if>
+      <if test="loanReason != null" >
+        loan_reason,
+      </if>
+      <if test="loanRemark != null" >
+        loan_remark,
+      </if>
+      <if test="carGuid != null" >
+        car_guid,
+      </if>
+      <if test="vcGpsGuid != null" >
+        vc_gps_guid,
+      </if>
+      <if test="enableFlag != null" >
+        enable_flag,
+      </if>
+      <if test="source != null" >
+        source,
+      </if>
+      <if test="pucId != null" >
+        puc_id,
+      </if>
+      <if test="systemId != null" >
+        system_id,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="imageGuid != null" >
+        image_guid,
+      </if>
+      <if test="versionSeq != null" >
+        version_seq,
+      </if>
+      <if test="orgHistory != null" >
+        org_history,
+      </if>
+      <if test="image != null" >
+        image,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="guid != null" >
+        #{guid,jdbcType=VARCHAR},
+      </if>
+      <if test="staffCode != null" >
+        #{staffCode,jdbcType=VARCHAR},
+      </if>
+      <if test="staffName != null" >
+        #{staffName,jdbcType=VARCHAR},
+      </if>
+      <if test="staffType != null" >
+        #{staffType,jdbcType=VARCHAR},
+      </if>
+      <if test="category != null" >
+        #{category,jdbcType=VARCHAR},
+      </if>
+      <if test="staffStatus != null" >
+        #{staffStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="idNo != null" >
+        #{idNo,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null" >
+        #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="xjType != null" >
+        #{xjType,jdbcType=VARCHAR},
+      </if>
+      <if test="isleader != null" >
+        #{isleader,jdbcType=VARCHAR},
+      </if>
+      <if test="isvalid != null" >
+        #{isvalid,jdbcType=VARCHAR},
+      </if>
+      <if test="imagePath != null" >
+        #{imagePath,jdbcType=VARCHAR},
+      </if>
+      <if test="orgGuid != null" >
+        #{orgGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="orgIdentifier != null" >
+        #{orgIdentifier,jdbcType=VARCHAR},
+      </if>
+      <if test="seq != null" >
+        #{seq,jdbcType=BIGINT},
+      </if>
+      <if test="position != null" >
+        #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="systemNo != null" >
+        #{systemNo,jdbcType=VARCHAR},
+      </if>
+      <if test="fromOrgGuid != null" >
+        #{fromOrgGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="interphoneGuid != null" >
+        #{interphoneGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceId != null" >
+        #{deviceId,jdbcType=VARCHAR},
+      </if>
+      <if test="bindType != null" >
+        #{bindType,jdbcType=VARCHAR},
+      </if>
+      <if test="bindConfirm != null" >
+        #{bindConfirm,jdbcType=VARCHAR},
+      </if>
+      <if test="loanReason != null" >
+        #{loanReason,jdbcType=VARCHAR},
+      </if>
+      <if test="loanRemark != null" >
+        #{loanRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="carGuid != null" >
+        #{carGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="vcGpsGuid != null" >
+        #{vcGpsGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="enableFlag != null" >
+        #{enableFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="source != null" >
+        #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="pucId != null" >
+        #{pucId,jdbcType=VARCHAR},
+      </if>
+      <if test="systemId != null" >
+        #{systemId,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="imageGuid != null" >
+        #{imageGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="versionSeq != null" >
+        #{versionSeq,jdbcType=VARCHAR},
+      </if>
+      <if test="orgHistory != null" >
+        #{orgHistory,jdbcType=VARCHAR},
+      </if>
+      <if test="image != null" >
+        #{image,jdbcType=BINARY},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.commandcenter.model.smp.SmpStaffInfo" >
+    update smp_t_staff_info
+    <set >
+      <if test="staffCode != null" >
+        staff_code = #{staffCode,jdbcType=VARCHAR},
+      </if>
+      <if test="staffName != null" >
+        staff_name = #{staffName,jdbcType=VARCHAR},
+      </if>
+      <if test="staffType != null" >
+        staff_type = #{staffType,jdbcType=VARCHAR},
+      </if>
+      <if test="category != null" >
+        category = #{category,jdbcType=VARCHAR},
+      </if>
+      <if test="staffStatus != null" >
+        staff_status = #{staffStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="idNo != null" >
+        id_no = #{idNo,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null" >
+        telephone = #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="xjType != null" >
+        xj_type = #{xjType,jdbcType=VARCHAR},
+      </if>
+      <if test="isleader != null" >
+        isleader = #{isleader,jdbcType=VARCHAR},
+      </if>
+      <if test="isvalid != null" >
+        isvalid = #{isvalid,jdbcType=VARCHAR},
+      </if>
+      <if test="imagePath != null" >
+        image_path = #{imagePath,jdbcType=VARCHAR},
+      </if>
+      <if test="orgGuid != null" >
+        org_guid = #{orgGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="orgIdentifier != null" >
+        org_identifier = #{orgIdentifier,jdbcType=VARCHAR},
+      </if>
+      <if test="seq != null" >
+        seq = #{seq,jdbcType=BIGINT},
+      </if>
+      <if test="position != null" >
+        position = #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="systemNo != null" >
+        system_no = #{systemNo,jdbcType=VARCHAR},
+      </if>
+      <if test="fromOrgGuid != null" >
+        from_org_guid = #{fromOrgGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="interphoneGuid != null" >
+        interphone_guid = #{interphoneGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceId != null" >
+        device_id = #{deviceId,jdbcType=VARCHAR},
+      </if>
+      <if test="bindType != null" >
+        bind_type = #{bindType,jdbcType=VARCHAR},
+      </if>
+      <if test="bindConfirm != null" >
+        bind_confirm = #{bindConfirm,jdbcType=VARCHAR},
+      </if>
+      <if test="loanReason != null" >
+        loan_reason = #{loanReason,jdbcType=VARCHAR},
+      </if>
+      <if test="loanRemark != null" >
+        loan_remark = #{loanRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="carGuid != null" >
+        car_guid = #{carGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="vcGpsGuid != null" >
+        vc_gps_guid = #{vcGpsGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="enableFlag != null" >
+        enable_flag = #{enableFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="source != null" >
+        source = #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="pucId != null" >
+        puc_id = #{pucId,jdbcType=VARCHAR},
+      </if>
+      <if test="systemId != null" >
+        system_id = #{systemId,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="imageGuid != null" >
+        image_guid = #{imageGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="versionSeq != null" >
+        version_seq = #{versionSeq,jdbcType=VARCHAR},
+      </if>
+      <if test="orgHistory != null" >
+        org_history = #{orgHistory,jdbcType=VARCHAR},
+      </if>
+      <if test="image != null" >
+        image = #{image,jdbcType=BINARY},
+      </if>
+      <if test="version != null" >
+        version = #{version,jdbcType=BINARY},
+      </if>
+    </set>
+    where guid = #{guid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.commandcenter.model.smp.SmpStaffInfo" >
+    update smp_t_staff_info
+    set staff_code = #{staffCode,jdbcType=VARCHAR},
+      staff_name = #{staffName,jdbcType=VARCHAR},
+      staff_type = #{staffType,jdbcType=VARCHAR},
+      category = #{category,jdbcType=VARCHAR},
+      staff_status = #{staffStatus,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR},
+      id_no = #{idNo,jdbcType=VARCHAR},
+      telephone = #{telephone,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR},
+      xj_type = #{xjType,jdbcType=VARCHAR},
+      isleader = #{isleader,jdbcType=VARCHAR},
+      isvalid = #{isvalid,jdbcType=VARCHAR},
+      image_path = #{imagePath,jdbcType=VARCHAR},
+      org_guid = #{orgGuid,jdbcType=VARCHAR},
+      org_identifier = #{orgIdentifier,jdbcType=VARCHAR},
+      seq = #{seq,jdbcType=BIGINT},
+      position = #{position,jdbcType=VARCHAR},
+      system_no = #{systemNo,jdbcType=VARCHAR},
+      from_org_guid = #{fromOrgGuid,jdbcType=VARCHAR},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      interphone_guid = #{interphoneGuid,jdbcType=VARCHAR},
+      device_id = #{deviceId,jdbcType=VARCHAR},
+      bind_type = #{bindType,jdbcType=VARCHAR},
+      bind_confirm = #{bindConfirm,jdbcType=VARCHAR},
+      loan_reason = #{loanReason,jdbcType=VARCHAR},
+      loan_remark = #{loanRemark,jdbcType=VARCHAR},
+      car_guid = #{carGuid,jdbcType=VARCHAR},
+      vc_gps_guid = #{vcGpsGuid,jdbcType=VARCHAR},
+      enable_flag = #{enableFlag,jdbcType=SMALLINT},
+      source = #{source,jdbcType=VARCHAR},
+      puc_id = #{pucId,jdbcType=VARCHAR},
+      system_id = #{systemId,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      image_guid = #{imageGuid,jdbcType=VARCHAR},
+      version_seq = #{versionSeq,jdbcType=VARCHAR},
+      org_history = #{orgHistory,jdbcType=VARCHAR},
+      image = #{image,jdbcType=BINARY}
+    where guid = #{guid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.commandcenter.model.smp.SmpStaffInfo" >
+    update smp_t_staff_info
+    set staff_code = #{staffCode,jdbcType=VARCHAR},
+      staff_name = #{staffName,jdbcType=VARCHAR},
+      staff_type = #{staffType,jdbcType=VARCHAR},
+      category = #{category,jdbcType=VARCHAR},
+      staff_status = #{staffStatus,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR},
+      id_no = #{idNo,jdbcType=VARCHAR},
+      telephone = #{telephone,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR},
+      xj_type = #{xjType,jdbcType=VARCHAR},
+      isleader = #{isleader,jdbcType=VARCHAR},
+      isvalid = #{isvalid,jdbcType=VARCHAR},
+      image_path = #{imagePath,jdbcType=VARCHAR},
+      org_guid = #{orgGuid,jdbcType=VARCHAR},
+      org_identifier = #{orgIdentifier,jdbcType=VARCHAR},
+      seq = #{seq,jdbcType=BIGINT},
+      position = #{position,jdbcType=VARCHAR},
+      system_no = #{systemNo,jdbcType=VARCHAR},
+      from_org_guid = #{fromOrgGuid,jdbcType=VARCHAR},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      interphone_guid = #{interphoneGuid,jdbcType=VARCHAR},
+      device_id = #{deviceId,jdbcType=VARCHAR},
+      bind_type = #{bindType,jdbcType=VARCHAR},
+      bind_confirm = #{bindConfirm,jdbcType=VARCHAR},
+      loan_reason = #{loanReason,jdbcType=VARCHAR},
+      loan_remark = #{loanRemark,jdbcType=VARCHAR},
+      car_guid = #{carGuid,jdbcType=VARCHAR},
+      vc_gps_guid = #{vcGpsGuid,jdbcType=VARCHAR},
+      enable_flag = #{enableFlag,jdbcType=SMALLINT},
+      source = #{source,jdbcType=VARCHAR},
+      puc_id = #{pucId,jdbcType=VARCHAR},
+      system_id = #{systemId,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      image_guid = #{imageGuid,jdbcType=VARCHAR},
+      version_seq = #{versionSeq,jdbcType=VARCHAR},
+      org_history = #{orgHistory,jdbcType=VARCHAR}
+    where guid = #{guid,jdbcType=VARCHAR}
+  </update>
+
+  <select id="selectStaffForAppModelByStaffGuid" resultMap="ForAppModel" parameterType="java.lang.String">
+    select
+    t.guid,
+    t.staff_code,
+    t.staff_name,
+    o.org_name as organization,
+    t.mobile ,
+    d.key_name as role
+    from SMP_T_STAFF_INFO t
+    left join SMP_T_ORG_INFO o
+    on t.org_guid=o.guid
+    left join SMP_T_DICT d
+    on t.position=d.key_value
+    where  t.enable_flag=1 and o.enable_flag=1 and t.guid = #{_parameter}
+  </select>
+
+  <select id="selectFeedBackStaffForAppModelByCaseId" resultMap="ForAppModel" parameterType="java.lang.String">
+    select
+    t.guid,
+    t.staff_code,
+    t.staff_name,
+    o.org_name as organization,
+    t.mobile ,
+    d.key_name as role
+    from SMP_T_STAFF_INFO t
+    left join SMP_T_ORG_INFO o
+    on t.org_guid=o.guid
+    left join SMP_T_DICT d
+    on t.position=d.key_value
+    where  t.enable_flag=1 and o.enable_flag=1 and t.guid in
+    (select feedbacker from VCS_T_CASE_FEEDBACK where CASE_ID = #{caseId})
+  </select>
+  <select id="selectStaffCount" resultType="java.lang.Integer">
+    select COUNT (*) from smp_t_staff_info
+  </select>
+  <select id="selectStaffMaxVersion" resultType="java.lang.Integer">
+    select COALESCE(MAX(version),0) AS version from smp_t_staff_info
+  </select>
+
+  <select id="selectStaffInfoByOrgGuid" parameterType="java.lang.String" resultMap="ContactsStaff">
+    select st.guid,st.staff_code,st.staff_name,sm.guid as smartone_guid,sm.dispatcher_name
+    from smp_t_staff_info st
+    left JOIN smp_t_smartapp_info sm on st.guid=sm.staff_guid
+    where st.org_guid=#{orgGuid}
+  </select>
+  <select id="selectStaffInfoByGuid" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select * from smp_t_staff_info where guid=#{staffGuid}
+  </select>
+
+
+  <!--这个sql语句会返回所有警员信息，包括已经删除的警员！！！-->
+  <select id="selectStaffInfoByMap" parameterType="java.util.Map" resultMap="ContactsStaff">
+    select st.guid as staff_guid
+    ,st.staff_code
+    ,st.staff_name
+    ,st.mobile
+    ,st.version
+    ,st.enable_flag
+    ,st.org_guid
+    ,st.position
+    ,st.org_identifier
+    from smp_t_staff_info st
+    <where>
+      <if test="version != null and version!='' ">
+        and st.version &gt; #{version}
+      </if>
+    </where>
+  </select>
+
+
+
+  <select id="selectStaffGpsByGuid" parameterType="java.lang.String" resultMap="MapStaff">
+    select
+    st.guid as staff_guid,st.staff_code,st.staff_name,st.mobile,sm.guid,sm.create_user as create_user
+    ,sm.create_time
+    ,sm.update_user
+    ,sm.update_time
+    ,st.org_identifier
+    ,sm.puc_id
+    ,sm.dispatcher_account
+    ,sm.dispatcher_pwd
+    ,sm.dispatcher_name
+    ,sm.dispatcher_num
+    ,sm.role
+    ,sm.online_status
+    ,sm.enable_flag
+    ,st.org_guid
+    ,sm.version
+    ,o.org_name
+    ,e.is_online
+    ,o.busess_type
+    ,p.latitude,p.longitude
+    FROM smp_t_staff_info st LEFT JOIN smp_t_smartapp_info sm on st.guid=sm.staff_guid
+    left join puc_online_data e on sm.dispatcher_account = e.device_id
+    LEFT JOIN puc_gps_gpsdata p on sm.dispatcher_account = p.device_id
+    LEFT JOIN smp_t_org_info o ON o.guid=st.org_guid
+    where st.guid=#{guid}
+    limit 1
+  </select>
+
+  <select id="selectStaffGpsByDeviceGuid" parameterType="java.lang.String" resultMap="MapStaffDevices">
+    SELECT
+    st.guid AS staff_guid,
+    st.staff_code,
+    st.staff_name,
+    st.mobile,
+    st.org_identifier,
+    st.org_guid,
+    i.guid,
+    i.puc_id,
+    i.user_name,
+    i.user_type,
+    i.system_id,
+    i.device_id,
+    i.device_number,
+    i.device_name,
+    i.status,
+    i.device_make,
+    i.number_type,
+    i.has_gps,
+    i.enable_gps,
+    i.and_or_flag,
+    i.gps_interval,
+    i.gps_channel,
+    i.distance,
+    i.gps_datetime,
+    i.has_screen,
+    i.version_seq,
+    i.org_history,
+    i.join_group,
+    i.join_group_info,
+    i.response_group,
+    i.response_group_info,
+    i.implict_group,
+    i.implict_group_info,
+    i.CREATEUSER,
+    i.createtime,
+    i.updateuser,
+    i.updatetime,
+    i.expend,
+    i.remark,
+    i.isvalid,
+    i.system_no,
+    i.phone_type,
+    i.user_guid,
+    i.enable_flag,
+    i.SOURCE,
+    i.ALIAS,
+    i.subsap_guid,
+    i.VERSION,
+    i.device_type,
+    pg.latitude,
+    pg.longitude,
+    o.org_name,
+    e.is_online,
+    o.busess_type
+    FROM
+    smp_t_staff_info st
+    LEFT JOIN smp_t_staff_device sd ON st.guid = sd.staff_guid
+    LEFT JOIN smp_t_interphone_info i ON sd.device_guid = i.guid
+    LEFT JOIN puc_gps_gpsdata pg ON i.device_id = pg.device_id
+    LEFT JOIN puc_online_data e ON i.device_id = e.device_id
+    LEFT JOIN smp_t_org_info o ON st.org_guid = o.guid
+    WHERE
+    st.guid=#{guid}
+    and sd.enable_flag = '1'
+    limit 1
+  </select>
+
+  <select id="selectStaffCountByOrg" resultType="java.lang.Integer">
+    select count(1) from smp_t_staff_info where org_guid = #{orgGuid}
+  </select>
+
+</mapper>

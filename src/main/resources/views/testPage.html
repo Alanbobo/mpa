@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head lang="en"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=750,user-scalable=no,target-densitydpi=device-dpi">
+    <meta name="format-detection" content="telephone=no">
+
+    <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+    <style type="test/css">
+        .catch{
+            padding-top: 10px;
+            width: 20%;
+            position: absolute;
+            right: 67px;
+        }
+    </style>
+</head>
+<body>
+    <!--<div class="catch">
+        <select id="roleAttr" name="selects" class="form-control input-medium">
+            <option value="登录">登录</option>
+            <option value="logout">logout</option>
+            <option value="警情">警情</option>
+        </select>
+    </div>-->
+    <label>输入文本:</label>
+    <textarea style="height:800px;width: 400px" name="textarea"></textarea>
+    <button value="提交" onclick="submis()">提交</button>
+    <script language="javascript">
+        function submis() {
+            $.ajax({
+                type:'POST',
+                url:"data/getSystem",
+                //data:{"strJson":text},
+                //dataType: "json",
+                success:function(data){
+                   alert(data.msg);
+                }
+            });
+
+        }
+    </script>
+</body>
+</html>

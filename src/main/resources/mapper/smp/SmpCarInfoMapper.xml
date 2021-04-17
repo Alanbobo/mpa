@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.commandcenter.dao.smp.SmpCarInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.commandcenter.model.smp.SmpCarInfo" >
+    <id column="guid" property="guid" jdbcType="VARCHAR" />
+    <result column="car_gps_id" property="carGpsId" jdbcType="VARCHAR" />
+    <result column="device_guid" property="deviceGuid" jdbcType="VARCHAR" />
+    <result column="staff_type" property="staffType" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="car_no" property="carNo" jdbcType="VARCHAR" />
+    <result column="car_type" property="carType" jdbcType="VARCHAR" />
+    <result column="car_brand" property="carBrand" jdbcType="VARCHAR" />
+    <result column="car_status" property="carStatus" jdbcType="VARCHAR" />
+    <result column="car_purpose" property="carPurpose" jdbcType="VARCHAR" />
+    <result column="car_source" property="carSource" jdbcType="VARCHAR" />
+    <result column="createuser" property="createuser" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="updateuser" property="updateuser" jdbcType="VARCHAR" />
+    <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="org_guid" property="orgGuid" jdbcType="VARCHAR" />
+    <result column="isvalid" property="isvalid" jdbcType="VARCHAR" />
+    <result column="org_identifier" property="orgIdentifier" jdbcType="VARCHAR" />
+    <result column="system_no" property="systemNo" jdbcType="VARCHAR" />
+    <result column="seq" property="seq" jdbcType="BIGINT" />
+    <result column="smart_type" property="smartType" jdbcType="VARCHAR" />
+    <result column="police_type" property="policeType" jdbcType="VARCHAR" />
+    <result column="is_valid" property="isValid" jdbcType="SMALLINT" />
+    <result column="staff_guid" property="staffGuid" jdbcType="VARCHAR" />
+    <result column="enable_flag" property="enableFlag" jdbcType="SMALLINT" />
+    <result column="source" property="source" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <resultMap id="MapCars" type="java.util.Map">
+    <result column="guid" property="guid" jdbcType="VARCHAR"/>
+    <result column="device_id" property="deviceCode" jdbcType="VARCHAR"/>
+    <result column="alias" property="alias" jdbcType="VARCHAR"/>
+    <result column="puc_id" property="pucId" jdbcType="VARCHAR"/>
+    <result column="user_name" property="userName" jdbcType="VARCHAR"/>
+    <result column="user_type" property="userType" jdbcType="VARCHAR"/>
+    <result column="system_id" property="systemId" jdbcType="VARCHAR"/>
+    <result column="org_guid" property="parentGuid" jdbcType="VARCHAR"/>
+    <result column="device_type" property="deviceType" jdbcType="VARCHAR"/>
+    <result column="device_number" property="deviceNumber" jdbcType="VARCHAR"/>
+    <result column="device_name" property="deviceName" jdbcType="VARCHAR"/>
+    <result column="status" property="status" jdbcType="VARCHAR"/>
+    <result column="device_make" property="deviceMake" jdbcType="VARCHAR"/>
+    <result column="number_type" property="numberType" jdbcType="VARCHAR"/>
+    <result column="has_gps" property="hasGps" jdbcType="BIGINT"/>
+    <result column="enable_gps" property="enableGps" jdbcType="BIGINT"/>
+    <result column="and_or_flag" property="andOrFlag" jdbcType="BIGINT"/>
+    <result column="gps_interval" property="gpsInterval" jdbcType="BIGINT"/>
+    <result column="gps_channel" property="gpsChannel" jdbcType="BIGINT"/>
+    <result column="distance" property="distance" jdbcType="BIGINT"/>
+    <result column="gps_datetime" property="gpsDatetime" jdbcType="TIMESTAMP"/>
+    <result column="longitude" property="longitude" jdbcType="DOUBLE"/>
+    <result column="latitude" property="latitude" jdbcType="DOUBLE"/>
+    <result column="has_screen" property="hasScreen" jdbcType="BIGINT"/>
+    <result column="version_seq" property="versionSeq" jdbcType="BIGINT"/>
+    <result column="org_history" property="orgHistory" jdbcType="VARCHAR"/>
+    <result column="join_group" property="joinGroup" jdbcType="VARCHAR"/>
+    <result column="join_group_info" property="joinGroupInfo" jdbcType="VARCHAR"/>
+    <result column="response_group" property="responseGroup" jdbcType="VARCHAR"/>
+    <result column="response_group_info" property="responseGroupInfo" jdbcType="VARCHAR"/>
+    <result column="implict_group" property="implictGroup" jdbcType="VARCHAR"/>
+    <result column="implict_group_info" property="implictGroupInfo" jdbcType="VARCHAR"/>
+    <result column="createuser" property="createuser" jdbcType="VARCHAR"/>
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP"/>
+    <result column="updateuser" property="updateuser" jdbcType="VARCHAR"/>
+    <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP"/>
+    <result column="expend" property="expend" jdbcType="VARCHAR"/>
+    <result column="remark" property="remark" jdbcType="VARCHAR"/>
+    <result column="isvalid" property="isvalid" jdbcType="VARCHAR"/>
+    <result column="org_identifier" property="orgIdentifier" jdbcType="VARCHAR"/>
+    <result column="system_no" property="systemNo" jdbcType="VARCHAR"/>
+    <result column="phone_type" property="phoneType" jdbcType="VARCHAR"/>
+    <result column="user_guid" property="userGuid" jdbcType="VARCHAR"/>
+    <result column="enable_flag" property="enableFlag" jdbcType="SMALLINT"/>
+    <result column="source" property="source" jdbcType="VARCHAR"/>
+    <result column="subsap_guid" property="subsapGuid" jdbcType="VARCHAR"/>
+    <result column="version" property="version" jdbcType="INTEGER"/>
+    <result column="org_name" property="orgName" jdbcType="VARCHAR"/>
+    <result column="carId" property="carId" jdbcType="VARCHAR"/>
+    <result column="car_type" property="type" jdbcType="VARCHAR"/>
+    <result column="name" property="carName" jdbcType="VARCHAR"/>
+    <result column="car_no" property="carCode" jdbcType="VARCHAR"/>
+    <result column="is_online" property="isOnline" jdbcType="VARCHAR"/>
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    guid, car_gps_id, device_guid, staff_type, name, car_no, car_type, car_brand, car_status, 
+    car_purpose, car_source, createuser, createtime, updateuser, updatetime, remark, 
+    org_guid, isvalid, org_identifier, system_no, seq, smart_type, police_type, is_valid, 
+    staff_guid, enable_flag, source
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from smp_t_car_info
+    where guid = #{guid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from smp_t_car_info
+    where guid = #{guid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.commandcenter.model.smp.SmpCarInfo" >
+    insert into smp_t_car_info (guid, car_gps_id, device_guid, 
+      staff_type, name, car_no, 
+      car_type, car_brand, car_status, 
+      car_purpose, car_source, createuser, 
+      createtime, updateuser, updatetime, 
+      remark, org_guid, isvalid, 
+      org_identifier, system_no, seq, 
+      smart_type, police_type, is_valid, 
+      staff_guid, enable_flag, source
+      )
+    values (#{guid,jdbcType=VARCHAR}, #{carGpsId,jdbcType=VARCHAR}, #{deviceGuid,jdbcType=VARCHAR}, 
+      #{staffType,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{carNo,jdbcType=VARCHAR}, 
+      #{carType,jdbcType=VARCHAR}, #{carBrand,jdbcType=VARCHAR}, #{carStatus,jdbcType=VARCHAR}, 
+      #{carPurpose,jdbcType=VARCHAR}, #{carSource,jdbcType=VARCHAR}, #{createuser,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, 
+      #{remark,jdbcType=VARCHAR}, #{orgGuid,jdbcType=VARCHAR}, #{isvalid,jdbcType=VARCHAR}, 
+      #{orgIdentifier,jdbcType=VARCHAR}, #{systemNo,jdbcType=VARCHAR}, #{seq,jdbcType=BIGINT}, 
+      #{smartType,jdbcType=VARCHAR}, #{policeType,jdbcType=VARCHAR}, #{isValid,jdbcType=SMALLINT}, 
+      #{staffGuid,jdbcType=VARCHAR}, #{enableFlag,jdbcType=SMALLINT}, #{source,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.commandcenter.model.smp.SmpCarInfo" >
+    insert into smp_t_car_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="guid != null" >
+        guid,
+      </if>
+      <if test="carGpsId != null" >
+        car_gps_id,
+      </if>
+      <if test="deviceGuid != null" >
+        device_guid,
+      </if>
+      <if test="staffType != null" >
+        staff_type,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="carNo != null" >
+        car_no,
+      </if>
+      <if test="carType != null" >
+        car_type,
+      </if>
+      <if test="carBrand != null" >
+        car_brand,
+      </if>
+      <if test="carStatus != null" >
+        car_status,
+      </if>
+      <if test="carPurpose != null" >
+        car_purpose,
+      </if>
+      <if test="carSource != null" >
+        car_source,
+      </if>
+      <if test="createuser != null" >
+        createuser,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="updateuser != null" >
+        updateuser,
+      </if>
+      <if test="updatetime != null" >
+        updatetime,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="orgGuid != null" >
+        org_guid,
+      </if>
+      <if test="isvalid != null" >
+        isvalid,
+      </if>
+      <if test="orgIdentifier != null" >
+        org_identifier,
+      </if>
+      <if test="systemNo != null" >
+        system_no,
+      </if>
+      <if test="seq != null" >
+        seq,
+      </if>
+      <if test="smartType != null" >
+        smart_type,
+      </if>
+      <if test="policeType != null" >
+        police_type,
+      </if>
+      <if test="isValid != null" >
+        is_valid,
+      </if>
+      <if test="staffGuid != null" >
+        staff_guid,
+      </if>
+      <if test="enableFlag != null" >
+        enable_flag,
+      </if>
+      <if test="source != null" >
+        source,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="guid != null" >
+        #{guid,jdbcType=VARCHAR},
+      </if>
+      <if test="carGpsId != null" >
+        #{carGpsId,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceGuid != null" >
+        #{deviceGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="staffType != null" >
+        #{staffType,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="carNo != null" >
+        #{carNo,jdbcType=VARCHAR},
+      </if>
+      <if test="carType != null" >
+        #{carType,jdbcType=VARCHAR},
+      </if>
+      <if test="carBrand != null" >
+        #{carBrand,jdbcType=VARCHAR},
+      </if>
+      <if test="carStatus != null" >
+        #{carStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="carPurpose != null" >
+        #{carPurpose,jdbcType=VARCHAR},
+      </if>
+      <if test="carSource != null" >
+        #{carSource,jdbcType=VARCHAR},
+      </if>
+      <if test="createuser != null" >
+        #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null" >
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="orgGuid != null" >
+        #{orgGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="isvalid != null" >
+        #{isvalid,jdbcType=VARCHAR},
+      </if>
+      <if test="orgIdentifier != null" >
+        #{orgIdentifier,jdbcType=VARCHAR},
+      </if>
+      <if test="systemNo != null" >
+        #{systemNo,jdbcType=VARCHAR},
+      </if>
+      <if test="seq != null" >
+        #{seq,jdbcType=BIGINT},
+      </if>
+      <if test="smartType != null" >
+        #{smartType,jdbcType=VARCHAR},
+      </if>
+      <if test="policeType != null" >
+        #{policeType,jdbcType=VARCHAR},
+      </if>
+      <if test="isValid != null" >
+        #{isValid,jdbcType=SMALLINT},
+      </if>
+      <if test="staffGuid != null" >
+        #{staffGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="enableFlag != null" >
+        #{enableFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="source != null" >
+        #{source,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.commandcenter.model.smp.SmpCarInfo" >
+    update smp_t_car_info
+    <set >
+      <if test="carGpsId != null" >
+        car_gps_id = #{carGpsId,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceGuid != null" >
+        device_guid = #{deviceGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="staffType != null" >
+        staff_type = #{staffType,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="carNo != null" >
+        car_no = #{carNo,jdbcType=VARCHAR},
+      </if>
+      <if test="carType != null" >
+        car_type = #{carType,jdbcType=VARCHAR},
+      </if>
+      <if test="carBrand != null" >
+        car_brand = #{carBrand,jdbcType=VARCHAR},
+      </if>
+      <if test="carStatus != null" >
+        car_status = #{carStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="carPurpose != null" >
+        car_purpose = #{carPurpose,jdbcType=VARCHAR},
+      </if>
+      <if test="carSource != null" >
+        car_source = #{carSource,jdbcType=VARCHAR},
+      </if>
+      <if test="createuser != null" >
+        createuser = #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null" >
+        updateuser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="orgGuid != null" >
+        org_guid = #{orgGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="isvalid != null" >
+        isvalid = #{isvalid,jdbcType=VARCHAR},
+      </if>
+      <if test="orgIdentifier != null" >
+        org_identifier = #{orgIdentifier,jdbcType=VARCHAR},
+      </if>
+      <if test="systemNo != null" >
+        system_no = #{systemNo,jdbcType=VARCHAR},
+      </if>
+      <if test="seq != null" >
+        seq = #{seq,jdbcType=BIGINT},
+      </if>
+      <if test="smartType != null" >
+        smart_type = #{smartType,jdbcType=VARCHAR},
+      </if>
+      <if test="policeType != null" >
+        police_type = #{policeType,jdbcType=VARCHAR},
+      </if>
+      <if test="isValid != null" >
+        is_valid = #{isValid,jdbcType=SMALLINT},
+      </if>
+      <if test="staffGuid != null" >
+        staff_guid = #{staffGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="enableFlag != null" >
+        enable_flag = #{enableFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="source != null" >
+        source = #{source,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where guid = #{guid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.commandcenter.model.smp.SmpCarInfo" >
+    update smp_t_car_info
+    set car_gps_id = #{carGpsId,jdbcType=VARCHAR},
+      device_guid = #{deviceGuid,jdbcType=VARCHAR},
+      staff_type = #{staffType,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      car_no = #{carNo,jdbcType=VARCHAR},
+      car_type = #{carType,jdbcType=VARCHAR},
+      car_brand = #{carBrand,jdbcType=VARCHAR},
+      car_status = #{carStatus,jdbcType=VARCHAR},
+      car_purpose = #{carPurpose,jdbcType=VARCHAR},
+      car_source = #{carSource,jdbcType=VARCHAR},
+      createuser = #{createuser,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      updateuser = #{updateuser,jdbcType=VARCHAR},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR},
+      org_guid = #{orgGuid,jdbcType=VARCHAR},
+      isvalid = #{isvalid,jdbcType=VARCHAR},
+      org_identifier = #{orgIdentifier,jdbcType=VARCHAR},
+      system_no = #{systemNo,jdbcType=VARCHAR},
+      seq = #{seq,jdbcType=BIGINT},
+      smart_type = #{smartType,jdbcType=VARCHAR},
+      police_type = #{policeType,jdbcType=VARCHAR},
+      is_valid = #{isValid,jdbcType=SMALLINT},
+      staff_guid = #{staffGuid,jdbcType=VARCHAR},
+      enable_flag = #{enableFlag,jdbcType=SMALLINT},
+      source = #{source,jdbcType=VARCHAR}
+    where guid = #{guid,jdbcType=VARCHAR}
+  </update>
+
+  <delete id="deleteAllSmpVehicleInfo" parameterType="java.lang.String">
+    delete from smp_t_car_info
+    where 1=1
+  </delete>
+  <select id="selectVehicleCount" resultType="java.lang.Integer">
+    select COUNT (*) from smp_t_car_info
+  </select>
+  <select id="selectMapVehicle" resultType="java.util.Map">
+    SELECT
+    c.guid AS carId,i.guid,g.latitude,g.longitude,c.car_type as type
+    FROM
+    smp_t_car_info
+    c LEFT JOIN smp_t_dict_info d ON c.car_type = d.dict_info_key
+    LEFT JOIN smp_t_car_device cd on c.guid = cd.car_guid left join smp_t_interphone_info  i ON cd.device_guid = i.guid left join puc_gps_gpsdata g on g.device_id=i.guid
+    WHERE
+    c.car_type IN ( 'CLLX007', 'CLLX008' ) and c.enable_flag='1' and g.latitude!=null and g.longitude!=null
+  </select>
+  <select id="selectVehicleGpsByGuid" parameterType="java.lang.String" resultMap="MapCars">
+    SELECT DISTINCT
+    i.guid,i.puc_id , i.user_name, i.user_type, i.system_id, i.org_guid, i.device_id, i.device_number,
+    i.device_name, i.status, i.device_make, i.number_type, i.has_gps, i.enable_gps, i.and_or_flag, i.gps_interval, i.gps_channel, i.distance, i.gps_datetime,         i.has_screen, i.version_seq, i.org_history,
+    i.join_group, i.join_group_info, i.response_group, i.response_group_info, i.implict_group, i.implict_group_info, i.createuser, i.createtime, i.updateuser,        i.updatetime, i.expend, i.remark, i.isvalid, i.org_identifier, i.system_no, i.phone_type, i.user_guid, i.enable_flag, i.source, i.alias, i.subsap_guid,           i.version,i.device_type,o.org_name,g.latitude,g.longitude,
+    c.guid as carId,c.car_type,c.name,c.car_no,e.is_online
+    FROM smp_t_car_info c
+    LEFT JOIN smp_t_dict_info d ON c.car_type = d.dict_info_key
+    LEFT JOIN smp_t_car_device cd on c.guid = cd.car_guid
+    left join smp_t_interphone_info  i ON cd.device_guid = i.guid
+    left join puc_gps_gpsdata g on g.device_id=i.device_id
+    left join puc_online_data e on i.device_id = e.device_id
+    LEFT JOIN smp_t_org_info o ON o.guid=i.org_guid
+    WHERE
+    c.car_type IN ( 'VAN', 'RADAR-VEHICLE','COMMUNICATION-VEHICLE','AMBULANCE' )
+    and c.enable_flag='1' and cd.enable_flag = '1' and i.enable_flag = '1' and o.enable_flag = '1'
+    and g.latitude>0 and g.longitude>0
+    and c.guid=#{guid}
+  </select>
+</mapper>

@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.commandcenter.dao.dictdao.SmptDictInfoDao">
+    <!-- SmptDictInfo的resultMap,column是给数据库列起的别名,它对应property类的属性-->
+    <resultMap id="result_SmptDictInfo_Map" type="com.commandcenter.model.dictmodel.SmptDictInfo">
+        <id column="guid" property="guid" />
+        <result column="parent_guid" property="parentGuid" />
+        <result column="dict_info_key" property="dictInfoKey" />
+        <result column="dict_info_code" property="dictInfoCode" />
+        <result column="system_guid" property="systemGuid" />
+        <result column="level" property="level" />
+        <result column="status" property="status" />
+        <result column="sort" property="sort" />
+        <result column="tree_path" property="treePath" />
+        <result column="create_time" property="createTime" />
+        <result column="create_user" property="createUser" />
+        <result column="update_time" property="updateTime" />
+        <result column="update_user" property="updateUser" />
+        <result column="describe" property="describe" />
+        <result column="dict_type" property="dictType" />
+    </resultMap>
+
+    <!-- 数据库中表名为:smp_t_dict_info的列名,as前是数据库的列明,as后是列的别名用于映射成实体类中的属性,需要注意的是别名必须与resultMap中的column别名一致 -->
+    <sql id="smp_t_dict_info_Column">
+        smp_t_dict_info.guid as guid
+        ,smp_t_dict_info.parent_guid as parent_guid
+        ,smp_t_dict_info.dict_info_key as dict_info_key
+        ,smp_t_dict_info.dict_info_code as dict_info_code
+        ,smp_t_dict_info.system_guid as system_guid
+        ,smp_t_dict_info.level as level
+        ,smp_t_dict_info.status as status
+        ,smp_t_dict_info.sort as sort
+        ,smp_t_dict_info.tree_path as tree_path
+        ,smp_t_dict_info.create_time as create_time
+        ,smp_t_dict_info.create_user as create_user
+        ,smp_t_dict_info.update_time as update_time
+        ,smp_t_dict_info.update_user as update_user
+        ,smp_t_dict_info.describe as describe
+        ,smp_t_dict_info.dict_type as dict_type
+    </sql>
+
+    <!--获得类名为:SmptDictInfo对应的数据库表的数据总行数 -->
+    <select id="getSmptDictInfoRowCount" resultType="java.lang.Long">
+        select count(guid) from smp_t_dict_info
+    </select>
+    <!-- 获得类名为:SmptDictInfo对应数据库中表的数据集合 -->
+    <select id="selectSmptDictInfo" resultType="com.commandcenter.model.dictmodel.SmptDictInfo">
+        select 
+        <include refid="smp_t_dict_info_Column" /> 
+        from smp_t_dict_info
+    </select> 
+
+    <!-- 获得一个SmptDictInfo对象,以参数SmptDictInfo对象中不为空的属性作为条件进行查询-->
+    <select id="selectSmptDictInfoByObj" parameterType="com.commandcenter.model.dictmodel.SmptDictInfo" resultMap="result_SmptDictInfo_Map">
+        select 
+            <include refid="smp_t_dict_info_Column" /> 
+        from smp_t_dict_info
+        <where>
+            <if test="dictType != null "> and smp_t_dict_info.dict_type = #{dictType}</if>
+            <if test="describe != null "> and smp_t_dict_info.describe = #{describe}</if>
+            <if test="updateUser != null "> and smp_t_dict_info.update_user = #{updateUser}</if>
+            <if test="updateTime != null "> and smp_t_dict_info.update_time = #{updateTime}</if>
+            <if test="createUser != null "> and smp_t_dict_info.create_user = #{createUser}</if>
+            <if test="createTime != null "> and smp_t_dict_info.create_time = #{createTime}</if>
+            <if test="treePath != null "> and smp_t_dict_info.tree_path = #{treePath}</if>
+            <if test="sort != null "> and smp_t_dict_info.sort = #{sort}</if>
+            <if test="status != null "> and smp_t_dict_info.status = #{status}</if>
+            <if test="level != null "> and smp_t_dict_info.level = #{level}</if>
+            <if test="systemGuid != null "> and smp_t_dict_info.system_guid = #{systemGuid}</if>
+            <if test="dictInfoCode != null "> and smp_t_dict_info.dict_info_code = #{dictInfoCode}</if>
+            <if test="dictInfoKey != null "> and smp_t_dict_info.dict_info_key = #{dictInfoKey}</if>
+            <if test="parentGuid != null "> and smp_t_dict_info.parent_guid = #{parentGuid}</if>
+            <if test="guid != null "> and smp_t_dict_info.guid = #{guid}</if>
+        </where>
+    </select> 
+
+    <!-- 通过SmptDictInfo的id获得对应数据库中表的数据对象-->
+    <select id="selectSmptDictInfoById" parameterType="java.lang.String" resultMap="result_SmptDictInfo_Map">
+        select 
+            <include refid="smp_t_dict_info_Column" /> 
+        from smp_t_dict_info
+        where smp_t_dict_info.guid = #{id}
+    </select> 
+
+    <!-- 将SmptDictInfo插入到对应数据库的表中,包括属性值为null的数据-->
+
+    <insert id="insertSmptDictInfo" parameterType="com.commandcenter.model.dictmodel.SmptDictInfo">
+        insert into smp_t_dict_info(guid,parent_guid,dict_info_key,dict_info_code,system_guid,level,status,sort,tree_path,create_time,create_user,update_time,update_user,describe,dict_type) 
+        values(#{guid},#{parentGuid},#{dictInfoKey},#{dictInfoCode},#{systemGuid},#{level},#{status},#{sort},#{treePath},#{createTime},#{createUser},#{updateTime},#{updateUser},#{describe},#{dictType})
+    </insert>
+
+    <!-- 将SmptDictInfo中属性值不为null的数据,插入到对应数据库的表中-->
+    <insert id="insertNonEmptySmptDictInfo" parameterType="com.commandcenter.model.dictmodel.SmptDictInfo">
+        insert into smp_t_dict_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="guid != null">guid,</if>
+            <if test="parentGuid != null">parent_guid,</if>
+            <if test="dictInfoKey != null">dict_info_key,</if>
+            <if test="dictInfoCode != null">dict_info_code,</if>
+            <if test="systemGuid != null">system_guid,</if>
+            <if test="level != null">level,</if>
+            <if test="status != null">status,</if>
+            <if test="sort != null">sort,</if>
+            <if test="treePath != null">tree_path,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createUser != null">create_user,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateUser != null">update_user,</if>
+            <if test="describe != null">describe,</if>
+            <if test="dictType != null">dict_type,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="guid != null"> #{guid},</if>
+            <if test="parentGuid != null"> #{parentGuid},</if>
+            <if test="dictInfoKey != null"> #{dictInfoKey},</if>
+            <if test="dictInfoCode != null"> #{dictInfoCode},</if>
+            <if test="systemGuid != null"> #{systemGuid},</if>
+            <if test="level != null"> #{level},</if>
+            <if test="status != null"> #{status},</if>
+            <if test="sort != null"> #{sort},</if>
+            <if test="treePath != null"> #{treePath},</if>
+            <if test="createTime != null"> #{createTime},</if>
+            <if test="createUser != null"> #{createUser},</if>
+            <if test="updateTime != null"> #{updateTime},</if>
+            <if test="updateUser != null"> #{updateUser},</if>
+            <if test="describe != null"> #{describe},</if>
+            <if test="dictType != null"> #{dictType},</if>
+        </trim>
+    </insert>
+
+    <!-- 通过SmptDictInfo的id将数据库表中对应的数据删除-->
+    <delete id="deleteSmptDictInfoById" parameterType="java.lang.String">
+        delete from smp_t_dict_info
+        where guid = #{id}
+    </delete>
+
+    <!-- 通过SmptDictInfo的id将SmptDictInfo的数据更新到数据库中对应的表,包括值null的数据-->
+    <update id="updateSmptDictInfoById" parameterType="com.commandcenter.model.dictmodel.SmptDictInfo">
+        update smp_t_dict_info set
+            parent_guid=#{parentGuid}
+            ,dict_info_key=#{dictInfoKey}
+            ,dict_info_code=#{dictInfoCode}
+            ,system_guid=#{systemGuid}
+            ,level=#{level}
+            ,status=#{status}
+            ,sort=#{sort}
+            ,tree_path=#{treePath}
+            ,create_time=#{createTime}
+            ,create_user=#{createUser}
+            ,update_time=#{updateTime}
+            ,update_user=#{updateUser}
+            ,describe=#{describe}
+            ,dict_type=#{dictType}
+        where guid=#{guid}
+    </update>
+
+    <!-- 通过SmptDictInfo的id将SmptDictInfo中属性值不为null的数据更新到数据库对应的表中-->
+    <update id="updateNonEmptySmptDictInfoById" parameterType="com.commandcenter.model.dictmodel.SmptDictInfo">
+        update smp_t_dict_info
+        <set>
+            <if test="parentGuid != null">
+                parent_guid=#{parentGuid},
+            </if>
+            <if test="dictInfoKey != null">
+                dict_info_key=#{dictInfoKey},
+            </if>
+            <if test="dictInfoCode != null">
+                dict_info_code=#{dictInfoCode},
+            </if>
+            <if test="systemGuid != null">
+                system_guid=#{systemGuid},
+            </if>
+            <if test="level != null">
+                level=#{level},
+            </if>
+            <if test="status != null">
+                status=#{status},
+            </if>
+            <if test="sort != null">
+                sort=#{sort},
+            </if>
+            <if test="treePath != null">
+                tree_path=#{treePath},
+            </if>
+            <if test="createTime != null">
+                create_time=#{createTime},
+            </if>
+            <if test="createUser != null">
+                create_user=#{createUser},
+            </if>
+            <if test="updateTime != null">
+                update_time=#{updateTime},
+            </if>
+            <if test="updateUser != null">
+                update_user=#{updateUser},
+            </if>
+            <if test="describe != null">
+                describe=#{describe},
+            </if>
+            <if test="dictType != null">
+                dict_type=#{dictType},
+            </if>
+        </set>
+        where guid=#{guid}
+    </update>
+
+</mapper>

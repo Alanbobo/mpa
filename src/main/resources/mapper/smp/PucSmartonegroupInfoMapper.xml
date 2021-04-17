@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.commandcenter.dao.smp.PucSmartonegroupInfoDao">
+    <!-- PucSmartonegroupInfo的resultMap,column是给数据库列起的别名,它对应property类的属性-->
+    <resultMap id="result_PucSmartonegroupInfo_Map" type="com.commandcenter.model.smp.PucSmartonegroupInfo">
+        <result column="smartone_group_guid" property="smartoneGroupGuid" />
+        <result column="smartone_group_number" property="smartoneGroupNumber" />
+        <result column="puc_id" property="pucId" />
+        <result column="smartone_group_alias" property="smartoneGroupAlias" />
+        <result column="enable_flag" property="enableFlag" />
+        <result column="call_priority" property="callPriority" />
+        <result column="create_datetime" property="createDatetime" />
+        <result column="update_time" property="updateTime" />
+        <result column="menber_list" property="menberList" />
+        <result column="version" property="version" />
+    </resultMap>
+
+    <!-- 数据库中表名为:puc_smartonegroup_info的列名,as前是数据库的列明,as后是列的别名用于映射成实体类中的属性,需要注意的是别名必须与resultMap中的column别名一致 -->
+    <sql id="puc_smartonegroup_info_Column">
+        puc_smartonegroup_info.smartone_group_guid as smartone_group_guid
+        ,puc_smartonegroup_info.smartone_group_number as smartone_group_number
+        ,puc_smartonegroup_info.puc_id as puc_id
+        ,puc_smartonegroup_info.smartone_group_alias as smartone_group_alias
+        ,puc_smartonegroup_info.enable_flag as enable_flag
+        ,puc_smartonegroup_info.call_priority as call_priority
+        ,puc_smartonegroup_info.create_datetime as create_datetime
+        ,puc_smartonegroup_info.update_time as update_time
+        ,puc_smartonegroup_info.menber_list as menber_list
+        ,puc_smartonegroup_info.version as version
+    </sql>
+
+    <!--获得类名为:PucSmartonegroupInfo对应的数据库表的数据总行数 -->
+    <select id="getPucSmartonegroupInfoRowCount" resultType="java.lang.Long">
+        select count(*) from puc_smartonegroup_info
+    </select>
+    <!-- 获得类名为:PucSmartonegroupInfo对应数据库中表的数据集合 -->
+    <select id="selectPucSmartonegroupInfo" resultMap="result_PucSmartonegroupInfo_Map">
+        select 
+        <include refid="puc_smartonegroup_info_Column" /> 
+        from puc_smartonegroup_info
+    </select> 
+
+    <!-- 将PucSmartonegroupInfo插入到对应数据库的表中,包括属性值为null的数据-->
+
+    <insert id="insertPucSmartonegroupInfo" parameterType="com.commandcenter.model.smp.PucSmartonegroupInfo">
+        insert into puc_smartonegroup_info(smartone_group_guid,smartone_group_number,puc_id,smartone_group_alias,enable_flag,call_priority,create_datetime,update_time,menber_list,version) 
+        values(#{smartoneGroupGuid},#{smartoneGroupNumber},#{pucId},#{smartoneGroupAlias},#{enableFlag},#{callPriority},#{createDatetime},#{updateTime},#{menberList},#{version})
+    </insert>
+
+    <!-- 将PucSmartonegroupInfo中属性值不为null的数据,插入到对应数据库的表中-->
+    <insert id="insertNonEmptyPucSmartonegroupInfo" parameterType="com.commandcenter.model.smp.PucSmartonegroupInfo">
+        insert into puc_smartonegroup_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="smartoneGroupGuid != null">smartone_group_guid,</if>
+            <if test="smartoneGroupNumber != null">smartone_group_number,</if>
+            <if test="pucId != null">puc_id,</if>
+            <if test="smartoneGroupAlias != null">smartone_group_alias,</if>
+            <if test="enableFlag != null">enable_flag,</if>
+            <if test="callPriority != null">call_priority,</if>
+            <if test="createDatetime != null">create_datetime,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="menberList != null">menber_list,</if>
+            <if test="version != null">version,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="smartoneGroupGuid != null"> #{smartoneGroupGuid},</if>
+            <if test="smartoneGroupNumber != null"> #{smartoneGroupNumber},</if>
+            <if test="pucId != null"> #{pucId},</if>
+            <if test="smartoneGroupAlias != null"> #{smartoneGroupAlias},</if>
+            <if test="enableFlag != null"> #{enableFlag},</if>
+            <if test="callPriority != null"> #{callPriority},</if>
+            <if test="createDatetime != null"> #{createDatetime},</if>
+            <if test="updateTime != null"> #{updateTime},</if>
+            <if test="menberList != null"> #{menberList},</if>
+            <if test="version != null"> #{version},</if>
+        </trim>
+    </insert>
+    <delete id="deleteAllSmartoneGroup" >
+        delete from puc_smartonegroup_info where 1=1
+    </delete>
+    <update id="updatePucSmartonegroupInfoById" parameterType="com.commandcenter.model.smp.PucSmartonegroupInfo" >
+    update puc_smartonegroup_info
+    <set >
+        <if test="smartoneGroupGuid != null" >
+            smartone_group_guid = #{smartoneGroupGuid,jdbcType=VARCHAR},
+        </if>
+        <if test="smartoneGroupNumber != null" >
+            smartone_group_number = #{smartoneGroupNumber,jdbcType=VARCHAR},
+        </if>
+        <if test="puc_id != null" >
+            pucId = #{pucId,jdbcType=VARCHAR},
+        </if>
+        <if test="smartoneGroupAlias != null" >
+            smartone_group_alias = #{smartoneGroupAlias,jdbcType=VARCHAR},
+        </if>
+        <if test="enableFlag != null" >
+            enable_flag = #{enableFlag,jdbcType=VARCHAR},
+        </if>
+        <if test="callPriority != null" >
+            call_priority = #{callPriority,jdbcType=VARCHAR},
+        </if>
+        <if test="createDatetime != null" >
+            create_datetime = #{createDatetime,jdbcType=VARCHAR},
+        </if>
+        <if test="updateTime != null" >
+            update_time = #{updateTime,jdbcType=VARCHAR},
+        </if>
+        <if test="menberList != null" >
+            menber_list = #{menberList,jdbcType=VARCHAR},
+        </if>
+        <if test="version != null" >
+            version = #{version,jdbcType=VARCHAR},
+        </if>
+    </set>
+    where guid = #{guid,jdbcType=VARCHAR}
+</update>
+
+</mapper>

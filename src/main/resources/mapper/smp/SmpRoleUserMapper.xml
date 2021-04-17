@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.commandcenter.dao.smp.SmpRoleUserMapper" >
+  <resultMap id="BaseResultMap" type="com.commandcenter.model.smp.SmpRoleUser" >
+    <result column="guid" property="guid" jdbcType="VARCHAR" />
+    <result column="user_guid" property="userGuid" jdbcType="VARCHAR" />
+    <result column="role_guid" property="roleGuid" jdbcType="VARCHAR" />
+  </resultMap>
+  <delete  id="deleteByUserId">
+    delete from smp_t_role_user where user_guid = #{userGuid,jdbcType=VARCHAR};commit;
+  </delete>
+  <insert id="insert" parameterType="com.commandcenter.model.smp.SmpRoleUser" >
+    insert into smp_t_role_user (guid, user_guid, role_guid
+      )
+    values (#{guid,jdbcType=VARCHAR}, #{userGuid,jdbcType=VARCHAR}, #{roleGuid,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSmpUserRole" parameterType="com.commandcenter.model.smp.SmpRoleUser" >
+    insert into smp_t_role_user (guid, user_guid, role_guid
+    )
+    values (#{guid,jdbcType=VARCHAR}, #{userGuid,jdbcType=VARCHAR}, #{roleGuid,jdbcType=VARCHAR}
+    )
+  </insert>
+  <insert id="insertSelective" parameterType="com.commandcenter.model.smp.SmpRoleUser" >
+    insert into smp_t_role_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="guid != null" >
+        guid,
+      </if>
+      <if test="userGuid != null" >
+        user_guid,
+      </if>
+      <if test="roleGuid != null" >
+        role_guid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="guid != null" >
+        #{guid,jdbcType=VARCHAR},
+      </if>
+      <if test="userGuid != null" >
+        #{userGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="roleGuid != null" >
+        #{roleGuid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="selectRoleUserNum" resultType="java.lang.Integer">
+    SELECT COUNT(*) FROM smp_t_role_user
+  </select>
+  <delete id="deleteAllRoleUserInfo">
+    DELETE FROM smp_t_role_user WHERE 1=1; COMMIT
+  </delete>
+  <update id="updateByPrimaryKeySelective" parameterType="com.commandcenter.model.smp.SmpRoleUser">
+    update smp_t_role_user
+    <set >
+      <if test="roleGuid != null" >
+        role_guid = #{roleGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="userGuid != null" >
+        user_guid = #{userGuid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where guid = #{guid,jdbcType=VARCHAR}
+  </update>
+  <delete id="deleteByUserRoleId" parameterType="com.commandcenter.model.smp.SmpRoleUser">
+    delete from smp_t_role_user
+    where user_guid=#{userGuid,jdbcType=VARCHAR} and role_guid=#{roleGuid,jdbcType=VARCHAR}
+  </delete>
+
+</mapper>

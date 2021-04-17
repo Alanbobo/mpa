@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.commandcenter.dao.smp.SmpSystemInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.commandcenter.model.dictmodel.SmptSystemInfo" >
+    <id column="guid" property="guid" jdbcType="VARCHAR" />
+    <result column="system_name" property="systemName" jdbcType="VARCHAR" />
+    <result column="system_no" property="systemNo" jdbcType="VARCHAR" />
+    <result column="system_code" property="systemCode" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="system_type" property="systemType" jdbcType="VARCHAR" />
+    <result column="system_path" property="systemPath" jdbcType="VARCHAR" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="initialization" property="initialization" jdbcType="VARCHAR" />
+    <result column="sys_status" property="sysStatus" jdbcType="VARCHAR" />
+    <result column="version" property="version" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    guid, system_name, system_no, system_code, status, system_type, system_path, sort, 
+    create_time, create_user, update_time, update_user, initialization, sys_status,version
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from smp_t_system_info
+    where guid = #{guid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from smp_t_system_info
+    where guid = #{guid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.commandcenter.model.smp.SmpSystemInfo" >
+    insert into smp_t_system_info (guid, system_name, system_no, 
+      system_code, status, system_type, 
+      system_path, sort, create_time, 
+      create_user, update_time, update_user, 
+      initialization, sys_status,version)
+    values (#{guid,jdbcType=VARCHAR}, #{systemName,jdbcType=VARCHAR}, #{systemNo,jdbcType=VARCHAR}, 
+      #{systemCode,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{systemType,jdbcType=VARCHAR}, 
+      #{systemPath,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{createUser,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR}, 
+      #{initialization,jdbcType=VARCHAR}, #{sysStatus,jdbcType=VARCHAR},#{version,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.commandcenter.model.smp.SmpSystemInfo" >
+    insert into smp_t_system_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="guid != null" >
+        guid,
+      </if>
+      <if test="systemName != null" >
+        system_name,
+      </if>
+      <if test="systemNo != null" >
+        system_no,
+      </if>
+      <if test="systemCode != null" >
+        system_code,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="systemType != null" >
+        system_type,
+      </if>
+      <if test="systemPath != null" >
+        system_path,
+      </if>
+      <if test="sort != null" >
+        sort,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="createUser != null" >
+        create_user,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="updateUser != null" >
+        update_user,
+      </if>
+      <if test="initialization != null" >
+        initialization,
+      </if>
+      <if test="sysStatus != null" >
+        sys_status,
+      </if>
+      <if test="version != null" >
+        version,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="guid != null" >
+        #{guid,jdbcType=VARCHAR},
+      </if>
+      <if test="systemName != null" >
+        #{systemName,jdbcType=VARCHAR},
+      </if>
+      <if test="systemNo != null" >
+        #{systemNo,jdbcType=VARCHAR},
+      </if>
+      <if test="systemCode != null" >
+        #{systemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="systemType != null" >
+        #{systemType,jdbcType=VARCHAR},
+      </if>
+      <if test="systemPath != null" >
+        #{systemPath,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="initialization != null" >
+        #{initialization,jdbcType=VARCHAR},
+      </if>
+      <if test="sysStatus != null" >
+        #{sysStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.commandcenter.model.smp.SmpSystemInfo" >
+    update smp_t_system_info
+    <set >
+      <if test="systemName != null" >
+        system_name = #{systemName,jdbcType=VARCHAR},
+      </if>
+      <if test="systemNo != null" >
+        system_no = #{systemNo,jdbcType=VARCHAR},
+      </if>
+      <if test="systemCode != null" >
+        system_code = #{systemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="systemType != null" >
+        system_type = #{systemType,jdbcType=VARCHAR},
+      </if>
+      <if test="systemPath != null" >
+        system_path = #{systemPath,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null" >
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="initialization != null" >
+        initialization = #{initialization,jdbcType=VARCHAR},
+      </if>
+      <if test="sysStatus != null" >
+        sys_status = #{sysStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        version = #{version,jdbcType=INTEGER},
+      </if>
+    </set>
+    where guid = #{guid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.commandcenter.model.smp.SmpSystemInfo" >
+    update smp_t_system_info
+    set system_name = #{systemName,jdbcType=VARCHAR},
+      system_no = #{systemNo,jdbcType=VARCHAR},
+      system_code = #{systemCode,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      system_type = #{systemType,jdbcType=VARCHAR},
+      system_path = #{systemPath,jdbcType=VARCHAR},
+      sort = #{sort,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      initialization = #{initialization,jdbcType=VARCHAR},
+      sys_status = #{sysStatus,jdbcType=VARCHAR}
+    where guid = #{guid,jdbcType=VARCHAR}
+  </update>
+  <delete id="deleteAllSmpSystemInfo">
+    delete from smp_t_system_info where 1=1;commit;
+  </delete>
+  <select id="selectSystemCount" resultType="java.lang.Integer">
+    select COUNT(*) from smp_t_system_info
+  </select>
+  <select id="selectSystemMaxVersion" resultType="java.lang.Integer">
+    select COALESCE(MAX(version),0) AS version from smp_t_system_info
+  </select>
+</mapper>

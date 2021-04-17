@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=750,user-scalable=no,target-densitydpi=device-dpi">
+    <meta name="format-detection" content="telephone=no">
+    <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+    <title>推送更新通知</title>
+</head>
+<body>
+<div class="btn-group">
+    <button type="button" class="btn btn-default" onclick="getUpdate()">推送更新通知</button>
+</div>
+
+<script>
+    function getUpdate(){
+        $.ajax({
+            type:'POST',
+            url:"./webController/kick/getUpdate",
+            dataType: "json",
+            success:function(data){
+                var restring = data.restring;
+                if(restring == "failure"){
+                    alert("操作失败!,请填写下载地址");
+                    return false;
+                }else if(restring == "success"){
+                    alert("操作成功!");
+                    window.location.href="update.html";
+                }
+
+            },
+            error:function(){
+                alert( '操作失败!' );
+            }
+
+        });
+    }
+</script>
+</body>
+</html>

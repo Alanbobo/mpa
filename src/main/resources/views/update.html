@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+
+<html>
+<head lang="en"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=750,user-scalable=no,target-densitydpi=device-dpi">
+    <meta name="format-detection" content="telephone=no">
+    <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+    <title>update</title>
+    <style type="text/css">
+        .form-horizontal {
+            width: 50%;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<form class="form-horizontal" id="addForm" name="updateForm" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="firstname4" class="col-sm-2 control-label">app大小</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="firstname4" maxlength="12"
+                   placeholder="请输入大小" name="appSize" value="50M" required>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="firstname" class="col-sm-2 control-label">app更新信息</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="firstname" maxlength="125"
+                   placeholder="请输入更新信息" name="appUpdateInfo" value="app版本升级信息" required>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="firstname1" class="col-sm-2 control-label">app版本号</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="firstname1" maxlength="25"
+                   placeholder="请输入版本号" name="appVersionCode" value="118560" required>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="firstname2" class="col-sm-2 control-label">app下载地址</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="firstname2" maxlength="125"
+                   placeholder="请输入下载地址" name="appUrl" value="http://ip:26302/appApk/xxxx.apk" required>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="firstname3" class="col-sm-2 control-label">app版本名称</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="firstname3" maxlength="25"
+                   placeholder="请输入版本名称" name="appVersionName" value="xxxx.apk" required >
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="file" class="col-sm-2 control-label">app升级包</label>
+        <div class="col-sm-10">
+            <input type="file" class="form-control" id="file"
+                   placeholder="请上传升级包" name="file" required>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="button" class="btn btn-default" onclick="update()">更新</button>
+        </div>
+    </div>
+</form>
+
+<script language="javascript">
+    function update() {
+        var statu = confirm("是否确定要更新信息?");
+        if(!statu){
+            return false;
+        }
+        var formdata = new FormData($("#addForm")[0]);
+        $.ajax({
+            type:'POST',
+            url:"./webController/kick/update",
+            data:formdata,
+            dataType: "json",
+            async:false,
+            cache:false,
+            contentType:false,
+            processData:false,
+            success:function(data){
+                var restring = data.restring;
+                if(restring == "failure"){
+                    alert("更新失败!,请检查字段");
+                    return false;
+                }else if(restring == "success"){
+                    alert("操作成功!");
+                    window.location.href="update.html";
+                }
+
+            },
+            error:function(){
+                alert( '操作失败!' );
+            }
+
+        });
+    }
+
+</script>
+</body>
+</html>

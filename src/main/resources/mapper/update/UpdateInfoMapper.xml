@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.commandcenter.dao.appupdate.UpdateInfoMapper" >
+  <resultMap id="BaseResultMap" type="java.util.Map" >
+    <result column="server_version_code" property="serverVersionCode" jdbcType="VARCHAR" />
+    <result column="server_version_name" property="serverVersionName" jdbcType="VARCHAR" />
+    <result column="app_size" property="appSize" jdbcType="VARCHAR" />
+    <result column="app_update_info" property="appUpdateInfo" jdbcType="VARCHAR" />
+    <result column="app_url" property="appUrl" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="selectAllInfo" resultMap="BaseResultMap" >
+    SELECT * from mpa_t_update_info
+
+  </select>
+  <update id="update" parameterType="java.util.Map">
+    UPDATE mpa_t_update_info
+     SET
+     <if test="serverVersionCode!=null and serverVersionCode!=''">
+       server_version_code=#{serverVersionCode,jdbcType=VARCHAR},
+     </if>
+     <if test="serverVersionName!=null and serverVersionName!=''">
+       server_version_name=#{serverVersionName,jdbcType=VARCHAR},
+     </if>
+     <if test="appSize!=null and appSize!=''" >
+       app_size=#{appSize,jdbcType=VARCHAR},
+     </if>
+     <if test="appUpdateInfo!=null and appUpdateInfo!=''">
+       app_update_info=#{appUpdateInfo,jdbcType=VARCHAR},
+     </if>
+     <if test="appUrl!=null and appUrl!=''">
+       app_url=#{appUrl,jdbcType=VARCHAR}
+     </if>
+  </update>
+  <insert id="insert" parameterType="java.util.Map">
+    INSERT INTO mpa_t_update_info
+      (<if test="serverVersionCode!=null and serverVersionCode!=''">
+      server_version_code,
+  </if>
+      <if test="serverVersionName!=null and serverVersionName!=''">
+          server_version_name,
+      </if>
+      <if test="appSize!=null and appSize!=''">
+          app_size,
+      </if>
+      <if test="appUpdateInfo!=null and appUpdateInfo!=''">
+          app_update_info,
+      </if>
+      <if test="appUrl!=null and appUrl!=''">
+          app_url
+      </if>)
+     VALUES (
+     <if test="serverVersionCode!=null and serverVersionCode!=''">
+       #{serverVersionCode,jdbcType=VARCHAR},
+     </if>
+     <if test="serverVersionName!=null and serverVersionName!=''">
+       #{serverVersionName,jdbcType=VARCHAR},
+     </if>
+     <if test="appSize!=null and appSize!=''">
+       #{appSize,jdbcType=VARCHAR},
+     </if>
+     <if test="appUpdateInfo!=null and appUpdateInfo!=''">
+       #{appUpdateInfo,jdbcType=VARCHAR},
+     </if>
+     <if test="appUrl!=null and appUrl!=''">
+       #{appUrl,jdbcType=VARCHAR}
+     </if>
+    )
+  </insert>
+</mapper>

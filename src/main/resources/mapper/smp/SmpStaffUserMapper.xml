@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.commandcenter.dao.smp.SmpStaffUserMapper" >
+  <resultMap id="BaseResultMap" type="com.commandcenter.model.smp.SmpStaffUser" >
+    <result column="guid" property="guid" jdbcType="VARCHAR" />
+    <result column="user_guid" property="userGuid" jdbcType="VARCHAR" />
+    <result column="staff_guid" property="staffGuid" jdbcType="VARCHAR" />
+  </resultMap>
+  <insert id="insert" parameterType="com.commandcenter.model.smp.SmpStaffUser" >
+    insert into smp_t_staff_user (guid, user_guid, staff_guid
+      )
+    values (#{guid,jdbcType=VARCHAR}, #{userGuid,jdbcType=VARCHAR}, #{staffGuid,jdbcType=VARCHAR}
+      )
+  </insert>
+  <delete id="deleteAllUserStaffBind">
+    delete from smp_t_staff_user where 1=1;commit;
+  </delete>
+  <delete id="deleteByUserId" parameterType = "java.lang.String">
+    delete from smp_t_staff_user where  USER_GUID = #{userGuid,jdbcType=VARCHAR};
+  </delete>
+  <insert id="insertUserStaff" parameterType="com.commandcenter.common.activemq.model.SmpUserStaffBindSync">
+  insert into smp_t_staff_user (GUID, USER_GUID, STAFF_GUID
+  )
+  values (#{userGuid,jdbcType=VARCHAR}, #{userGuid,jdbcType=VARCHAR}, #{staffGuid,jdbcType=VARCHAR}
+  )
+</insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.commandcenter.common.activemq.model.SmpUserStaffBindSync">
+    update smp_t_staff_user
+    <set>
+      <if test="guid != null">
+        GUID = #{guid,jdbcType=VARCHAR},
+      </if>
+      <if test="staffGuid != null">
+        STAFF_GUID = #{staffGuid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where USER_GUID = #{userGuid,jdbcType=VARCHAR}
+  </update>
+  <insert id="insertSelective" parameterType="com.commandcenter.model.smp.SmpStaffUser" >
+    insert into smp_t_staff_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="guid != null" >
+        guid,
+      </if>
+      <if test="userGuid != null" >
+        user_guid,
+      </if>
+      <if test="staffGuid != null" >
+        staff_guid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="guid != null" >
+        #{guid,jdbcType=VARCHAR},
+      </if>
+      <if test="userGuid != null" >
+        #{userGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="staffGuid != null" >
+        #{staffGuid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="selectStaffUserCount" resultType="java.lang.Integer">
+    SELECT COUNT(*) from smp_t_staff_user;
+  </select>
+  <select id="selectStaffByUserGuid" resultType="java.lang.String" parameterType="java.lang.String">
+    SELECT staff_guid from smp_t_staff_user where user_guid={userGuid}
+  </select>
+  <!--<select id="selectByPrimaryKey" resultType="com.commandcenter.model.smp.SmpStaffUser" parameterType="java.lang.String">
+    SELECT staff_guid from smp_t_staff_user where user_guid={userGuid}
+  </select>-->
+  <select id="selectByPrimaryKey" resultType="com.commandcenter.model.smp.SmpStaffUser" parameterType="java.lang.String">
+    select
+    guid,user_guid,staff_guid
+    from smp_t_staff_user
+    where user_guid = #{userGuid,jdbcType=VARCHAR}
+  </select>
+  <select id="selectStaffToken" resultType="com.commandcenter.model.smp.SmpStaffUser">
+    select s.* from smp_t_staff_user s,sys_user_token u where s.user_guid=u.user_id
+  </select>
+</mapper>

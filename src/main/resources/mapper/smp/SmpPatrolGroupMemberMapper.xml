@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.commandcenter.dao.smp.SmpPatrolGroupMemberMapper" >
+  <resultMap id="BaseResultMap" type="com.commandcenter.model.smp.SmpPatrolGroupMember" >
+    <result column="group_guid" property="groupGuid" jdbcType="VARCHAR" />
+    <result column="team_id" property="teamId" jdbcType="DOUBLE" />
+    <result column="team_name" property="teamName" jdbcType="VARCHAR" />
+    <result column="staff_guid" property="staffGuid" jdbcType="VARCHAR" />
+    <result column="position" property="position" jdbcType="VARCHAR" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="is_valid" property="isValid" jdbcType="SMALLINT" />
+    <result column="guid" property="guid" jdbcType="VARCHAR" />
+    <result column="duty_role" property="dutyRole" jdbcType="VARCHAR" />
+  </resultMap>
+  <insert id="insert" parameterType="com.commandcenter.model.smp.SmpPatrolGroupMember" >
+    insert into smp_t_patrol_group_member (group_guid, team_id, team_name, 
+      staff_guid, position, create_user, 
+      create_time, update_user, update_time, 
+      remark, is_valid, guid, 
+      duty_role)
+    values (#{groupGuid,jdbcType=VARCHAR}, #{teamId,jdbcType=DOUBLE}, #{teamName,jdbcType=VARCHAR}, 
+      #{staffGuid,jdbcType=VARCHAR}, #{position,jdbcType=VARCHAR}, #{createUser,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{remark,jdbcType=VARCHAR}, #{isValid,jdbcType=SMALLINT}, #{guid,jdbcType=VARCHAR}, 
+      #{dutyRole,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.commandcenter.model.smp.SmpPatrolGroupMember" >
+    insert into smp_t_patrol_group_member
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="groupGuid != null" >
+        group_guid,
+      </if>
+      <if test="teamId != null" >
+        team_id,
+      </if>
+      <if test="teamName != null" >
+        team_name,
+      </if>
+      <if test="staffGuid != null" >
+        staff_guid,
+      </if>
+      <if test="position != null" >
+        position,
+      </if>
+      <if test="createUser != null" >
+        create_user,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateUser != null" >
+        update_user,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="isValid != null" >
+        is_valid,
+      </if>
+      <if test="guid != null" >
+        guid,
+      </if>
+      <if test="dutyRole != null" >
+        duty_role,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="groupGuid != null" >
+        #{groupGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="teamId != null" >
+        #{teamId,jdbcType=DOUBLE},
+      </if>
+      <if test="teamName != null" >
+        #{teamName,jdbcType=VARCHAR},
+      </if>
+      <if test="staffGuid != null" >
+        #{staffGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null" >
+        #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="isValid != null" >
+        #{isValid,jdbcType=SMALLINT},
+      </if>
+      <if test="guid != null" >
+        #{guid,jdbcType=VARCHAR},
+      </if>
+      <if test="dutyRole != null" >
+        #{dutyRole,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

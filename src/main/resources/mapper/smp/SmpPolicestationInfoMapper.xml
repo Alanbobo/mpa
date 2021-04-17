@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.commandcenter.dao.smp.SmpPolicestationInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.commandcenter.model.smp.SmpPolicestationInfo" >
+    <id column="policestation_guid" property="policestationGuid" jdbcType="VARCHAR" />
+    <result column="policestation_name" property="policestationName" jdbcType="VARCHAR" />
+    <result column="policestation_seat" property="policestationSeat" jdbcType="VARCHAR" />
+    <result column="policestation_person" property="policestationPerson" jdbcType="VARCHAR" />
+    <result column="outside_phone" property="outsidePhone" jdbcType="VARCHAR" />
+    <result column="internal_phone" property="internalPhone" jdbcType="VARCHAR" />
+    <result column="parent_group" property="parentGroup" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="category_type" property="categoryType" jdbcType="VARCHAR" />
+    <result column="abandoned_flag" property="abandonedFlag" jdbcType="VARCHAR" />
+    <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="longitude" property="longitude" jdbcType="DOUBLE" />
+    <result column="latitude" property="latitude" jdbcType="DOUBLE" />
+    <result column="status_type" property="statusType" jdbcType="VARCHAR" />
+    <result column="org_guid" property="orgGuid" jdbcType="VARCHAR" />
+    <result column="policestation_guid_ext" property="policestationGuidExt" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="enable_flag" property="enableFlag" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    policestation_guid, policestation_name, policestation_seat, policestation_person, 
+    outside_phone, internal_phone, parent_group, address, category_type, abandoned_flag, 
+    updatetime, longitude, latitude, status_type, org_guid, policestation_guid_ext, createtime, 
+    enable_flag
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from smp_t_policestation_info
+    where policestation_guid = #{policestationGuid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from smp_t_policestation_info
+    where policestation_guid = #{policestationGuid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.commandcenter.model.smp.SmpPolicestationInfo" >
+    insert into smp_t_policestation_info (policestation_guid, policestation_name, 
+      policestation_seat, policestation_person, 
+      outside_phone, internal_phone, parent_group, 
+      address, category_type, abandoned_flag, 
+      updatetime, longitude, latitude, 
+      status_type, org_guid, policestation_guid_ext, 
+      createtime, enable_flag)
+    values (#{policestationGuid,jdbcType=VARCHAR}, #{policestationName,jdbcType=VARCHAR}, 
+      #{policestationSeat,jdbcType=VARCHAR}, #{policestationPerson,jdbcType=VARCHAR}, 
+      #{outsidePhone,jdbcType=VARCHAR}, #{internalPhone,jdbcType=VARCHAR}, #{parentGroup,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR}, #{categoryType,jdbcType=VARCHAR}, #{abandonedFlag,jdbcType=VARCHAR}, 
+      #{updatetime,jdbcType=TIMESTAMP}, #{longitude,jdbcType=DOUBLE}, #{latitude,jdbcType=DOUBLE}, 
+      #{statusType,jdbcType=VARCHAR}, #{orgGuid,jdbcType=VARCHAR}, #{policestationGuidExt,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{enableFlag,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.commandcenter.model.smp.SmpPolicestationInfo" >
+    insert into smp_t_policestation_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="policestationGuid != null" >
+        policestation_guid,
+      </if>
+      <if test="policestationName != null" >
+        policestation_name,
+      </if>
+      <if test="policestationSeat != null" >
+        policestation_seat,
+      </if>
+      <if test="policestationPerson != null" >
+        policestation_person,
+      </if>
+      <if test="outsidePhone != null" >
+        outside_phone,
+      </if>
+      <if test="internalPhone != null" >
+        internal_phone,
+      </if>
+      <if test="parentGroup != null" >
+        parent_group,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="categoryType != null" >
+        category_type,
+      </if>
+      <if test="abandonedFlag != null" >
+        abandoned_flag,
+      </if>
+      <if test="updatetime != null" >
+        updatetime,
+      </if>
+      <if test="longitude != null" >
+        longitude,
+      </if>
+      <if test="latitude != null" >
+        latitude,
+      </if>
+      <if test="statusType != null" >
+        status_type,
+      </if>
+      <if test="orgGuid != null" >
+        org_guid,
+      </if>
+      <if test="policestationGuidExt != null" >
+        policestation_guid_ext,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="enableFlag != null" >
+        enable_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="policestationGuid != null" >
+        #{policestationGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="policestationName != null" >
+        #{policestationName,jdbcType=VARCHAR},
+      </if>
+      <if test="policestationSeat != null" >
+        #{policestationSeat,jdbcType=VARCHAR},
+      </if>
+      <if test="policestationPerson != null" >
+        #{policestationPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="outsidePhone != null" >
+        #{outsidePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="internalPhone != null" >
+        #{internalPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="parentGroup != null" >
+        #{parentGroup,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryType != null" >
+        #{categoryType,jdbcType=VARCHAR},
+      </if>
+      <if test="abandonedFlag != null" >
+        #{abandonedFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="longitude != null" >
+        #{longitude,jdbcType=DOUBLE},
+      </if>
+      <if test="latitude != null" >
+        #{latitude,jdbcType=DOUBLE},
+      </if>
+      <if test="statusType != null" >
+        #{statusType,jdbcType=VARCHAR},
+      </if>
+      <if test="orgGuid != null" >
+        #{orgGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="policestationGuidExt != null" >
+        #{policestationGuidExt,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enableFlag != null" >
+        #{enableFlag,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.commandcenter.model.smp.SmpPolicestationInfo" >
+    update smp_t_policestation_info
+    <set >
+      <if test="policestationName != null" >
+        policestation_name = #{policestationName,jdbcType=VARCHAR},
+      </if>
+      <if test="policestationSeat != null" >
+        policestation_seat = #{policestationSeat,jdbcType=VARCHAR},
+      </if>
+      <if test="policestationPerson != null" >
+        policestation_person = #{policestationPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="outsidePhone != null" >
+        outside_phone = #{outsidePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="internalPhone != null" >
+        internal_phone = #{internalPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="parentGroup != null" >
+        parent_group = #{parentGroup,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryType != null" >
+        category_type = #{categoryType,jdbcType=VARCHAR},
+      </if>
+      <if test="abandonedFlag != null" >
+        abandoned_flag = #{abandonedFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="longitude != null" >
+        longitude = #{longitude,jdbcType=DOUBLE},
+      </if>
+      <if test="latitude != null" >
+        latitude = #{latitude,jdbcType=DOUBLE},
+      </if>
+      <if test="statusType != null" >
+        status_type = #{statusType,jdbcType=VARCHAR},
+      </if>
+      <if test="orgGuid != null" >
+        org_guid = #{orgGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="policestationGuidExt != null" >
+        policestation_guid_ext = #{policestationGuidExt,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enableFlag != null" >
+        enable_flag = #{enableFlag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where policestation_guid = #{policestationGuid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.commandcenter.model.smp.SmpPolicestationInfo" >
+    update smp_t_policestation_info
+    set policestation_name = #{policestationName,jdbcType=VARCHAR},
+      policestation_seat = #{policestationSeat,jdbcType=VARCHAR},
+      policestation_person = #{policestationPerson,jdbcType=VARCHAR},
+      outside_phone = #{outsidePhone,jdbcType=VARCHAR},
+      internal_phone = #{internalPhone,jdbcType=VARCHAR},
+      parent_group = #{parentGroup,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      category_type = #{categoryType,jdbcType=VARCHAR},
+      abandoned_flag = #{abandonedFlag,jdbcType=VARCHAR},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      longitude = #{longitude,jdbcType=DOUBLE},
+      latitude = #{latitude,jdbcType=DOUBLE},
+      status_type = #{statusType,jdbcType=VARCHAR},
+      org_guid = #{orgGuid,jdbcType=VARCHAR},
+      policestation_guid_ext = #{policestationGuidExt,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      enable_flag = #{enableFlag,jdbcType=VARCHAR}
+    where policestation_guid = #{policestationGuid,jdbcType=VARCHAR}
+  </update>
+</mapper>

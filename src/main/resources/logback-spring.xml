@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true">
+    <property name="LOG_NAME" value="/home"></property>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>1-%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger - %msg%n</pattern>
+            <charset>GBK</charset>
+        </encoder>
+    </appender>
+    <contextName>RestAPI</contextName>
+    <springProperty scop="context" name="LOG_DIR" source="logback.logdir" defaultValue="${catalina.home}"/>
+    <property name="LOG_PATH" value="logs"/>
+    <property name="APPDIR" value="mpa"/>
+    <!--<appender name="FILEERROR" class="com.commandcenter.common.log.MpaRollingFileAppender">
+        <file>${LOG_DIR}/${LOG_PATH}/${APPDIR}/log_error.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIR}/${LOG_PATH}/${APPDIR}/error/log-error-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            &lt;!&ndash;<fileNamePattern>${LOG_DIR}/${LOG_PATH}/${APPDIR}/log-mpa-%d{yyyy-MM-dd}.%i.log</fileNamePattern>&ndash;&gt;
+            <maxHistory>10</maxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>10MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <append>true</append>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%X{requestName}] [%X{requestId}] %-5level %logger Line:%-3L - %msg%n</pattern>
+            <charset>utf-8</charset>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>error</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>-->
+    <!--<appender name="FILEWARN" class="com.commandcenter.common.log.MpaRollingFileAppender">
+        <file>${LOG_DIR}/${LOG_PATH}/${APPDIR}/log_warn.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            &lt;!&ndash; <fileNamePattern>${LOG_DIR}/${LOG_PATH}/${APPDIR}/warn/log-mpa-%d{yyyy-MM-dd}.%i.log</fileNamePattern>&ndash;&gt;
+
+            <fileNamePattern>${LOG_DIR}/${LOG_PATH}/${APPDIR}/warn/log-warn-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxHistory>10</maxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>10MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <append>true</append>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%X{requestName}] [%X{requestId}] %-5level %logger Line:%-3L - %msg%n</pattern>
+            <charset>utf-8</charset>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>warn</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>-->
+    <appender name="FILEINFO" class="com.commandcenter.common.log.MpaRollingFileAppender">
+        <file>${LOG_DIR}/log_info.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIR}/info/log-info-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxHistory>10</maxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>10MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <append>true</append>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [%X{method}] [%X{requestName}] [%X{requestId}] %-5level %logger Line:%-3L - %msg%n</pattern>
+            <charset>utf-8</charset>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <!--<level>info</level>-->
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+    <appender name="FILEDEBUG" class="com.commandcenter.common.log.MpaRollingFileAppender">
+        <file>${LOG_DIR}/log_debug.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIR}/info/log-debug-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <fileNamePattern>${LOG_DIR}/info/log-mpa-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxHistory>10</maxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>10MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <append>true</append>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [%X{method}] [%X{requestName}] [%X{requestId}] %-5level %logger Line:%-3L - %msg%n</pattern>
+            <charset>utf-8</charset>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>debug</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+    <appender name="consumeTimeLog" class="com.commandcenter.common.log.MpaRollingFileAppender">
+        <file>${LOG_DIR}/consumeTimeLog.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIR}/info/consumeTimeLog-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxHistory>10</maxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>10MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <append>true</append>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [%X{method}] [%X{requestName}] [%X{requestId}] %-5level %logger Line:%-3L - %msg%n</pattern>
+            <charset>utf-8</charset>
+        </encoder>
+        <filter class="com.commandcenter.common.log.ConsumeTimeFilter"/>
+    </appender>
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [%method] [%class] [%X{requestName}] [%X{requestId}] %-5level %logger Line:%-3L - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+
+    <springProfile name="pro">
+        <root level="ERROR">
+            <!--<appender-ref ref="FILEERROR"/>
+            <appender-ref ref="FILEWARN"/>-->
+            <appender-ref ref="FILEINFO"/>
+            <appender-ref ref="STDOUT"/>
+            <appender-ref ref="consumeTimeLog"/>
+        </root>
+        <logger name="com.commandcenter.common.interceptor" level="INFO">
+            <appender-ref ref="consumeTimeLog"/>
+        </logger>
+    </springProfile>
+    <springProfile name="test">
+        <root level="INFO">
+            <!--<appender-ref ref="FILEERROR"/>
+            <appender-ref ref="FILEWARN"/>-->
+            <appender-ref ref="FILEINFO"/>
+            <appender-ref ref="consumeTimeLog"/>
+        </root>
+        <logger name="com.commandcenter.dao" level="INFO">
+            <appender-ref ref="FILEINFO"/>
+        </logger>
+        <logger name="com.commandcenter.controller.gpsController" level="ERROR">
+            <appender-ref ref="FILEINFO"/>
+        </logger>
+    </springProfile>
+    <springProfile name="dev">
+        <root level="DEBUG">
+            <!--<appender-ref ref="FILEERROR"/>-->
+            <!--<appender-ref ref="FILEWARN"/>-->
+            <appender-ref ref="FILEDEBUG"/>
+            <appender-ref ref="CONSOLE"/>
+            <appender-ref ref="consumeTimeLog"/>
+        </root>
+        <logger name="com.commandcenter.dao" level="DEBUG">
+            <appender-ref ref="CONSOLE"/>
+        </logger>
+        <logger name="druid" level="debug" additivity="false">
+            <appender-ref ref="CONSOLE"/>
+        </logger>
+        <logger name="org.apache.activemq" level="info">
+            <appender-ref ref="CONSOLE"/>
+        </logger>
+        <logger name="org.springframework" level="info">
+            <appender-ref ref="CONSOLE"/>
+        </logger>
+    </springProfile>
+</configuration>

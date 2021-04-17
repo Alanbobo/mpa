@@ -1,0 +1,820 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.commandcenter.dao.smp.SmpInterphoneInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.commandcenter.model.smp.SmpInterphoneInfo" >
+    <id column="guid" property="guid" jdbcType="VARCHAR" />
+    <result column="puc_id" property="pucId" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="user_type" property="userType" jdbcType="VARCHAR" />
+    <result column="system_id" property="systemId" jdbcType="VARCHAR" />
+    <result column="org_guid" property="orgGuid" jdbcType="VARCHAR" />
+    <result column="device_id" property="deviceId" jdbcType="VARCHAR" />
+    <result column="device_type" property="deviceType" jdbcType="VARCHAR" />
+    <result column="device_number" property="deviceNumber" jdbcType="VARCHAR" />
+    <result column="device_name" property="deviceName" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="device_make" property="deviceMake" jdbcType="VARCHAR" />
+    <result column="number_type" property="numberType" jdbcType="VARCHAR" />
+    <result column="has_gps" property="hasGps" jdbcType="BIGINT" />
+    <result column="enable_gps" property="enableGps" jdbcType="BIGINT" />
+    <result column="and_or_flag" property="andOrFlag" jdbcType="BIGINT" />
+    <result column="gps_interval" property="gpsInterval" jdbcType="BIGINT" />
+    <result column="gps_channel" property="gpsChannel" jdbcType="BIGINT" />
+    <result column="distance" property="distance" jdbcType="BIGINT" />
+    <result column="gps_datetime" property="gpsDatetime" jdbcType="TIMESTAMP" />
+    <result column="longitude" property="longitude" jdbcType="DOUBLE" />
+    <result column="latitude" property="latitude" jdbcType="DOUBLE" />
+    <result column="has_screen" property="hasScreen" jdbcType="BIGINT" />
+    <result column="version_seq" property="versionSeq" jdbcType="BIGINT" />
+    <result column="org_history" property="orgHistory" jdbcType="VARCHAR" />
+    <result column="join_group" property="joinGroup" jdbcType="VARCHAR" />
+    <result column="join_group_info" property="joinGroupInfo" jdbcType="VARCHAR" />
+    <result column="response_group" property="responseGroup" jdbcType="VARCHAR" />
+    <result column="response_group_info" property="responseGroupInfo" jdbcType="VARCHAR" />
+    <result column="implict_group" property="implictGroup" jdbcType="VARCHAR" />
+    <result column="implict_group_info" property="implictGroupInfo" jdbcType="VARCHAR" />
+    <result column="createuser" property="createuser" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="updateuser" property="updateuser" jdbcType="VARCHAR" />
+    <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="expend" property="expend" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="isvalid" property="isvalid" jdbcType="VARCHAR" />
+    <result column="org_identifier" property="orgIdentifier" jdbcType="VARCHAR" />
+    <result column="system_no" property="systemNo" jdbcType="VARCHAR" />
+    <result column="phone_type" property="phoneType" jdbcType="VARCHAR" />
+    <result column="user_guid" property="userGuid" jdbcType="VARCHAR" />
+    <result column="enable_flag" property="enableFlag" jdbcType="SMALLINT" />
+    <result column="source" property="source" jdbcType="VARCHAR" />
+    <result column="alias" property="alias" jdbcType="VARCHAR" />
+    <result column="subsap_guid" property="subsapGuid" jdbcType="VARCHAR" />
+    <result column="version" property="version" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.commandcenter.model.smp.SmpInterphoneInfo" extends="BaseResultMap" >
+    <result column="device_icon" property="deviceIcon" jdbcType="BINARY" />
+  </resultMap>
+  <resultMap id="ContactsDevice" type="com.commandcenter.model.contacts.DeviceInfoForApp" >
+    <result column="guid" property="deviceGuid" jdbcType="VARCHAR" />
+    <result column="device_id" property="deviceCode" jdbcType="VARCHAR" />
+    <result column="device_name" property="deviceName" jdbcType="VARCHAR" />
+    <result column="alias" property="alias" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="NewContactsDevice" type="com.commandcenter.model.contacts.DeviceInfoForApp">
+    <result column="guid" property="deviceGuid" jdbcType="VARCHAR"/>
+    <result column="device_id" property="deviceCode" jdbcType="VARCHAR"/>
+    <result column="is_online" property="isOnline" jdbcType="VARCHAR"/>
+    <result column="puc_id" property="pucId" jdbcType="VARCHAR"/>
+    <result column="system_id" property="systemId" jdbcType="VARCHAR"/>
+    <result column="org_guid" property="parentOrgGuid" jdbcType="VARCHAR"/>
+    <result column="device_type" property="deviceType" jdbcType="VARCHAR"/>
+    <result column="device_number" property="deviceNumber" jdbcType="VARCHAR"/>
+    <result column="device_name" property="deviceName" jdbcType="VARCHAR"/>
+    <result column="number_type" property="numberType" jdbcType="VARCHAR"/>
+    <result column="org_identifier" property="orgIdentifier" jdbcType="VARCHAR"/>
+    <result column="system_no" property="systemNo" jdbcType="VARCHAR"/>
+    <result column="phone_type" property="phoneType" jdbcType="VARCHAR"/>
+    <result column="alias" property="alias" jdbcType="VARCHAR"/>
+    <result column="org_name" property="orgName" jdbcType="VARCHAR"/>
+    <result column="dataType" property="dataType" jdbcType="INTEGER"/>
+    <result column="version" property="version" jdbcType="INTEGER"/>
+    <result column="enable_flag" property="enableFlag" jdbcType="VARCHAR"/>
+    <result column="is_online" property="isOnLine" jdbcType="VARCHAR"/>
+    <result column="longitude" property="longitude" jdbcType="VARCHAR"/>
+    <result column="latitude" property="latitude" jdbcType="VARCHAR"/>
+  </resultMap>
+
+  <resultMap id="MapDevices" type="java.util.Map">
+    <result column="guid" property="guid" jdbcType="VARCHAR"/>
+    <result column="device_id" property="deviceCode" jdbcType="VARCHAR"/>
+    <result column="alias" property="alias" jdbcType="VARCHAR"/>
+    <result column="puc_id" property="pucId" jdbcType="VARCHAR"/>
+    <result column="user_name" property="userName" jdbcType="VARCHAR"/>
+    <result column="user_type" property="userType" jdbcType="VARCHAR"/>
+    <result column="system_id" property="systemId" jdbcType="VARCHAR"/>
+    <result column="org_guid" property="parentGuid" jdbcType="VARCHAR"/>
+    <result column="device_type" property="deviceType" jdbcType="VARCHAR"/>
+    <result column="device_number" property="deviceNumber" jdbcType="VARCHAR"/>
+    <result column="device_name" property="deviceName" jdbcType="VARCHAR"/>
+    <result column="status" property="status" jdbcType="VARCHAR"/>
+    <result column="device_make" property="deviceMake" jdbcType="VARCHAR"/>
+    <result column="number_type" property="numberType" jdbcType="VARCHAR"/>
+    <result column="has_gps" property="hasGps" jdbcType="BIGINT"/>
+    <result column="enable_gps" property="enableGps" jdbcType="BIGINT"/>
+    <result column="and_or_flag" property="andOrFlag" jdbcType="BIGINT"/>
+    <result column="gps_interval" property="gpsInterval" jdbcType="BIGINT"/>
+    <result column="gps_channel" property="gpsChannel" jdbcType="BIGINT"/>
+    <result column="distance" property="distance" jdbcType="BIGINT"/>
+    <result column="gps_datetime" property="gpsDatetime" jdbcType="TIMESTAMP"/>
+    <result column="longitude" property="longitude" jdbcType="DOUBLE"/>
+    <result column="latitude" property="latitude" jdbcType="DOUBLE"/>
+    <result column="has_screen" property="hasScreen" jdbcType="BIGINT"/>
+    <result column="version_seq" property="versionSeq" jdbcType="BIGINT"/>
+    <result column="org_history" property="orgHistory" jdbcType="VARCHAR"/>
+    <result column="join_group" property="joinGroup" jdbcType="VARCHAR"/>
+    <result column="join_group_info" property="joinGroupInfo" jdbcType="VARCHAR"/>
+    <result column="response_group" property="responseGroup" jdbcType="VARCHAR"/>
+    <result column="response_group_info" property="responseGroupInfo" jdbcType="VARCHAR"/>
+    <result column="implict_group" property="implictGroup" jdbcType="VARCHAR"/>
+    <result column="implict_group_info" property="implictGroupInfo" jdbcType="VARCHAR"/>
+    <result column="createuser" property="createuser" jdbcType="VARCHAR"/>
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP"/>
+    <result column="updateuser" property="updateuser" jdbcType="VARCHAR"/>
+    <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP"/>
+    <result column="expend" property="expend" jdbcType="VARCHAR"/>
+    <result column="remark" property="remark" jdbcType="VARCHAR"/>
+    <result column="isvalid" property="isvalid" jdbcType="VARCHAR"/>
+    <result column="org_identifier" property="orgIdentifier" jdbcType="VARCHAR"/>
+    <result column="system_no" property="systemNo" jdbcType="VARCHAR"/>
+    <result column="phone_type" property="phoneType" jdbcType="VARCHAR"/>
+    <result column="user_guid" property="userGuid" jdbcType="VARCHAR"/>
+    <result column="enable_flag" property="enableFlag" jdbcType="SMALLINT"/>
+    <result column="source" property="source" jdbcType="VARCHAR"/>
+    <result column="subsap_guid" property="subsapGuid" jdbcType="VARCHAR"/>
+    <result column="version" property="version" jdbcType="INTEGER"/>
+    <result column="org_name" property="orgName" jdbcType="VARCHAR"/>
+    <result column="is_online" property="isOnline" jdbcType="VARCHAR"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    guid, puc_id, user_name, user_type, system_id, org_guid, device_id, device_type, 
+    device_number, device_name, status, device_make, number_type, has_gps, enable_gps, 
+    and_or_flag, gps_interval, gps_channel, distance, gps_datetime, longitude, latitude, 
+    has_screen, version_seq, org_history, join_group, join_group_info, response_group, 
+    response_group_info, implict_group, implict_group_info, createuser, createtime, updateuser, 
+    updatetime, expend, remark, isvalid, org_identifier, system_no, phone_type, user_guid, 
+    enable_flag, source, alias, subsap_guid,version
+  </sql>
+  <sql id="Blob_Column_List" >
+    device_icon
+  </sql>
+  <sql id="New_Device_Info_Column_List">
+    i.guid, i.puc_id, i.user_name, i.user_type, i.system_id, i.org_guid, i.device_id, i.device_type,
+    i.device_number, i.device_name, i.status, i.device_make, i.number_type, i.has_gps, i.enable_gps,
+    i.and_or_flag, i.gps_interval, i.gps_channel, i.distance, i.gps_datetime,
+    i.has_screen, i.version_seq, i.org_history, i.join_group, i.join_group_info, i.response_group,
+    i.response_group_info, i.implict_group, i.implict_group_info, i.createuser, i.createtime, i.updateuser,
+    i.updatetime, i.expend, i.remark, i.isvalid, i.org_identifier, i.system_no, i.phone_type, i.user_guid,
+    i.enable_flag, i.source, i.alias, i.subsap_guid,i.version,
+    coalesce(p.is_online,'0') as is_online,
+    coalesce(i.longitude,'0') as longitude,
+    coalesce(i.latitude,'0') as latitude
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from smp_t_interphone_info
+    where guid = #{guid,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByStaffGuid" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from smp_t_interphone_info
+    where user_guid = #{userGuid,jdbcType=VARCHAR}
+  </select>
+  <select id="selectDevicesByStaffGuid" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select
+    i.guid, i.puc_id, i.user_name, i.user_type, i.system_id, i.org_guid, i.device_id, i.device_type,
+    i.device_number, i.device_name, i.status, i.device_make, i.number_type, i.has_gps, i.enable_gps,
+    i.and_or_flag, i.gps_interval, i.gps_channel, i.distance, i.gps_datetime, i.longitude, i.latitude,
+    i.has_screen, i.version_seq, i.org_history, i.join_group, i.join_group_info, i.response_group,
+    i.response_group_info, i.implict_group, i.implict_group_info, i.createuser, i.createtime, i.updateuser,
+    i.updatetime, i.expend, i.remark, i.isvalid, i.org_identifier, i.system_no, i.phone_type, i.user_guid,
+    i.enable_flag, i.source, i.alias, i.subsap_guid,i.version
+    from smp_t_interphone_info i,smp_t_staff_device sd
+    where i.guid=sd.device_guid  and
+    sd.staff_guid = #{staffGuid,jdbcType=VARCHAR} and sd.enable_flag = '1';
+  </select>
+
+
+  <select id="selectDevicesByOrgGuid" resultMap="ContactsDevice" parameterType="java.lang.String">
+    select guid,device_id,device_name,alias from smp_t_interphone_info where org_guid=#{orgGuid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteAllSmpInterphoneInfo" parameterType="java.lang.String" >
+    delete from  smp_t_interphone_info where 1=1; commit;
+  </delete>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from smp_t_interphone_info
+    where guid = #{guid,jdbcType=VARCHAR}
+  </delete>
+
+  <delete id="deleteByPrimaryKeyLogic" parameterType="com.commandcenter.model.smp.SmpInterphoneInfo">
+    update smp_t_interphone_info set
+    enable_flag=0
+    ,version=#{version}
+    where guid=#{guid}
+  </delete>
+  <insert id="insert" parameterType="com.commandcenter.model.smp.SmpInterphoneInfo" >
+    insert into smp_t_interphone_info (guid, puc_id, user_name, 
+      user_type, system_id, org_guid, 
+      device_id, device_type, device_number, 
+      device_name, status, device_make, 
+      number_type, has_gps, enable_gps, 
+      and_or_flag, gps_interval, gps_channel, 
+      distance, gps_datetime, longitude, 
+      latitude, has_screen, version_seq, 
+      org_history, join_group, join_group_info, 
+      response_group, response_group_info, implict_group, 
+      implict_group_info, createuser, createtime, 
+      updateuser, updatetime, expend, 
+      remark, isvalid, org_identifier, 
+      system_no, phone_type, user_guid, 
+      enable_flag, source, alias, 
+      subsap_guid, device_icon,version)
+    values (#{guid,jdbcType=VARCHAR}, #{pucId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
+      #{userType,jdbcType=VARCHAR}, #{systemId,jdbcType=VARCHAR}, #{orgGuid,jdbcType=VARCHAR}, 
+      #{deviceId,jdbcType=VARCHAR}, #{deviceType,jdbcType=VARCHAR}, #{deviceNumber,jdbcType=VARCHAR}, 
+      #{deviceName,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{deviceMake,jdbcType=VARCHAR}, 
+      #{numberType,jdbcType=VARCHAR}, #{hasGps,jdbcType=BIGINT}, #{enableGps,jdbcType=BIGINT}, 
+      #{andOrFlag,jdbcType=BIGINT}, #{gpsInterval,jdbcType=BIGINT}, #{gpsChannel,jdbcType=BIGINT}, 
+      #{distance,jdbcType=BIGINT}, #{gpsDatetime,jdbcType=TIMESTAMP}, #{longitude,jdbcType=DOUBLE}, 
+      #{latitude,jdbcType=DOUBLE}, #{hasScreen,jdbcType=BIGINT}, #{versionSeq,jdbcType=BIGINT}, 
+      #{orgHistory,jdbcType=VARCHAR}, #{joinGroup,jdbcType=VARCHAR}, #{joinGroupInfo,jdbcType=VARCHAR}, 
+      #{responseGroup,jdbcType=VARCHAR}, #{responseGroupInfo,jdbcType=VARCHAR}, #{implictGroup,jdbcType=VARCHAR}, 
+      #{implictGroupInfo,jdbcType=VARCHAR}, #{createuser,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{updateuser,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, #{expend,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{isvalid,jdbcType=VARCHAR}, #{orgIdentifier,jdbcType=VARCHAR}, 
+      #{systemNo,jdbcType=VARCHAR}, #{phoneType,jdbcType=VARCHAR}, #{userGuid,jdbcType=VARCHAR}, 
+      #{enableFlag,jdbcType=SMALLINT}, #{source,jdbcType=VARCHAR}, #{alias,jdbcType=VARCHAR}, 
+      #{subsapGuid,jdbcType=VARCHAR}, #{deviceIcon,jdbcType=BINARY}, #{version,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.commandcenter.model.smp.SmpInterphoneInfo" >
+    insert into smp_t_interphone_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="guid != null" >
+        guid,
+      </if>
+      <if test="pucId != null" >
+        puc_id,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="userType != null" >
+        user_type,
+      </if>
+      <if test="systemId != null" >
+        system_id,
+      </if>
+      <if test="orgGuid != null" >
+        org_guid,
+      </if>
+      <if test="deviceId != null" >
+        device_id,
+      </if>
+      <if test="deviceType != null" >
+        device_type,
+      </if>
+      <if test="deviceNumber != null" >
+        device_number,
+      </if>
+      <if test="deviceName != null" >
+        device_name,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="deviceMake != null" >
+        device_make,
+      </if>
+      <if test="numberType != null" >
+        number_type,
+      </if>
+      <if test="hasGps != null" >
+        has_gps,
+      </if>
+      <if test="enableGps != null" >
+        enable_gps,
+      </if>
+      <if test="andOrFlag != null" >
+        and_or_flag,
+      </if>
+      <if test="gpsInterval != null" >
+        gps_interval,
+      </if>
+      <if test="gpsChannel != null" >
+        gps_channel,
+      </if>
+      <if test="distance != null" >
+        distance,
+      </if>
+      <if test="gpsDatetime != null" >
+        gps_datetime,
+      </if>
+      <if test="longitude != null" >
+        longitude,
+      </if>
+      <if test="latitude != null" >
+        latitude,
+      </if>
+      <if test="hasScreen != null" >
+        has_screen,
+      </if>
+      <if test="versionSeq != null" >
+        version_seq,
+      </if>
+      <if test="orgHistory != null" >
+        org_history,
+      </if>
+      <if test="joinGroup != null" >
+        join_group,
+      </if>
+      <if test="joinGroupInfo != null" >
+        join_group_info,
+      </if>
+      <if test="responseGroup != null" >
+        response_group,
+      </if>
+      <if test="responseGroupInfo != null" >
+        response_group_info,
+      </if>
+      <if test="implictGroup != null" >
+        implict_group,
+      </if>
+      <if test="implictGroupInfo != null" >
+        implict_group_info,
+      </if>
+      <if test="createuser != null" >
+        createuser,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="updateuser != null" >
+        updateuser,
+      </if>
+      <if test="updatetime != null" >
+        updatetime,
+      </if>
+      <if test="expend != null" >
+        expend,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="isvalid != null" >
+        isvalid,
+      </if>
+      <if test="orgIdentifier != null" >
+        org_identifier,
+      </if>
+      <if test="systemNo != null" >
+        system_no,
+      </if>
+      <if test="phoneType != null" >
+        phone_type,
+      </if>
+      <if test="userGuid != null" >
+        user_guid,
+      </if>
+      <if test="enableFlag != null" >
+        enable_flag,
+      </if>
+      <if test="source != null" >
+        source,
+      </if>
+      <if test="alias != null" >
+        alias,
+      </if>
+      <if test="subsapGuid != null" >
+        subsap_guid,
+      </if>
+      <if test="deviceIcon != null" >
+        device_icon,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="guid != null" >
+        #{guid,jdbcType=VARCHAR},
+      </if>
+      <if test="pucId != null" >
+        #{pucId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null" >
+        #{userType,jdbcType=VARCHAR},
+      </if>
+      <if test="systemId != null" >
+        #{systemId,jdbcType=VARCHAR},
+      </if>
+      <if test="orgGuid != null" >
+        #{orgGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceId != null" >
+        #{deviceId,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceType != null" >
+        #{deviceType,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceNumber != null" >
+        #{deviceNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceName != null" >
+        #{deviceName,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceMake != null" >
+        #{deviceMake,jdbcType=VARCHAR},
+      </if>
+      <if test="numberType != null" >
+        #{numberType,jdbcType=VARCHAR},
+      </if>
+      <if test="hasGps != null" >
+        #{hasGps,jdbcType=BIGINT},
+      </if>
+      <if test="enableGps != null" >
+        #{enableGps,jdbcType=BIGINT},
+      </if>
+      <if test="andOrFlag != null" >
+        #{andOrFlag,jdbcType=BIGINT},
+      </if>
+      <if test="gpsInterval != null" >
+        #{gpsInterval,jdbcType=BIGINT},
+      </if>
+      <if test="gpsChannel != null" >
+        #{gpsChannel,jdbcType=BIGINT},
+      </if>
+      <if test="distance != null" >
+        #{distance,jdbcType=BIGINT},
+      </if>
+      <if test="gpsDatetime != null" >
+        #{gpsDatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="longitude != null" >
+        #{longitude,jdbcType=DOUBLE},
+      </if>
+      <if test="latitude != null" >
+        #{latitude,jdbcType=DOUBLE},
+      </if>
+      <if test="hasScreen != null" >
+        #{hasScreen,jdbcType=BIGINT},
+      </if>
+      <if test="versionSeq != null" >
+        #{versionSeq,jdbcType=BIGINT},
+      </if>
+      <if test="orgHistory != null" >
+        #{orgHistory,jdbcType=VARCHAR},
+      </if>
+      <if test="joinGroup != null" >
+        #{joinGroup,jdbcType=VARCHAR},
+      </if>
+      <if test="joinGroupInfo != null" >
+        #{joinGroupInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="responseGroup != null" >
+        #{responseGroup,jdbcType=VARCHAR},
+      </if>
+      <if test="responseGroupInfo != null" >
+        #{responseGroupInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="implictGroup != null" >
+        #{implictGroup,jdbcType=VARCHAR},
+      </if>
+      <if test="implictGroupInfo != null" >
+        #{implictGroupInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="createuser != null" >
+        #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null" >
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expend != null" >
+        #{expend,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="isvalid != null" >
+        #{isvalid,jdbcType=VARCHAR},
+      </if>
+      <if test="orgIdentifier != null" >
+        #{orgIdentifier,jdbcType=VARCHAR},
+      </if>
+      <if test="systemNo != null" >
+        #{systemNo,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneType != null" >
+        #{phoneType,jdbcType=VARCHAR},
+      </if>
+      <if test="userGuid != null" >
+        #{userGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="enableFlag != null" >
+        #{enableFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="source != null" >
+        #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="alias != null" >
+        #{alias,jdbcType=VARCHAR},
+      </if>
+      <if test="subsapGuid != null" >
+        #{subsapGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceIcon != null" >
+        #{deviceIcon,jdbcType=BINARY},
+      </if>
+    </trim>
+  </insert>
+  <update id="unBindInterphoneInfo"  parameterType="java.lang.String" >
+    update smp_t_interphone_info SET user_guid = null where user_guid = #{userGuid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.commandcenter.model.smp.SmpInterphoneInfo" >
+    update smp_t_interphone_info
+    <set >
+      <if test="pucId != null" >
+        puc_id = #{pucId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null" >
+        user_type = #{userType,jdbcType=VARCHAR},
+      </if>
+      <if test="systemId != null" >
+        system_id = #{systemId,jdbcType=VARCHAR},
+      </if>
+      <if test="orgGuid != null" >
+        org_guid = #{orgGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceId != null" >
+        device_id = #{deviceId,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceType != null" >
+        device_type = #{deviceType,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceNumber != null" >
+        device_number = #{deviceNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceName != null" >
+        device_name = #{deviceName,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceMake != null" >
+        device_make = #{deviceMake,jdbcType=VARCHAR},
+      </if>
+      <if test="numberType != null" >
+        number_type = #{numberType,jdbcType=VARCHAR},
+      </if>
+      <if test="hasGps != null" >
+        has_gps = #{hasGps,jdbcType=BIGINT},
+      </if>
+      <if test="enableGps != null" >
+        enable_gps = #{enableGps,jdbcType=BIGINT},
+      </if>
+      <if test="andOrFlag != null" >
+        and_or_flag = #{andOrFlag,jdbcType=BIGINT},
+      </if>
+      <if test="gpsInterval != null" >
+        gps_interval = #{gpsInterval,jdbcType=BIGINT},
+      </if>
+      <if test="gpsChannel != null" >
+        gps_channel = #{gpsChannel,jdbcType=BIGINT},
+      </if>
+      <if test="distance != null" >
+        distance = #{distance,jdbcType=BIGINT},
+      </if>
+      <if test="gpsDatetime != null" >
+        gps_datetime = #{gpsDatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="longitude != null" >
+        longitude = #{longitude,jdbcType=DOUBLE},
+      </if>
+      <if test="latitude != null" >
+        latitude = #{latitude,jdbcType=DOUBLE},
+      </if>
+      <if test="hasScreen != null" >
+        has_screen = #{hasScreen,jdbcType=BIGINT},
+      </if>
+      <if test="versionSeq != null" >
+        version_seq = #{versionSeq,jdbcType=BIGINT},
+      </if>
+      <if test="orgHistory != null" >
+        org_history = #{orgHistory,jdbcType=VARCHAR},
+      </if>
+      <if test="joinGroup != null" >
+        join_group = #{joinGroup,jdbcType=VARCHAR},
+      </if>
+      <if test="joinGroupInfo != null" >
+        join_group_info = #{joinGroupInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="responseGroup != null" >
+        response_group = #{responseGroup,jdbcType=VARCHAR},
+      </if>
+      <if test="responseGroupInfo != null" >
+        response_group_info = #{responseGroupInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="implictGroup != null" >
+        implict_group = #{implictGroup,jdbcType=VARCHAR},
+      </if>
+      <if test="implictGroupInfo != null" >
+        implict_group_info = #{implictGroupInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="createuser != null" >
+        createuser = #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null" >
+        updateuser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expend != null" >
+        expend = #{expend,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="isvalid != null" >
+        isvalid = #{isvalid,jdbcType=VARCHAR},
+      </if>
+      <if test="orgIdentifier != null" >
+        org_identifier = #{orgIdentifier,jdbcType=VARCHAR},
+      </if>
+      <if test="systemNo != null" >
+        system_no = #{systemNo,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneType != null" >
+        phone_type = #{phoneType,jdbcType=VARCHAR},
+      </if>
+      <if test="userGuid != null" >
+        user_guid = #{userGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="enableFlag != null" >
+        enable_flag = #{enableFlag,jdbcType=SMALLINT},
+      </if>
+      <if test="source != null" >
+        source = #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="alias != null" >
+        alias = #{alias,jdbcType=VARCHAR},
+      </if>
+      <if test="subsapGuid != null" >
+        subsap_guid = #{subsapGuid,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceIcon != null" >
+        device_icon = #{deviceIcon,jdbcType=BINARY},
+      </if>
+      <if test="version != null" >
+        version = #{version,jdbcType=INTEGER},
+      </if>
+    </set>
+    where guid = #{guid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.commandcenter.model.smp.SmpInterphoneInfo" >
+    update smp_t_interphone_info
+    set puc_id = #{pucId,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      user_type = #{userType,jdbcType=VARCHAR},
+      system_id = #{systemId,jdbcType=VARCHAR},
+      org_guid = #{orgGuid,jdbcType=VARCHAR},
+      device_id = #{deviceId,jdbcType=VARCHAR},
+      device_type = #{deviceType,jdbcType=VARCHAR},
+      device_number = #{deviceNumber,jdbcType=VARCHAR},
+      device_name = #{deviceName,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      device_make = #{deviceMake,jdbcType=VARCHAR},
+      number_type = #{numberType,jdbcType=VARCHAR},
+      has_gps = #{hasGps,jdbcType=BIGINT},
+      enable_gps = #{enableGps,jdbcType=BIGINT},
+      and_or_flag = #{andOrFlag,jdbcType=BIGINT},
+      gps_interval = #{gpsInterval,jdbcType=BIGINT},
+      gps_channel = #{gpsChannel,jdbcType=BIGINT},
+      distance = #{distance,jdbcType=BIGINT},
+      gps_datetime = #{gpsDatetime,jdbcType=TIMESTAMP},
+      longitude = #{longitude,jdbcType=DOUBLE},
+      latitude = #{latitude,jdbcType=DOUBLE},
+      has_screen = #{hasScreen,jdbcType=BIGINT},
+      version_seq = #{versionSeq,jdbcType=BIGINT},
+      org_history = #{orgHistory,jdbcType=VARCHAR},
+      join_group = #{joinGroup,jdbcType=VARCHAR},
+      join_group_info = #{joinGroupInfo,jdbcType=VARCHAR},
+      response_group = #{responseGroup,jdbcType=VARCHAR},
+      response_group_info = #{responseGroupInfo,jdbcType=VARCHAR},
+      implict_group = #{implictGroup,jdbcType=VARCHAR},
+      implict_group_info = #{implictGroupInfo,jdbcType=VARCHAR},
+      createuser = #{createuser,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      updateuser = #{updateuser,jdbcType=VARCHAR},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      expend = #{expend,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      isvalid = #{isvalid,jdbcType=VARCHAR},
+      org_identifier = #{orgIdentifier,jdbcType=VARCHAR},
+      system_no = #{systemNo,jdbcType=VARCHAR},
+      phone_type = #{phoneType,jdbcType=VARCHAR},
+      user_guid = #{userGuid,jdbcType=VARCHAR},
+      enable_flag = #{enableFlag,jdbcType=SMALLINT},
+      source = #{source,jdbcType=VARCHAR},
+      alias = #{alias,jdbcType=VARCHAR},
+      subsap_guid = #{subsapGuid,jdbcType=VARCHAR},
+      device_icon = #{deviceIcon,jdbcType=BINARY}
+    where guid = #{guid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.commandcenter.model.smp.SmpInterphoneInfo" >
+    update smp_t_interphone_info
+    set puc_id = #{pucId,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      user_type = #{userType,jdbcType=VARCHAR},
+      system_id = #{systemId,jdbcType=VARCHAR},
+      org_guid = #{orgGuid,jdbcType=VARCHAR},
+      device_id = #{deviceId,jdbcType=VARCHAR},
+      device_type = #{deviceType,jdbcType=VARCHAR},
+      device_number = #{deviceNumber,jdbcType=VARCHAR},
+      device_name = #{deviceName,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      device_make = #{deviceMake,jdbcType=VARCHAR},
+      number_type = #{numberType,jdbcType=VARCHAR},
+      has_gps = #{hasGps,jdbcType=BIGINT},
+      enable_gps = #{enableGps,jdbcType=BIGINT},
+      and_or_flag = #{andOrFlag,jdbcType=BIGINT},
+      gps_interval = #{gpsInterval,jdbcType=BIGINT},
+      gps_channel = #{gpsChannel,jdbcType=BIGINT},
+      distance = #{distance,jdbcType=BIGINT},
+      gps_datetime = #{gpsDatetime,jdbcType=TIMESTAMP},
+      longitude = #{longitude,jdbcType=DOUBLE},
+      latitude = #{latitude,jdbcType=DOUBLE},
+      has_screen = #{hasScreen,jdbcType=BIGINT},
+      version_seq = #{versionSeq,jdbcType=BIGINT},
+      org_history = #{orgHistory,jdbcType=VARCHAR},
+      join_group = #{joinGroup,jdbcType=VARCHAR},
+      join_group_info = #{joinGroupInfo,jdbcType=VARCHAR},
+      response_group = #{responseGroup,jdbcType=VARCHAR},
+      response_group_info = #{responseGroupInfo,jdbcType=VARCHAR},
+      implict_group = #{implictGroup,jdbcType=VARCHAR},
+      implict_group_info = #{implictGroupInfo,jdbcType=VARCHAR},
+      createuser = #{createuser,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      updateuser = #{updateuser,jdbcType=VARCHAR},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      expend = #{expend,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      isvalid = #{isvalid,jdbcType=VARCHAR},
+      org_identifier = #{orgIdentifier,jdbcType=VARCHAR},
+      system_no = #{systemNo,jdbcType=VARCHAR},
+      phone_type = #{phoneType,jdbcType=VARCHAR},
+      user_guid = #{userGuid,jdbcType=VARCHAR},
+      enable_flag = #{enableFlag,jdbcType=SMALLINT},
+      source = #{source,jdbcType=VARCHAR},
+      alias = #{alias,jdbcType=VARCHAR},
+      subsap_guid = #{subsapGuid,jdbcType=VARCHAR}
+    where guid = #{guid,jdbcType=VARCHAR}
+  </update>
+  <select id="selectInterphoneCount" resultType="java.lang.Integer">
+    select count(*) from smp_t_interphone_info;
+  </select>
+  <select id="selectDeviceMaxVersion" resultType="java.lang.Integer">
+    select COALESCE(MAX(version),0) AS version from smp_t_interphone_info;
+  </select>
+  <select id="selectInterphoneInfoById" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select * from smp_t_interphone_info where guid=#{guid}
+  </select>
+
+  <!--会返回所有数据，包括已经删除的数据-->
+  <select id="selectDeviceInfoByMap" resultMap="NewContactsDevice" parameterType="java.util.Map">
+    select
+    <include refid="New_Device_Info_Column_List"/>
+    from smp_t_interphone_info i
+    LEFT JOIN
+    puc_online_data p on p.system_id=i.system_id and p.puc_id=i.puc_id and p.device_id=i.device_id
+    <where>
+      <if test="version != null and version!='' ">
+        and i.version &gt; #{version}
+      </if>
+    </where>
+  </select>
+
+  <select id="selectMapDevice" resultMap="MapDevices">
+    SELECT
+    i.guid,i.puc_id , i.user_name, i.user_type, i.system_id, i.org_guid, i.device_id, i.device_number,
+    i.device_name, i.status, i.device_make, i.number_type, i.has_gps, i.enable_gps, i.and_or_flag, i.gps_interval, i.gps_channel, i.distance, i.gps_datetime, i.longitude, i.latitude, i.has_screen, i.version_seq, i.org_history,
+    i.join_group, i.join_group_info, i.response_group, i.response_group_info, i.implict_group, i.implict_group_info, i.createuser, i.createtime, i.updateuser, i.updatetime, i.expend, i.remark, i.isvalid, i.org_identifier, i.system_no, i.phone_type, i.user_guid, i.enable_flag, i.source, i.alias, i.subsap_guid, i.version
+    ,o.org_name,i.device_type,d.is_online
+    FROM
+    smp_t_interphone_info i
+    left join puc_online_data d on i.device_id = d.device_id
+    LEFT JOIN smp_t_org_info o on o.guid=i.org_guid
+    WHERE
+    i.device_type='8'
+  </select>
+  <select id="selectGuidByDeviceId" resultType="java.lang.String" parameterType="java.lang.String">
+    select guid FROM smp_t_interphone_info where device_id=#{deviceId}
+  </select>
+  <!--and enable_flag='1'-->
+</mapper>
